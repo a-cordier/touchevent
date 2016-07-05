@@ -7,12 +7,15 @@ ADMIN_USERNAME=admin
 ADMIN_PASSWORD=touchevent
 SERVER_HOST=192.168.0.14
 
+set -e
+
 setup_build_tools(){
 	sudo apt-get update
 	sudo apt-get install -y build-essential
 	sudo apt-get install -y libkrb5-dev
 	sudo apt-get install -y git
 	sudo apt-get install -y apache2-utils
+	sudo apt-get install python
 }
 
 setup_node_js(){
@@ -63,7 +66,7 @@ setup_server() {
 	sudo chown -R "$USER" "$WWW"
 	cd "$API"
 	if [ -d node_modules ]; then
-		rm -rf node_modules
+		sudo rm -rf node_modules
 	fi
 	sudo su $USER -c "npm install --no-bin-links"
 	HASH=$(echo "$ADMIN_PASSWORD" \
@@ -86,21 +89,22 @@ startup_server(){
 }
 
 main() {
-	sudo echo && echo "setting up build tools" 
+	trap 'Abort code' ERR
+	sudo echo && echo "$(tput setaf 2)setting up build tools(tput sgr0)"
 	setup_build_tools
-	echo && echo "setting up node.js 4.2.4"
+	echo && echo "$(tput setaf 2)setting up node.js 4.2.4(tput sgr0)"
 	setup_node_js
-	echo && echo "setting up mongodb 3.2.1"
+	echo && echo "$(tput setaf 2)setting up mongodb 3.2.1(tput sgr0)"
 	setup_mongo_db
-	echo && echo "setting up nginx web server 1.4.6..."
+	echo && echo "$(tput setaf 2)setting up nginx web server 1.4.6(tput sgr0)"
 	setup_nginx
-	echo && echo "installing server and client files"
-	install_files
-	echo && echo "setting up server dependencies and startup"
+	echo && echo "$(tput setaf 2)installing server and client files(tput sgr0)"
+	install_files 
+	echo && echo "$(tput setaf 2)setting up server dependencies and startup(tput sgr0)"
 	setup_server
-	echo && echo "starting server"
+	echo && echo "$(tput setaf 2)starting server(tput sgr0)"
 	startup_server
-	echo && echo "exiting installation script"
+	echo && echo "$(tput setaf 2)exiting installation script(tput sgr0)"
 	exit 0
 }
 
