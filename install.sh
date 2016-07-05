@@ -5,7 +5,7 @@ API=/var/node/$APP_NAME
 USER=node
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=touchevent
-SERVER_HOST=172.26.6.2:8080
+SERVER_HOST=192.168.0.14
 
 setup_build_tools(){
 	sudo apt-get update
