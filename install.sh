@@ -10,8 +10,6 @@ SERVER_HOST=192.168.0.14
 set -e
 
 setup_build_tools(){
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-	sudo echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
 	sudo apt-get update
 	sudo apt-get install -y build-essential
 	sudo apt-get install -y libkrb5-dev
@@ -25,6 +23,9 @@ setup_node_js(){
 }
 
 setup_mongo_db(){
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+	echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+	sudo apt-get update
 	sudo apt-get install -y --allow-unauthenticated mongodb-org
 	sudo cp ./disable-transparent-hugepages /etc/init.d
 	sudo chmod 755 /etc/init.d/disable-transparent-hugepages
@@ -88,21 +89,21 @@ startup_server(){
 
 main() {
 	trap 'Abort code' ERR
-	sudo echo && echo "$(tput setaf 2)setting up build tools$(tput sgr0)"
+	sudo echo && echo "$(tput setaf 3)setting up build tools$(tput sgr0)"
 	setup_build_tools
-	echo && echo "$(tput setaf 2)setting up node.js 4.2$(tput sgr0)"
+	echo && echo "$(tput setaf 3)setting up node.js 4.2$(tput sgr0)"
 	setup_node_js
-	echo && echo "$(tput setaf 2)setting up mongodb 3.2$(tput sgr0)"
+	echo && echo "$(tput setaf 3)setting up mongodb 3.2$(tput sgr0)"
 	setup_mongo_db
-	echo && echo "$(tput setaf 2)setting up nginx web server 1.4$(tput sgr0)"
+	echo && echo "$(tput setaf 3)setting up nginx web server 1.4$(tput sgr0)"
 	setup_nginx
-	echo && echo "$(tput setaf 2)installing server and client files$(tput sgr0)"
+	echo && echo "$(tput setaf 3)installing server and client files$(tput sgr0)"
 	install_files 
-	echo && echo "$(tput setaf 2)setting up server dependencies and startup$(tput sgr0)"
+	echo && echo "$(tput setaf 3)setting up server dependencies and startup$(tput sgr0)"
 	setup_server
-	echo && echo "$(tput setaf 2)starting server$(tput sgr0)"
+	echo && echo "$(tput setaf 3)starting server$(tput sgr0)"
 	startup_server
-	echo && echo "$(tput setaf 2)exiting installation script$(tput sgr0)"
+	echo && echo "$(tput setaf 3)exiting installation script$(tput sgr0)"
 	exit 0
 }
 
