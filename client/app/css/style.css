@@ -1,0 +1,113 @@
+@charset "UTF-8";
+
+html{
+  overflow: auto;
+}
+textarea {
+   resize: none;
+}
+
+.container {
+  margin-top: 50px;
+  width:100%;
+}
+
+.error {
+  font-weight: normal;
+  margin-top: 5px;
+  margin-bottom: -5px;
+  color: #A94442;
+}
+
+.admin-controls {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/** synth **/
+
+.synth-wrapper {
+  position:absolute;
+  width:100%;
+  bottom:0px;
+  /* fond du bandeau du synthé */
+  /* taille de police pour le synthé */
+  text-align: center;
+  font-size: 40px;
+}
+
+.synth-tab {
+  width: 400px;
+  height: 50px;
+  border-top-right-radius: 30px;
+  /* fond du bandeau du synthé */
+  background: #FFFFFF;
+}
+
+.synth {
+  position:absolute;
+  width:100%;
+  bottom:0px;
+  /*border: solid;*/
+  /*border-color: #FFF;*/
+  /*border-width: 0px, 0px, 15px, 0px;*/
+  /* fond du bandeau du synthé */
+  background: #FFFFFF;
+  /* taille de police pour le synthé */
+  text-align: left;
+  font-size: 40px;
+  padding-left: 50px;
+  padding-right: 30px;
+}
+
+.synth-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  background: #0F0; /* Just to visualize the extent */
+}
+
+.badge-danger {
+  background-color: #d43f3a;
+}
+
+.progress {
+  border: 0px solid;
+  border-radius: 0px;
+  height: 40px;
+}
+
+.progress-bar {
+  background-color: #B80022;
+}
+
+.progress-label {
+  display: inline-block;
+  font-size:20px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.result-jumbo-center {
+  padding: 10px;
+  text-align: center;
+  background-color: #F99123;
+  color: #FFF;
+}
+
+.result-choice-label {
+  color: #003FF8;
+}
+
+#result-content {
+  margin-top: -30px;
+}
+
+#dashboard-QaAdminView {
+}
+
+.dashboard-widget {
+}

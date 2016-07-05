@@ -1,0 +1,29 @@
+<div class="container">
+<table class="table table-bordered table-striped" id="sortable">
+  <thead>
+    <tr>
+      <th>
+        Questions disponibles <span id="total" class="badge"><%=rc.total%></span>
+      </th>
+      <th>
+        Diffusion
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% _.each( rc.qas, function( qa ) { %>
+      <tr data-item-id=<%= "#{thing.id}" %> class="item">
+        <td>
+          <%=qa.question%>
+        </td>
+        <td style="width:1%; white-space:nowrap;">
+          <button data-mngid="<%= qa._id %>" class="btn btn-default broadcast" type="button"> <span class=" 	glyphicon glyphicon-facetime-video"></span> </button>
+        </td>
+      </tr>
+   		<% }); %>
+  </tbody>
+</table>
+</div>
+
+
+

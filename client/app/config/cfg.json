@@ -1,0 +1,20 @@
+{
+	"name": "TouchEvent",
+	"description": "Real Time Audience Engagement",
+	"host": <SERVER_HOST>,
+	"modulesProvider": "modules",
+	"modules": {
+		"questions": {
+			"path": "qa",
+			"enabled": true
+		},
+		"polling": {
+			"path": "poll",
+			"enabled": true
+		},
+		"dashboard": {
+			"path": "dashboard",
+			"enabled": true
+		}
+	}
+}

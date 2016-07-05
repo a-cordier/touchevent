@@ -1,0 +1,16 @@
+<div class="jumbotron" style="background-color:#F99123;">
+	<div class="result-jumbo-center">
+		<h1><b><%=rc.poll.question%></b></h1>
+	    <p><%=rc.poll.total%> réponses au total</p>
+	</div>
+</div>
+<div class="container" id="result-content">
+	<% _.each(rc.poll.stats, function(stat) { %>
+	<div><h3 class="result-choice-label"><%=stat.cid%>: <%=stat.choice%></h3></div>
+	<div class="progress">
+		<div class="progress-bar" role="progressbar" aria-valuenow="70"
+		aria-valuemin="0" aria-valuemax="100" style="width:<%= (stat.y/rc.poll.total)*100  %>%">
+		<span class="progress-label"><%= isNaN(((stat.y/rc.poll.total)*100).toFixed(1))? 0.00:((stat.y/rc.poll.total)*100).toFixed(1) %>%</span></div>
+	</div>
+	<% }); %>
+</div>

@@ -1,0 +1,29 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">TouchEvent</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#sched">Planning</a></li>
+        <li class="active"><a href="#qa">Questions</a></li>
+        <li><a href="#vote">Votes</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<div class="container">
+    <form id="qa-form" role="form" data-toggle="validator">
+        <div class="form-group">
+            <label for="question" class="control-label">Votre question:</label>
+             <textarea class="form-control" rows="5" name="question" id="question" required><%= rc.qa.question %></textarea>
+        </div>
+        <button type="submit" id="submit" class="btn btn-primary pull-right popover-show" data-toggle = "popover" data-content="Merci pour votre participation !"  data-placement = "auto">Envoyer</button>  
+    </form>
+</div>

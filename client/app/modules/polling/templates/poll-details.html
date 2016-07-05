@@ -1,0 +1,74 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#admin/qa">TouchEvent</a>
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<!--  <li><a href="#admin/sched">Planning</a></li> -->
+				<li class="active"><a href="#admin/qa">Questions</a></li>
+				<li class="disabled"><a href="#admin/qa">Polls</a></li>
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</div>
+<div class="container">
+
+	<form role="form">
+
+		<div class="row">
+			<div>
+				<label for="poll-question-text">Question posée</label>
+				<textarea class="form-control" rows="2" name="poll-question-text" id="poll-question-text"><%= rc.poll.question %></textarea>
+			</div>
+		</div  class="row">
+		<div id="polltype">
+			<label class="radio-inline">
+				<input type="radio" name="polltype" id="yesno"><b>Question fermée</b>
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="polltype" id="custom"><b>Question ouverte</b>
+			</label>
+		</div>
+
+		<div id="choices">
+			<label for="choices">Choix</label>
+
+
+			<% $.each( rc.poll.choices, function( k, v ) { %>
+			<div id=<%= "choice-" + rc.poll.vId + k %>>
+				<input type="text"	value="<%= rc.poll.choices[k] %>">
+			</div>
+			<% }); %>
+
+			<button id="rm-choice-btn" type="button" class="btn btn-xs btn-primary">
+				<span class="glyphicon glyphicon-plus"></span>&nbsp;
+			</button>
+			<button id="add-choice-btn" type="button" class="btn btn-xs btn-danger">
+				<span class="glyphicon glyphicon-minus"></span>&nbsp;
+			</button>
+		</div>
+
+		<div align="right">
+			<button id="save" type="button" class="btn btn-primary">Sauvegarder</button>
+
+			<button type="button" id="cancel" class="btn btn-secondary">Annuler</button>
+		</div>
+	</form>
+</div>
+<script>
+	$(function(){
+		var polltype = $( "#polltype input:radio:checked" ).val();
+		if('Custom'===polltype){
+			$('#choices').show();
+		} else {
+			$('#choices').hide();
+		}        
+     // $('#rm-choice-btn').parent().addClass('ui-state-disabled');
+ });
+</script>

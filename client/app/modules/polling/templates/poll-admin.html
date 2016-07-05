@@ -1,0 +1,48 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#admin/poll">TouchEvent</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+       <!--  <li><a href="#admin/sched">Planning</a></li> -->
+        <li class="active"><a href="#poll/admin">Questions</a></li>
+        <li class="disabled"><a href="#poll/admin">Votes</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="container">
+<table class="table table-bordered table-striped" id="sortable">
+  <thead>
+    <tr>
+      <th>
+        Questions posées au public
+      </th>
+      <th>
+        Options
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% _.each( rc.polls, function( poll ) { %>
+      <tr data-item-id=<%= "#{poll._id}" %> class="item">
+        <td>
+          <%=poll.question%>
+        </td>
+        <td style="width:1%; white-space:nowrap;">
+<!--          <button data-mngid="<%= poll._id %>" class="btn btn-primary edit" type="button"> <span class=" 	glyphicon glyphicon-pencil"></span> </button>
+          <button data-href="#poll/admin" data-mngid="<%= poll._id %>" class="btn btn-danger delete" type="button"> <span class=" 	glyphicon glyphicon-remove"></span> </button>
+          <button  data-mngid="<%= poll._id %>" class="btn btn-default validate" type="button"> <span class=" 	glyphicon glyphicon-check"></span> </button> -->
+          <button data-mngid="<%= poll._id %>" class="btn btn-default result" type="button"> <span class=" 	glyphicon glyphicon-signal"></span> </button>
+        </td>
+      </tr>
+   		<% }); %>
+  </tbody>
+</table>
+</div>
