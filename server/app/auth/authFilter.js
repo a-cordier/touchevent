@@ -12,7 +12,7 @@ var Filter = function(router){
 
   // decode token
   if (token) {
-    logger.info('token: ' + req.cookies.token);
+    logger.info('token: ' + req.cookies.jwt);
     // verifies secret and checks exp
     jwt.verify(token, cfg.secret, function(err, decoded) {      
       if (err) {
