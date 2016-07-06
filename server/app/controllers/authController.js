@@ -46,13 +46,13 @@ router.post('/',
 			maxAge: 900000,
 			httpOnly: true
 		})
-		res.status(200).send({
+		return res.status(200).send({
 			success: true,
 			message: 'Token gen.'
 		});
 	},
 	function(err, req, res, next) {
-		res.status(401).send({
+		return res.status(401).send({
 			message: 'authentication failure'
 		});
 	}
