@@ -34,8 +34,7 @@ router.post('/', function(req, res) {
         				res.cookie('jwt', token, { maxAge: 900000, httpOnly: true })
         				res.status(200).send({
         					success: true,
-        					message: 'Token gen.',
-        					token: token
+        					message: 'Token gen.'
         				});
 					}
 				});

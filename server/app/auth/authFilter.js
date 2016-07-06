@@ -8,8 +8,7 @@ var Filter = function(router){
   router.use(function(req, res, next) {
 
   // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
+  var token = req.cookies.jwt;
   // decode token
   if (token) {
     logger.info('token: ' + req.cookies.jwt);
