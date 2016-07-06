@@ -21,10 +21,13 @@ setup_build_tools(){
 }
 
 setup_node_js(){
+	echo && echo "$(tput setaf 3)setting up node.js 4.2$(tput sgr0)"
 	sudo apt-get install -y nodejs
+	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 setup_mongo_db(){
+	echo && echo "$(tput setaf 3)setting up mongodb 3.2$(tput sgr0)"
 	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
     echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" \
     	| sudo tee /etc/apt/sources.list.d/mongodb.list
@@ -34,17 +37,24 @@ setup_mongo_db(){
 	sudo chmod 755 /etc/init.d/disable-transparent-hugepages
 	sudo update-rc.d disable-transparent-hugepages defaults
 	sudo service disable-transparent-hugepages start
-	sudo service mongod start
+	MONGO_PROCESS=$(ps -eF | grep mongod | head -1 | awk '{print $1}')
+	if [ ! -n "$MONGO_PROCESS" ]; then
+		sudo service mongod start
+	fi
+	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 setup_nginx(){
+	echo && echo "$(tput setaf 3)setting up nginx web server 1.4$(tput sgr0)"
 	sudo apt-get install -y nginx
 	sed -i -e "s/<APP_NAME>/${APP_NAME}/" ./default
 	sudo cp ./default /etc/nginx/sites-enabled/default
 	sudo service nginx reload
+	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 install_files(){
+	echo && echo "$(tput setaf 3)installing server and client files$(tput sgr0)"
 	sed -i -e "s/<SERVER_HOST>/${SERVER_HOST}/" ./client/app/config/cfg.json
 	SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 	sed -i -e "s/<APP_NAME>/${APP_NAME}/" -e "s/<SECRET>/${SECRET}/" ./server/app/cfg.js
@@ -56,9 +66,11 @@ install_files(){
 		sudo mkdir -p "$API"
 	fi
 	sudo cp -r ./server/* "$API"
+	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 setup_server() {
+	echo && echo "$(tput setaf 3)setting up server dependencies and startup$(tput sgr0)"
 	sudo npm install -g pm2
 	sudo adduser --disabled-password --gecos "api server user" $USER
 	sudo pm2 startup ubuntu -u $USER
@@ -83,30 +95,30 @@ setup_server() {
 	export LC_ALL=C
 	echo && echo "Mongodb command: $DB_COMMAND"
 	mongo $APP_NAME --eval "$DB_COMMAND"
+	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 startup_server(){
+	echo && echo "$(tput setaf 3)starting server$(tput sgr0)"
 	sudo su $USER -c "pm2 start $API/app/server.js"
 	sudo su $USER -c "pm2 save"
+	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 main() {
-	trap 'Abort code' ERR
+	trap 'print_error $LINENO' ERR
 	setup_build_tools
-	echo && echo "$(tput setaf 3)setting up node.js 4.2$(tput sgr0)"
 	setup_node_js
-	echo && echo "$(tput setaf 3)setting up mongodb 3.2$(tput sgr0)"
 	setup_mongo_db
-	echo && echo "$(tput setaf 3)setting up nginx web server 1.4$(tput sgr0)"
 	setup_nginx
-	echo && echo "$(tput setaf 3)installing server and client files$(tput sgr0)"
 	install_files 
-	echo && echo "$(tput setaf 3)setting up server dependencies and startup$(tput sgr0)"
 	setup_server
-	echo && echo "$(tput setaf 3)starting server$(tput sgr0)"
 	startup_server
-	echo && echo "$(tput setaf 3)exiting installation script$(tput sgr0)"
 	exit 0
+}
+
+print_error() {
+    echo "$(tput setaf 1)$1$(tput sgr0)"
 }
 
 main
