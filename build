@@ -68,10 +68,12 @@ install_files(){
 		sudo mkdir -p "$WWW"
 	fi
 	sudo cp -r ./client/app/* "$WWW"
+	sudo chown -R "$USER" "$WWW"
 	if [ ! -d "$API" ]; then
 		sudo mkdir -p "$API"
 	fi
 	sudo cp -r ./server/* "$API"
+	sudo chown -R "$USER" "$API"
 	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
@@ -95,9 +97,10 @@ setup_server() {
 		| awk -F: '{ print $2 }')
     DB_COMMAND='db.users.insert({username:"'
 	DB_COMMAND+=$ADMIN_USERNAME
-	DB_COMMAND+='",password:"'
+	DB_COMMAND+='", password:"'
 	DB_COMMAND+=$HASH
-	DB_COMMAND+='", registered_at: new Date()})'
+	DB_COMMAND+='", role: "admin"'
+	DB_COMMAND+=', registered_at: new Date()})'
 	export LC_ALL=C
 	echo && echo "Mongodb command: $DB_COMMAND"
 	mongo $APP_NAME --eval "$DB_COMMAND"
@@ -107,8 +110,8 @@ setup_server() {
 start_server(){
 	trap 'print_error $LINENO' ERR
 	print_begin "starting server"
-	sudo su $USER -c "pm2 start $API/app/server.js"
-	sudo su $USER -c "pm2 save"
+	sudo su -l $USER -c "pm2 start $API/app/server.js"
+	sudo su -l $USER -c "pm2 save"
 	print_success
 }
 
@@ -119,8 +122,6 @@ restart_server(){
 	print_success
 }
 
-
-
 create_user() {
 	print_begin "restarting server"
 	id $USER
@@ -128,6 +129,12 @@ create_user() {
 		sudo adduser --no-create-home --disabled-password --gecos "api server user" $USER
 	fi
 	print_success
+}
+
+deploy() {
+	git add . --all
+	git commit -m "$1"
+	git push origin dev
 }
 
 main() {
@@ -146,12 +153,16 @@ main() {
 	    ;;
 	    reload)
 			set -e
+			git pull origin "$2"
 			install_files
 			restart_server
 			exit 0
 		;;
-		*)
-	        echo "Usage: {install|reload}"
+	    deploy)
+			deploy "$2"
+		;;
+	    *)
+	        echo "Usage: {install|deploy|reload}"
 	        exit 1
 	    ;;
 	esac
@@ -170,6 +181,6 @@ print_error() {
     echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
-main $1
+main "$1" "$2"
 
 

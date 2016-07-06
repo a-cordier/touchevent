@@ -10,17 +10,20 @@ var timeout = require('connect-timeout');
 var compression = require('compression');
 var cfg = require('./cfg');
 var cookieParser = require('cookie-parser');
+var passport = require('passport');
 
 /** CONFIGURE EXPRESS */
 var app = express();
 app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(passport.initialize());
 app.use(require('morgan')({ "stream": logger.stream }));
 app.set('port', process.env.PORT || 3000);
 app.use(require('./controllers'));
 app.use(timeout('900s'));
 app.use(compression());
+
 
 
 /** LISTEN :: HTTP */

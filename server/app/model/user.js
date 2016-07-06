@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var Schema = mongoose.Schema;
+var Roles = require('../auth/roles');
 /**
 User model object is 
 used to determine whether 
@@ -14,13 +15,12 @@ var userSchema = new Schema({
     required: true
   },
   password: {
-    type: String,
-    required: true
+    type: String
   },
   role: {
     type: String,
-    enum: ['member', 'admin'],
-    default: 'member'
+    enum: [Roles.admin.id, Roles.member.id],
+    default: Roles.member.id
   },
   created_at: Date,
   updated_at: Date,

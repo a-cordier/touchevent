@@ -7,13 +7,11 @@ var logger = require('../util/logger');
 var IoServer = require('../io/ioServer');
 var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
-var cors = require('cors');
+var Roles = require('../auth/roles');
 
-router.use(cors());
-/**
-Free zone
-**/
-router.get('/', function(req, res) {
+
+router.get('/', filter, Roles.admin.filter, function(req, res, next) {
+	logger.info("get qa");
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
 	var criteria = req.query.criteria || {};
@@ -25,10 +23,10 @@ router.get('/', function(req, res) {
 			created_at: -1
 		}
 	}, function(err, result) {
-		//logger.info(JSON.stringify(result));
 		res.set('Content-Type', 'application/json');
 		res.send(200, result);
 	});
+
 });
 
 router.get('/:id', function(req, res) {
@@ -43,9 +41,9 @@ router.get('/:id', function(req, res) {
 Authenticated REALM
 **/
 //filter(router); 
-	
+
 router.post('/', function(req, res) {
-	if (!req.body.question) 
+	if (!req.body.question)
 		return res.status(400).send({
 			message: 'bad request'
 		});

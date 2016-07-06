@@ -4,8 +4,9 @@ define(["backbone", "underscore", "./qa"],
 
       model: Qa,
 
-      initialize: function() {
-        this.limit = 20;
+      initialize: function(options) {
+        this.limit = 15;
+        this.total = 0;
         var self = this;
         this.on('add', function(model) {
 
@@ -23,16 +24,32 @@ define(["backbone", "underscore", "./qa"],
       parse: function(response) {
         this.total = response.total;
         this.pages = response.pages;
-        console.log("response pages", this.pages);
         return response.docs;
       },
 
-      getTotal: function(){
+      add: function(models, options) {
+       // SocketIoModel.prototype.add.call(this, models.items, options);
+        this.total++;
+        console.log('add::total: ' + this.total);
+        this.updatePages();
+        console.log('add::pages: ' + this.pages);
+      },
+
+      remove: function(models, options) {
+        //SocketIoModel.prototype.remove.call(this, models.items, options);
+        this.total--;
+        this.updatePages();
+      },
+
+      updatePages: function() {
+        this.pages = Math.ceil(this.total / this.limit);
+      },
+
+      getTotal: function() {
         return this.total || 0;
       },
 
-      getPages: function() {
-        console.log("getPages", this.pages);
+      getPages: function()  {
         return this.pages || 1;
       },
 

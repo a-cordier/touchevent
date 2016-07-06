@@ -11,6 +11,10 @@
 		"polling": {
 			"path": "poll",
 			"enabled": true
+		},
+		"login": {
+			"path": "login",
+			"enabled": true
 		}
 	}
 }

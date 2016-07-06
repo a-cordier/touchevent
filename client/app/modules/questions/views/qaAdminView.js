@@ -24,7 +24,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				PageView.prototype.constructor.apply(this, arguments);
 			},
 
-			initialize: function() {
+			initialize: function(options) {
 				this.qas = new QaCollection();
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
@@ -76,7 +76,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				console.log('add triggered');
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
-					$('#total').html(++this.total);
+					$('#total').html(this.total);
 				} else {
 					this.sync({
 						reset: true
@@ -94,7 +94,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					console.log("page--");
 					this.page--;
 				}
-			    //var self = this;
+				//var self = this;
 				this.qas.fetch({
 					data: {
 						criteria: {
@@ -105,7 +105,8 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 							}]
 						},
 						page: this.page,
-						limit: this.qas.getLimit()
+						limit: this.qas.getLimit(),
+						resource: 'qa/admin'
 					},
 					reset: true
 				});
@@ -167,10 +168,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				}
 				qa.set('onAir', toggle);
 				qa.save();
-				// require('io/ioClient').synthTransition({
-				// 	'question': question,
-				// 	'qa': qa
-				// });
 			},
 
 			edit: function(event) {
@@ -210,9 +207,9 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			render: function() {
-				for(var i in arguments){
+				for (var i in arguments) {
 					console.log(arguments[i]);
-					if(arguments[i].sync===true)
+					if (arguments[i].sync === true)
 						return this.sync();
 				}
 				this.total = this.qas.getTotal();

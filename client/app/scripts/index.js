@@ -10,8 +10,25 @@ define(["jquery", "backbone", "underscore", "./loader"],
 			});
 			loader.start(function() {
 				loading.finish();
-				Backbone.history.navigate(Backbone.history.fragment, {trigger:true});
+				Backbone.history.navigate(Backbone.history.fragment, {
+					trigger: true
+				});
 				Backbone.history.start();
 			});
+		});
+		$.ajaxSetup({
+			cache: false,
+			statusCode: {
+				401: function(req, status, error) {
+					var login = "login";
+					var resource = req.responseJSON.resource;
+					if (resource) {
+						login += '?resource=' + resource;
+					}
+					Backbone.history.navigate(login, {
+						trigger: true
+					});
+				}
+			}
 		});
 	});

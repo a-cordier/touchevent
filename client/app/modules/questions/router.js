@@ -1,22 +1,21 @@
 /* TODO: require local modules into functions */
-define(["backbone", "backboneFilter", "commons/router", "jquery",
+define(["backbone", "backboneSubroute", "jquery",
     "commons/io/ioClient",
     "./views/qaSynthView",
     "./views/qaUserView", "./model/qa", "./views/qaDetailsView",
     "./views/qaAdminView", "./views/qaSpeakerView", "./model/qaCollection",
 
   ],
-  function(Backbone, BackboneFilter, BaseRouter, $,
+  function(Backbone, BackboneSubroute, $,
     ioClient,
     QaSynthView, QaUserView, Qa, QaDetailsView,
     QaAdminView, QaSpeakerView, QaCollection
   ) {
 
-    return BaseRouter.extend({
+    return BackboneSubroute.extend({
 
       initialize: function() {
         console.log("starting router: questions");
-        BaseRouter.prototype.initialize.apply(this, arguments);
       },
 
       routes: {
@@ -28,16 +27,11 @@ define(["backbone", "backboneFilter", "commons/router", "jquery",
         "": "qa"
       },
 
-      before: {
-        "admin(/)": "filter",
-        "speaker(/)": "filter"
-      },
-
       adminQas: function() {
         ioClient.join('admin');
         var self = this;
-        this.changePage(QaAdminView);
         QaAdminView.sync();
+        this.changePage(QaAdminView);
       },
 
       /* Creates a new vote or edit vote depending on id */
@@ -59,7 +53,7 @@ define(["backbone", "backboneFilter", "commons/router", "jquery",
       speaker: function() {
         ioClient.join('speaker');
         var self = this;
-        var qas = new QaCollection();
+        var qas = new QaCollection(ioClient);
         qas.fetch({
           data: {
             criteria:  {
@@ -106,7 +100,13 @@ define(["backbone", "backboneFilter", "commons/router", "jquery",
         self.changePage(new QaUserView({
           "qa": qa
         }));
-      }
-      
+      },
+
+      changePage: function(page) {
+        $('body').empty();
+        $('body').append($(page.el));
+        page.render();
+      },
+
     });
   });

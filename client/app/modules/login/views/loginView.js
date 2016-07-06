@@ -1,4 +1,4 @@
-define(["backbone", "jquery", "bootstrap", "./PageView",
+define(["backbone", "jquery", "bootstrap", "commons/views/PageView",
     "underscore", "text", "text!../templates/login.html"
   ],
   function(Backbone, $, bootstrap, PageView, _, text, _template) {
@@ -23,8 +23,6 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
         this.delegateEvents(this.events);
       },
 
-      add: function() {},
-
       inputChanged: function(event) {
         var id = $(event.currentTarget).attr('id');
         if (id === "username") {
@@ -39,23 +37,22 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
         console.log('trigger auth');
         var self = this;
         Backbone.ajax({
-          type: "POST",
+          type: "GET",
           url: "/api/auth",
-          contentType: 'application/json',
-          data: JSON.stringify({
-            "username": self.principal.get("username"),
-            "password": self.principal.get("password")
-          }),
-          success: function(res) {
-            // self.principal.set('token', res.token);
-            // self.principal.save();
-            Backbone.history.loadUrl(self.resource);
+          xhrFields: {
+            withCredentials: true
           },
-          error: function(err) {
-            self.render();
+          headers: {
+            'Authorization': 'Basic ' + btoa(self.principal.get("username")+':'+self.principal.get("password"))
+          },
+          data: {
+            "resource": self.resource
+          },
+          success: function(res) {
+            Backbone.history.navigate(self.resource, {trigger:true});
           }
         });
-       
+
       },
 
       render: function() {
