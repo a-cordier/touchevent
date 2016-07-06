@@ -5,10 +5,6 @@ define(["backbone", "backboneFilter", "backboneSubroute", "jquery",
 
     return Backbone.SubRoute.extend({
 
-      routes: {
-        "login": "login"
-      },
-
       initialize: function() {
         var self = this;
         _.each(this.before, function(k, v) {
@@ -34,7 +30,7 @@ define(["backbone", "backboneFilter", "backboneSubroute", "jquery",
           success: next,
           error: function(data, res) {
             if (res.status === 403 || res.status === 401) {
-              //self.login(fragment);
+              self.login(fragment);
             }
           }
         });
