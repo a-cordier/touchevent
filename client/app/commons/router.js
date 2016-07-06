@@ -5,8 +5,11 @@ define(["backbone", "backboneFilter", "backboneSubroute", "jquery",
 
     return Backbone.SubRoute.extend({
 
+      routes: {
+        "login": "login"
+      },
+
       initialize: function() {
-        console.log("prefix", this.prefix);
         var self = this;
         _.each(this.before, function(k, v) {
           console.log("key",k,"value",v);
@@ -14,8 +17,6 @@ define(["backbone", "backboneFilter", "backboneSubroute", "jquery",
           self.before[_k] = k;
           delete self.before[v];
         });
-        console.log('before updated', this.before);
-        console.log("common Router started");
       },
 
       changePage: function(page) {
@@ -33,8 +34,7 @@ define(["backbone", "backboneFilter", "backboneSubroute", "jquery",
           success: next,
           error: function(data, res) {
             if (res.status === 403 || res.status === 401) {
-              console.log("prefix", this.prefix);
-              self.login(fragment);
+              //self.login(fragment);
             }
           }
         });
