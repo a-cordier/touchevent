@@ -39,6 +39,7 @@ router.post('/',
 		failureRedirect: '/#login',
 	}),
 	function(req, res) {
+		logger.info("username: " + req.body.username);
 		var token = jwt.sign(req.user, cfg.secret, {
 			expiresInMinutes: 1440 // 24h.
 		});
