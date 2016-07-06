@@ -19,7 +19,8 @@ var Filter = function(router){
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;    
-        logger.info(JSON.stringify(decoded.role));
+        logger.info(JSON.stringify(decoded));
+        logger.info(decoded.role);
         next();
       }
     });
