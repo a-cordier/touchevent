@@ -7,8 +7,7 @@ API=/var/node/$APP_NAME
 USER=node
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=touchevent
-SERVER_HOST=192.168.0.14
-
+SERVER_HOST="127.0.0.1:8080"
 set -e
 
 setup_build_tools(){
