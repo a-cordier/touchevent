@@ -1,5 +1,5 @@
 module.exports = {
-	database: "mongodb://localhost/touchevent",
+	database: "mongodb://localhost/<APP_NAME>",
 	secret: <SECRET>,
 	twitterConfig: {
 		consumer_key: 'KEIpYKWFlaZTnjUONhyvc6uBN',

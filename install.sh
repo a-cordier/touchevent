@@ -8,7 +8,6 @@ USER=node
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=touchevent
 SERVER_HOST="127.0.0.1:8080"
-set -e
 
 setup_build_tools(){
 	trap 'print_error $LINENO' ERR
@@ -80,10 +79,6 @@ setup_server() {
 	trap 'print_error $LINENO' ERR
 	print_begin "setting up server dependencies and startup"
 	sudo npm install -g pm2
-	id $USER
-	if [ $? = 1 ]; then
-		sudo adduser --disabled-password --gecos "api server user" $USER
-	fi
 	sudo pm2 startup ubuntu -u $USER
 	sudo cp ./pm2-init.sh /etc/init.d/
 	sudo chmod 755 /etc/init.d/pm2-init.sh
@@ -118,6 +113,10 @@ startup_server(){
 }
 
 main() {
+	id $USER
+	if [ $? = 1 ]; then
+		sudo adduser --no-create-home --disabled-password --gecos "api server user" $USER
+	fi
 	setup_build_tools
 	setup_node_js
 	setup_mongo_db
@@ -140,6 +139,7 @@ print_error() {
     echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
+set -e
 main
 
 
