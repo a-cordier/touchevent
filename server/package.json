@@ -6,7 +6,6 @@
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
-    "connect-flash": "^0.1.1",
     "connect-timeout": "^1.7.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
