@@ -35,9 +35,9 @@ passport.use(new BasicStrategy(
 
 router.post('/',
 	passport.authenticate('basic', {
-		failWithError: true
+		session: false
 	}),
-	function(req, res, next) {
+	function(req, res) {
 		logger.info("username: " + req.body.username);
 		var token = jwt.sign(req.user, cfg.secret, {
 			expiresInMinutes: 1440 // 24h.
@@ -49,11 +49,6 @@ router.post('/',
 		return res.status(200).send({
 			success: true,
 			message: 'Token gen.'
-		});
-	},
-	function(err, req, res, next) {
-		return res.status(401).send({
-			message: 'authentication failure'
 		});
 	}
 );
