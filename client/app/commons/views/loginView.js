@@ -58,6 +58,7 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
             Backbone.history.loadUrl(self.resource);
           },
           error: function(err) {
+            console.log(err)
             self.render();
           }
         });
