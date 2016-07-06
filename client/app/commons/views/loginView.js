@@ -48,6 +48,10 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
           headers: {
             'Authorization': 'Basic ' + btoa(self.principal.get("username")+':'+self.principal.get("password"))
           },
+          data: JSON.stringify({
+            "username": self.principal.get("username"),
+            "password": self.principal.get("password")
+          }),
           success: function(res) {
             // self.principal.set('token', res.token);
             // self.principal.save();
