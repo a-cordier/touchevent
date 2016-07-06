@@ -11,10 +11,6 @@
 		"polling": {
 			"path": "poll",
 			"enabled": true
-		},
-		"dashboard": {
-			"path": "dashboard",
-			"enabled": true
 		}
 	}
 }

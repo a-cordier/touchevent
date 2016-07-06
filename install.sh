@@ -1,4 +1,6 @@
 #!/bin/bash
+
+## Installatio
 APP_NAME=touchevent
 WWW=/var/www/$APP_NAME
 API=/var/node/$APP_NAME
@@ -79,7 +81,10 @@ setup_server() {
 	trap 'print_error $LINENO' ERR
 	print_begin "setting up server dependencies and startup"
 	sudo npm install -g pm2
-	sudo adduser --disabled-password --gecos "api server user" $USER
+	id $USER
+	if [ $? = 1 ]; then
+		sudo adduser --disabled-password --gecos "api server user" $USER
+	fi
 	sudo pm2 startup ubuntu -u $USER
 	sudo cp ./pm2-init.sh /etc/init.d/
 	sudo chmod 755 /etc/init.d/pm2-init.sh
@@ -133,7 +138,7 @@ print_success(){
 }
 
 print_error() {
-    echo "$(tput setaf 1)$1$(tput sgr0)"
+    echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
 main
