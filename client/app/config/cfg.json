@@ -1,7 +1,7 @@
 {
 	"name": "TouchEvent",
 	"description": "Real Time Audience Engagement",
-	"host": <SERVER_HOST>,
+	"host": 192.168.0.14,
 	"modulesProvider": "modules",
 	"modules": {
 		"questions": {

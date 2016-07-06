@@ -10,12 +10,14 @@ SERVER_HOST=192.168.0.14
 set -e
 
 setup_build_tools(){
+	sudo echo && echo "$(tput setaf 3)setting up build tools$(tput sgr0)"
 	sudo apt-get update
 	sudo apt-get install -y build-essential
 	sudo apt-get install -y libkrb5-dev
 	sudo apt-get install -y git
 	sudo apt-get install -y apache2-utils
 	sudo apt-get install python
+	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 setup_node_js(){
@@ -24,8 +26,9 @@ setup_node_js(){
 
 setup_mongo_db(){
 	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-	echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
-	sudo apt-get install -y --allow-unauthenticated mongodb-org
+    echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" \
+    	| sudo tee /etc/apt/sources.list.d/mongodb.list	sudo apt-get install -y mongodb-org
+    sudo apt-get update
 	sudo cp ./disable-transparent-hugepages /etc/init.d
 	sudo chmod 755 /etc/init.d/disable-transparent-hugepages
 	sudo update-rc.d disable-transparent-hugepages defaults
@@ -88,7 +91,6 @@ startup_server(){
 
 main() {
 	trap 'Abort code' ERR
-	sudo echo && echo "$(tput setaf 3)setting up build tools$(tput sgr0)"
 	setup_build_tools
 	echo && echo "$(tput setaf 3)setting up node.js 4.2$(tput sgr0)"
 	setup_node_js
