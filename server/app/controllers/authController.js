@@ -54,7 +54,7 @@ var router = express.Router();
 // 		});
 // });
 
-apiRoutes.post('/', function(req, res) {
+router.post('/', function(req, res) {
 	User.findOne({
 		username: req.body.username
 	}, function(err, user) {
@@ -67,8 +67,8 @@ apiRoutes.post('/', function(req, res) {
 			});
 		} else {
 			// Check if password matches
-			user.comparePassword(req.body.password, function(err, isMatch) {
-				if (isMatch && !err) {
+			user.comparePassword(req.body.password, function(err, match) {
+				if (match && !err) {
 					// Create token if the password matched and no error was thrown
 					var token = jwt.sign(user.toJSON(), cfg.secret, {
 						expiresInMinutes: 1440 // 24h.
