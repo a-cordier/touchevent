@@ -20,7 +20,7 @@ passport.use(new BasicStrategy(
 				return done(null, false);
 			} else {
 				// Check if password matches
-				user.comparePassword(req.body.password, function(err, match) {
+				user.comparePassword(password, function(err, match) {
 					if (match && !err) {
 						// Create token if the password matched and no error was thrown
 						var token = jwt.sign(user, cfg.secret, {
