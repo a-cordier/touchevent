@@ -42,6 +42,12 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
           type: "POST",
           url: "/api/auth",
           contentType: 'application/json',
+          xhrFields: {
+            withCredentials: true
+          },
+          headers: {
+            'Authorization': 'Basic ' + btoa(self.principal.get("username")+':'+self.principal.get("password"))
+          },
           data: JSON.stringify({
             "username": self.principal.get("username"),
             "password": self.principal.get("password")
@@ -55,7 +61,7 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
             self.render();
           }
         });
-       
+
       },
 
       render: function() {
