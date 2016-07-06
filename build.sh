@@ -104,7 +104,7 @@ setup_server() {
 	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
-startup_server(){
+start_server(){
 	trap 'print_error $LINENO' ERR
 	print_begin "starting server"
 	sudo su $USER -c "pm2 start $API/app/server.js"
@@ -112,15 +112,49 @@ startup_server(){
 	print_success
 }
 
+restart_server(){
+	trap 'print_error $LINENO' ERR
+	print_begin "restarting server"
+	sudo service pm2-init.sh restarting
+	print_success
+}
+
+
+
+create_user() {
+	print_begin "restarting server"
+	id $USER
+	if [ $? = 1 ]; then
+		sudo adduser --no-create-home --disabled-password --gecos "api server user" $USER
+	fi
+	print_success
+}
+
 main() {
-	setup_build_tools
-	setup_node_js
-	setup_mongo_db
-	setup_nginx
-	install_files 
-	setup_server
-	startup_server
-	exit 0
+	case "$1" in
+    install)
+		create_user
+		set -e
+		setup_build_tools
+		setup_node_js
+		setup_mongo_db
+		setup_nginx
+		install_files 
+		setup_server
+		start_server
+		exit 0
+    ;;
+    reload)
+		set -e
+		install_files
+		restart_server
+		exit 0
+	;;
+	*)
+        echo "Usage: {install|reload}"
+        exit 1
+    ;;
+
 }
 
 print_begin(){
@@ -135,11 +169,6 @@ print_error() {
     echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
-id $USER
-if [ $? = 1 ]; then
-	sudo adduser --no-create-home --disabled-password --gecos "api server user" $USER
-fi
-set -e
-main
+main $1
 
 

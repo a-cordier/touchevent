@@ -1,6 +1,6 @@
 module.exports = {
 	database: "mongodb://localhost/<APP_NAME>",
-	secret: <SECRET>,
+	secret: "<SECRET>",
 	twitterConfig: {
 		consumer_key: 'KEIpYKWFlaZTnjUONhyvc6uBN',
 		consumer_secret: 'DCaYp3PFMEn1JKszStU1uP1me8QlgI9zAQuiqZLzdOaVShXEMf',
