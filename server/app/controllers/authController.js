@@ -38,7 +38,7 @@ router.post('/',
 		session: false
 	}),
 	function(req, res) {
-		var token = jwt.sign(user, cfg.secret, {
+		var token = jwt.sign(req.user, cfg.secret, {
 			expiresInMinutes: 1440 // 24h.
 		});
 		res.cookie('jwt', token, {
