@@ -25,7 +25,7 @@ passport.use(new BasicStrategy(
 						// Create token if the password matched and no error was thrown
 						return done(null, user);
 					} else {
-						return done(null, false, {failureFlash: 'authentication failure'});
+						return done(null, false);
 					}
 				});
 			}
@@ -35,7 +35,8 @@ passport.use(new BasicStrategy(
 
 router.post('/',
 	passport.authenticate('basic', {
-		session: false
+		session: false,
+		failureFlash: 'authentication failure'
 	}),
 	function(req, res) {
 		logger.info("username: " + req.body.username);
