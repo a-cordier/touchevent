@@ -29,14 +29,7 @@ define(["backbone", "backboneFilter", "backboneSubroute", "jquery",
       filter: function(fragment, args, next)  {
         // console.log('backbone filter triggered');
         var self = this;
-        var principal = new Principal({
-          _id: 1
-        });
-        principal.fetch();
         (new State()).save(null, {
-          headers: {
-            'x-access-token': principal.get('token')
-          },
           success: next,
           error: function(data, res) {
             if (res.status === 403 || res.status === 401) {
