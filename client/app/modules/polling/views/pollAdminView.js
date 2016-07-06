@@ -41,5 +41,5 @@ define(["backbone", "commons/views/PageView",
 				return this;
 			}
 		});
-		return new PollAdminView(); // just in case we need a singleton some day
+		return PollAdminView; // just in case we need a singleton some day
 	});
