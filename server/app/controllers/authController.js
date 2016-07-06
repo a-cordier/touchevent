@@ -35,8 +35,7 @@ passport.use(new BasicStrategy(
 
 router.post('/',
 	passport.authenticate('basic', {
-		session: false,
-		failureRedirect: '/#login',
+		session: false
 	}),
 	function(req, res) {
 		logger.info("username: " + req.body.username);

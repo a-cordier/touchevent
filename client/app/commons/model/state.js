@@ -4,7 +4,6 @@ define(["backbone"], function(Backbone) {
     defaults : {},
     idAttribute: "_id",
     initialize: function(){   
-    	console.log("State init");
     },
     constructor: function (attributes, options) {
         Backbone.Model.apply(this, arguments); // "super" constructor
