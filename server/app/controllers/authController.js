@@ -33,11 +33,30 @@ passport.use(new BasicStrategy(
 	}
 ));
 
-router.post('/',
+// router.post('/',
+// 	passport.authenticate('basic', {
+// 		session: false,
+// 	}),
+// 	function(req, res) {
+// 		logger.info("username: " + req.body.username);
+// 		var token = jwt.sign(req.user, cfg.secret, {
+// 			expiresInMinutes: 1440 // 24h.
+// 		});
+// 		res.cookie('jwt', token, {
+// 			maxAge: 900000,
+// 			httpOnly: true
+// 		})
+// 		res.status(200).send({
+// 			success: true,
+// 			message: 'Token gen.'
+// 		});
+// 	});
+
+app.post('/',
 	passport.authenticate('basic', {
-		session: false,
+		failWithError: true
 	}),
-	function(req, res) {
+	function(req, res, next) {
 		logger.info("username: " + req.body.username);
 		var token = jwt.sign(req.user, cfg.secret, {
 			expiresInMinutes: 1440 // 24h.
@@ -50,7 +69,12 @@ router.post('/',
 			success: true,
 			message: 'Token gen.'
 		});
-});
-
+	},
+	function(err, req, res, next) {
+		res.status(401).send({
+			message: 'authentication failure'
+		});
+	}
+);
 
 module.exports = router;
