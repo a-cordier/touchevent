@@ -132,28 +132,29 @@ create_user() {
 
 main() {
 	case "$1" in
-    install)
-		create_user
-		set -e
-		setup_build_tools
-		setup_node_js
-		setup_mongo_db
-		setup_nginx
-		install_files 
-		setup_server
-		start_server
-		exit 0
-    ;;
-    reload)
-		set -e
-		install_files
-		restart_server
-		exit 0
-	;;
-	*)
-        echo "Usage: {install|reload}"
-        exit 1
-    ;;
+	    install)
+			create_user
+			set -e
+			setup_build_tools
+			setup_node_js
+			setup_mongo_db
+			setup_nginx
+			install_files 
+			setup_server
+			start_server
+			exit 0
+	    ;;
+	    reload)
+			set -e
+			install_files
+			restart_server
+			exit 0
+		;;
+		*)
+	        echo "Usage: {install|reload}"
+	        exit 1
+	    ;;
+	esac
 
 }
 
