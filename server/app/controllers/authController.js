@@ -23,17 +23,6 @@ passport.use(new BasicStrategy(
 				user.comparePassword(password, function(err, match) {
 					if (match && !err) {
 						// Create token if the password matched and no error was thrown
-						var token = jwt.sign(user, cfg.secret, {
-							expiresInMinutes: 1440 // 24h.
-						});
-						res.cookie('jwt', token, {
-							maxAge: 900000,
-							httpOnly: true
-						})
-						res.status(200).send({
-							success: true,
-							message: 'Token gen.'
-						});
 						return done(null, user);
 					} else {
 						return done(null, false);
@@ -60,7 +49,7 @@ router.post('/',
 			success: true,
 			message: 'Token gen.'
 		});
-});
+	});
 // router.post('/', function(req, res) {
 // 	User.findOne({
 // 		username: req.body.username
