@@ -10,7 +10,7 @@ var timeout = require('connect-timeout');
 var compression = require('compression');
 var cfg = require('./cfg');
 var cookieParser = require('cookie-parser');
-var flash=require("connect-flash"
+var flash = require("connect-flash");
 
 /** CONFIGURE EXPRESS */
 var app = express();
