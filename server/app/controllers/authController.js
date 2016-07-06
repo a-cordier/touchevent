@@ -25,7 +25,7 @@ passport.use(new BasicStrategy(
 						// Create token if the password matched and no error was thrown
 						return done(null, user);
 					} else {
-						return done(null, false);
+						return done(null, false, {message: 'authentication failure'});
 					}
 				});
 			}
