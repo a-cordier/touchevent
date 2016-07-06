@@ -3,6 +3,7 @@ var jwt = require('jsonwebtoken');
 var User = require('../model/user');
 var logger = require('../util/logger');
 var cfg = require('../cfg');
+var passport = require('passport');
 
 var router = express.Router();
 
