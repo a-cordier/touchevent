@@ -24,8 +24,7 @@ setup_node_js(){
 
 setup_mongo_db(){
 	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-	echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
-	sudo apt-get update
+	echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
 	sudo apt-get install -y --allow-unauthenticated mongodb-org
 	sudo cp ./disable-transparent-hugepages /etc/init.d
 	sudo chmod 755 /etc/init.d/disable-transparent-hugepages
