@@ -58,7 +58,7 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
             Backbone.history.loadUrl(self.resource);
           },
           error: function(err) {
-            console.log(err)
+            console.log('auth error',err)
             self.render();
           }
         });
