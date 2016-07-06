@@ -115,7 +115,7 @@ start_server(){
 restart_server(){
 	trap 'print_error $LINENO' ERR
 	print_begin "restarting server"
-	sudo service pm2-init.sh restarting
+	sudo service pm2-init.sh restart
 	print_success
 }
 
