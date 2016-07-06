@@ -10,7 +10,8 @@ SERVER_HOST=192.168.0.14
 set -e
 
 setup_build_tools(){
-	sudo echo && echo "$(tput setaf 3)setting up build tools$(tput sgr0)"
+	trap 'print_error $LINENO' ERR
+	print_begin "setting up build tools"
 	sudo apt-get update
 	sudo apt-get install -y build-essential
 	sudo apt-get install -y libkrb5-dev
@@ -21,13 +22,16 @@ setup_build_tools(){
 }
 
 setup_node_js(){
-	echo && echo "$(tput setaf 3)setting up node.js 4.2$(tput sgr0)"
+	trap 'print_error $LINENO' ERR
+	print_begin "setting up node.js"
+	curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 setup_mongo_db(){
-	echo && echo "$(tput setaf 3)setting up mongodb 3.2$(tput sgr0)"
+	trap 'print_error $LINENO' ERR
+	print_begin "setting up mongodb 3.2"$(tput sgr0)""
 	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
     echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" \
     	| sudo tee /etc/apt/sources.list.d/mongodb.list
@@ -45,7 +49,8 @@ setup_mongo_db(){
 }
 
 setup_nginx(){
-	echo && echo "$(tput setaf 3)setting up nginx web server 1.4$(tput sgr0)"
+	trap 'print_error $LINENO' ERR
+	print_begin "setting up nginx web server 1.4"
 	sudo apt-get install -y nginx
 	sed -i -e "s/<APP_NAME>/${APP_NAME}/" ./default
 	sudo cp ./default /etc/nginx/sites-enabled/default
@@ -54,7 +59,8 @@ setup_nginx(){
 }
 
 install_files(){
-	echo && echo "$(tput setaf 3)installing server and client files$(tput sgr0)"
+	trap 'print_error $LINENO' ERR
+	print_begin "installing server and client files"
 	sed -i -e "s/<SERVER_HOST>/${SERVER_HOST}/" ./client/app/config/cfg.json
 	SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 	sed -i -e "s/<APP_NAME>/${APP_NAME}/" -e "s/<SECRET>/${SECRET}/" ./server/app/cfg.js
@@ -70,7 +76,8 @@ install_files(){
 }
 
 setup_server() {
-	echo && echo "$(tput setaf 3)setting up server dependencies and startup$(tput sgr0)"
+	trap 'print_error $LINENO' ERR
+	print_begin "setting up server dependencies and startup"
 	sudo npm install -g pm2
 	sudo adduser --disabled-password --gecos "api server user" $USER
 	sudo pm2 startup ubuntu -u $USER
@@ -99,14 +106,14 @@ setup_server() {
 }
 
 startup_server(){
-	echo && echo "$(tput setaf 3)starting server$(tput sgr0)"
+	trap 'print_error $LINENO' ERR
+	print_begin "starting server"
 	sudo su $USER -c "pm2 start $API/app/server.js"
 	sudo su $USER -c "pm2 save"
-	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
+	print_success
 }
 
 main() {
-	trap 'print_error $LINENO' ERR
 	setup_build_tools
 	setup_node_js
 	setup_mongo_db
@@ -115,6 +122,14 @@ main() {
 	setup_server
 	startup_server
 	exit 0
+}
+
+print_begin(){
+	echo && echo "$(tput setaf 3)$1$(tput sgr0)"
+}
+
+print_success(){
+    echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
 print_error() {
