@@ -52,7 +52,7 @@ passport.use(new BasicStrategy(
 // 		});
 // 	});
 
-app.post('/',
+router.post('/',
 	passport.authenticate('basic', {
 		failWithError: true
 	}),
