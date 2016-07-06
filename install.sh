@@ -113,10 +113,6 @@ startup_server(){
 }
 
 main() {
-	id $USER
-	if [ $? = 1 ]; then
-		sudo adduser --no-create-home --disabled-password --gecos "api server user" $USER
-	fi
 	setup_build_tools
 	setup_node_js
 	setup_mongo_db
@@ -139,6 +135,10 @@ print_error() {
     echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
+id $USER
+if [ $? = 1 ]; then
+	sudo adduser --no-create-home --disabled-password --gecos "api server user" $USER
+fi
 set -e
 main
 
