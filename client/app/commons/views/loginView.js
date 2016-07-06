@@ -53,8 +53,6 @@ define(["backbone", "jquery", "bootstrap", "./PageView",
             "password": self.principal.get("password")
           }),
           success: function(res) {
-            // self.principal.set('token', res.token);
-            // self.principal.save();
             Backbone.history.loadUrl(self.resource);
           },
           error: function(err) {
