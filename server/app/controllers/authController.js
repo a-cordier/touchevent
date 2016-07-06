@@ -31,6 +31,7 @@ router.post('/', function(req, res) {
 						var token = jwt.sign(user.toJSON(), cfg.secret, {
           					expiresInMinutes: 1440 // 24h.
         				});
+        				res.cookie('jwt', token, { maxAge: 900000, httpOnly: true })
         				res.status(200).send({
         					success: true,
         					message: 'Token gen.',
