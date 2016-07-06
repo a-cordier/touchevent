@@ -35,7 +35,8 @@ passport.use(new BasicStrategy(
 
 router.post('/',
 	passport.authenticate('basic', {
-		session: false
+		session: false,
+		failureRedirect: '/#login',
 	}),
 	function(req, res) {
 		var token = jwt.sign(req.user, cfg.secret, {
