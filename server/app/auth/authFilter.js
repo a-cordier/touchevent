@@ -45,6 +45,7 @@ var Filter = function(req, res, next) {
     }
     if (!user) {
       var payload = {}
+      logger.info("filter: " + req.params);
       if (req.params && req.params.resource) {
         payload.resource = req.params.resource
       }
