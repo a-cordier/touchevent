@@ -7,6 +7,7 @@ var logger = require('../util/logger');
 var IoServer = require('../io/ioServer');
 //var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
+var cfg = require('../cfg');
 // var cors = require('cors');
 
 // router.use(cors());
