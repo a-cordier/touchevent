@@ -41,6 +41,14 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   });
 }));
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 var Filter = function(req, res, next) {
   passport.authenticate('jwt', {
     session: false
