@@ -60,6 +60,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 // }
 
 module.exports =  function(req, res, next) {
+  logger.info('filter');
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
