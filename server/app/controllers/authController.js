@@ -33,26 +33,6 @@ passport.use(new BasicStrategy(
 	}
 ));
 
-// router.post('/',
-// 	passport.authenticate('basic', {
-// 		session: false
-// 	}),
-
-// 	function(req, res) {
-// 		logger.info("username: " + req.body.username);
-// 		var token = jwt.sign(req.user, cfg.secret, {
-// 			expiresInMinutes: 1440 // 24h.
-// 		});
-// 		res.cookie('jwt', token, {
-// 			maxAge: 900000,
-// 			httpOnly: true
-// 		})
-// 		return res.status(200).send({
-// 			success: true,
-// 			message: 'Token gen.'
-// 		});
-// 	}
-// );
 
 passport.serializeUser(function(user, done) {
   done(null, user);
