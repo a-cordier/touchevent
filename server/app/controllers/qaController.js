@@ -28,6 +28,34 @@ router.get('/', function(req, res, next) {
 	});
 });*/
 
+var opts = {}
+
+opts.jwtFromRequest = function(req) {
+  var token = null;
+  if (req && req.cookies) {
+    token = req.cookies.jwt;
+  }
+  return token;
+};
+
+opts.secretOrKey = cfg.secret;
+opts.audience = "touchevent.net";
+
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+  User.findOne({
+    username: jwt_payload.username
+  }, function(err, user) {
+    if (err) {
+      return done(err, false);
+    }
+    if (user) {
+      done(null, user);
+    } else {
+      done(null, false);
+    }
+  });
+}));
+
 router.get('/', function(req, res, next) {
 	passport.authenticate('jwt', {
 		session: false
