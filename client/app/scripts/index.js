@@ -10,8 +10,18 @@ define(["jquery", "backbone", "underscore", "./loader"],
 			});
 			loader.start(function() {
 				loading.finish();
-				Backbone.history.navigate(Backbone.history.fragment, {trigger:true});
+				Backbone.history.navigate(Backbone.history.fragment, {
+					trigger: true
+				});
 				Backbone.history.start();
 			});
+		});
+		$.ajaxSetup({
+			cache: false,
+			statusCode: {
+				401: function() {
+					Backbone.history.navigate('login', {trigger: true});
+				}
+			}
 		});
 	});

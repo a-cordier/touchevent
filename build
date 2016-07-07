@@ -109,8 +109,8 @@ setup_server() {
 start_server(){
 	trap 'print_error $LINENO' ERR
 	print_begin "starting server"
-	sudo su $USER -c "pm2 start $API/app/server.js"
-	sudo su $USER -c "pm2 save"
+	sudo su -l $USER -c "pm2 start $API/app/server.js"
+	sudo su -l $USER -c "pm2 save"
 	print_success
 }
 
