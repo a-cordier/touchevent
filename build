@@ -130,6 +130,12 @@ create_user() {
 	print_success
 }
 
+deploy() {
+	git add . --all
+	git commit -m "$1"
+	git push origin dev
+}
+
 main() {
 	case "$1" in
 	    install)
@@ -150,8 +156,11 @@ main() {
 			restart_server
 			exit 0
 		;;
-		*)
-	        echo "Usage: {install|reload}"
+	    deploy)
+			deploy "$2"
+		;;
+	    *)
+	        echo "Usage: {install|deploy|reload}"
 	        exit 1
 	    ;;
 	esac
@@ -170,6 +179,6 @@ print_error() {
     echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
-main $1
+main "$1" "$2"
 
 

@@ -13,7 +13,8 @@ router.use(cors());
 /**
 Free zone
 **/
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
+	logger.info(JSON.stringify(next));
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
 	var criteria = req.query.criteria || {};
