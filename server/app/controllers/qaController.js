@@ -7,103 +7,10 @@ var logger = require('../util/logger');
 var IoServer = require('../io/ioServer');
 var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
-var cfg = require('../cfg');
-var passport = require('passport');
-var JwtStrategy = require('passport-jwt').Strategy;
-var User = require('../model/user');
-// var cors = require('cors');
 
-// router.use(cors());
-/*
-router.get('/', function(req, res, next) {
-	var page = req.query.page || 1;
-	var limit = req.query.limit || 20;
-	var criteria = req.query.criteria || {};
-	logger.info('getting qas - ', 'page:', page, ', limit:', limit);
-	Qa.paginate(criteria, {
-		'page': parseInt(page),
-		'limit': parseInt(limit),
-		'sort': {
-			created_at: -1
-		}
-	}, function(err, result) {
-		res.set('Content-Type', 'application/json');
-		res.send(200, result);
-	});
-});*/
-
-var opts = {}
-
-opts.jwtFromRequest = function(req) {
-	var token = null;
-	if (req && req.cookies) {
-		token = req.cookies.jwt;
-	}
-	return token;
-};
-
-opts.secretOrKey = cfg.secret;
-opts.audience = "touchevent.net";
-
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-	User.findOne({
-		username: jwt_payload.username
-	}, function(err, user) {
-		if (err) {
-			return done(err, false);
-		}
-		if (user) {
-			done(null, user);
-		} else {
-			done(null, false);
-		}
-	});
-}));
-
-// router.get('/', function(req, res, next) {
-// 	logger.info("get qa");
-// 	passport.authenticate('jwt', {
-// 		session: false
-// 	}, function(err, user) {
-// 		if (err) {
-// 			logger.err(err);
-// 			return next(err);
-// 		}
-// 		if (!user) {
-// 			var payload = {}
-// 			if(req.params && req.params.resource){
-// 				payload.resource = req.params.resource
-// 			}
-// 			payload.message = 'authentication failure'
-// 			return res.status(401).send(payload);
-// 		}
-// 		req.logIn(user, function(err) {
-// 			logger.info('logIn');
-// 			if (err) {
-// 				return next(err);
-// 			}
-// 			var page = req.query.page || 1;
-// 			var limit = req.query.limit || 20;
-// 			var criteria = req.query.criteria || {};
-// 			logger.info('getting qas - ', 'page:', page, ', limit:', limit);
-// 			Qa.paginate(criteria, {
-// 				'page': parseInt(page),
-// 				'limit': parseInt(limit),
-// 				'sort': {
-// 					created_at: -1
-// 				}
-// 			}, function(err, result) {
-// 				res.set('Content-Type', 'application/json');
-// 				res.send(200, result);
-// 			});
-// 		});
-// 	})(req, res, next);
-
-// });
 
 router.get('/', filter, function(req, res, next) {
 	logger.info("get qa");
-	
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
 	var criteria = req.query.criteria || {};
