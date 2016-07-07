@@ -1,20 +1,18 @@
 /* TODO: require local modules into functions */
-define(["backbone", "backboneFilter", "commons/router", "jquery",
+define(["backbone", "backboneSubroute", "jquery",
    // "commons/io/ioClient",
     "./model/poll", "./views/pollDetailsView",
     "./model/pollCollection", "./views/pollAdminView",
     "./model/pollResult", "./views/pollResultView"
   ],
-  function(Backbone, BackboneFilter, BaseRouter, $,
+  function(Backbone, BackboneSubroute, $,
    // ioClient,
     Poll, PollDetailsView, PollCollection, PollAdminView, PollResult, PollResultView
   ) {
 
-    return BaseRouter.extend({
+    return BackboneSubroute.extend({
 
       initialize: function() {
-        BaseRouter.prototype.initialize.apply(this, arguments);
-      //  ioClient.registerViews(PollResultView);
       },
 
       routes: {
@@ -24,10 +22,6 @@ define(["backbone", "backboneFilter", "commons/router", "jquery",
         "": "poll"
       },
 
-      before: {
-        "admin(/)": "filter",
-        "admin/:id": "filter"
-      },
 
       /* Creates a new vote or edit vote depending on id */
       adminPoll: function(id) {
@@ -77,7 +71,13 @@ define(["backbone", "backboneFilter", "commons/router", "jquery",
 
       poll: function() {
         console.log("poll() triggered");
-      }
+      },
+
+      changePage: function(page) {
+        $('body').empty();
+        $('body').append($(page.el));
+        page.render();
+      },
 
     });
   });

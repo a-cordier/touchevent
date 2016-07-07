@@ -1,22 +1,21 @@
 /* TODO: require local modules into functions */
-define(["backbone", "backboneFilter", "commons/router", "jquery",
+define(["backbone", "backboneSubroute", "jquery",
     "commons/io/ioClient",
     "./views/qaSynthView",
     "./views/qaUserView", "./model/qa", "./views/qaDetailsView",
     "./views/qaAdminView", "./views/qaSpeakerView", "./model/qaCollection",
 
   ],
-  function(Backbone, BackboneFilter, BaseRouter, $,
+  function(Backbone, BackboneSubroute, $,
     ioClient,
     QaSynthView, QaUserView, Qa, QaDetailsView,
     QaAdminView, QaSpeakerView, QaCollection
   ) {
 
-    return BaseRouter.extend({
+    return BackboneSubroute.extend({
 
       initialize: function() {
         console.log("starting router: questions");
-        BaseRouter.prototype.initialize.apply(this, arguments);
       },
 
       routes: {
@@ -26,11 +25,6 @@ define(["backbone", "backboneFilter", "commons/router", "jquery",
         "regie(/)": "synth",
         "(/)": "qa",
         "": "qa"
-      },
-
-      before: {
-        "admin(/)": "filter",
-        "speaker(/)": "filter"
       },
 
       adminQas: function() {
@@ -106,7 +100,13 @@ define(["backbone", "backboneFilter", "commons/router", "jquery",
         self.changePage(new QaUserView({
           "qa": qa
         }));
-      }
-      
+      },
+
+      changePage: function(page) {
+        $('body').empty();
+        $('body').append($(page.el));
+        page.render();
+      },
+
     });
   });
