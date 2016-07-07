@@ -15,6 +15,7 @@ opts.jwtFromRequest = function(req) {
   if (req && req.cookies) {
     token = req.cookies.jwt;
   }
+  logger.info('token: ' + token); 
   return token;
 };
 
@@ -26,9 +27,11 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
     username: jwt_payload.username
   }, function(err, user) {
     if (err) {
+      logger.info(err);
       return done(err, false);
     }
     if (user) {
+      logger.info(user);
       done(null, user);
     } else {
       done(null, false);
