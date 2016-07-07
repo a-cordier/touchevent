@@ -75,7 +75,7 @@ var Filter = function(req, res, next) {
         payload.resource = req.params.resource
       }
       payload.message = 'authentication failure'
-      return res.send(payload);
+      return res.send(payload).end();
     }
     next();
   })(req, res, next);

@@ -29,6 +29,8 @@ router.get('/', function(req, res, next) {
 });*/
 
 router.get('/', filter, function(req, res) {
+	logger.info("qa route function req: " + JSON.stringify(req));
+	logger.info("qa route function res: " + JSON.stringify(res));
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
 	var criteria = req.query.criteria || {};
