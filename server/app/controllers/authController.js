@@ -54,6 +54,14 @@ passport.use(new BasicStrategy(
 // 	}
 // );
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 router.post('/', function(req, res, next) {
 	passport.authenticate('basic', {session:false}, function(err, user) {
 		if (err) {
