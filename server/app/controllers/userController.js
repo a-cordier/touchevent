@@ -3,9 +3,9 @@ var router = express.Router();
 var User = require('../model/user');
 var bcrypt = require('bcryptjs');
 var logger = require('../util/logger');
-var filter = require('../auth/authFilter');
+//var filter = require('../auth/authFilter');
 
-filter(router); // token auth
+// filter(router); // token auth
 router.get('/', function(req, res) {
 	User.find(function(err, users) {
 		res.set('Content-Type', 'application/json');
