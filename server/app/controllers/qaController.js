@@ -10,11 +10,8 @@ var sanitizer = require('../util/sanitizer');
 var cors = require('cors');
 
 router.use(cors());
-/**
-Free zone
-**/
+/*
 router.get('/', function(req, res, next) {
-	logger.info(JSON.stringify(next));
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
 	var criteria = req.query.criteria || {};
@@ -26,11 +23,31 @@ router.get('/', function(req, res, next) {
 			created_at: -1
 		}
 	}, function(err, result) {
-		//logger.info(JSON.stringify(result));
 		res.set('Content-Type', 'application/json');
 		res.send(200, result);
 	});
+});*/
+
+router.get('/', function(req, res, next) {
+	filter(req, res, next, function(req, res) {
+		var page = req.query.page || 1;
+		var limit = req.query.limit || 20;
+		var criteria = req.query.criteria || {};
+		logger.info('getting qas - ', 'page:', page, ', limit:', limit);
+		Qa.paginate(criteria, {
+			'page': parseInt(page),
+			'limit': parseInt(limit),
+			'sort': {
+				created_at: -1
+			}
+		}, function(err, result) {
+			//logger.info(JSON.stringify(result));
+			res.set('Content-Type', 'application/json');
+			res.send(200, result);
+		});
+	});
 });
+
 
 router.get('/:id', function(req, res) {
 	Qa.findOne({
@@ -44,9 +61,9 @@ router.get('/:id', function(req, res) {
 Authenticated REALM
 **/
 //filter(router); 
-	
+
 router.post('/', function(req, res) {
-	if (!req.body.question) 
+	if (!req.body.question)
 		return res.status(400).send({
 			message: 'bad request'
 		});
