@@ -35,6 +35,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
       logger.info(user);
       done(null, user);
     } else {
+      logger.info('user not found');
       done(null, false);
     }
   });
@@ -60,6 +61,7 @@ var Filter = function(req, res, next) {
       if (err) {
         return next(err);
       }
+      next();
     });
   })(req, res, next);
 }
