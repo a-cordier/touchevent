@@ -55,7 +55,7 @@ passport.use(new BasicStrategy(
 // );
 
 router.post('/', function(req, res, next) {
-	passport.authenticate('basic', function(err, user) {
+	passport.authenticate('basic', {session:false}, function(err, user) {
 		if (err) {
 			return next(err);
 		}
