@@ -46,8 +46,8 @@ var Filter = function(req, res, next, callback) {
     }
     if (!user) {
       var payload = {}
-      if (req.body.resource) {
-        payload.resource = req.body.resource
+      if (req.params && req.params.resource) {
+        payload.resource = req.params.resource
       }
       payload.message = 'authentication failure'
       return res.status(401).send(payload);
