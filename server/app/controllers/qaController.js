@@ -5,7 +5,7 @@ var router = express.Router();
 var Qa = require('../model/qa');
 var logger = require('../util/logger');
 var IoServer = require('../io/ioServer');
-var filter = require('../auth/authFilter');
+//var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
 var cors = require('cors');
 
@@ -46,6 +46,30 @@ router.get('/', filter, function(req, res) {
 		res.send(200, result);
 	});
 });
+
+function filter(req, res, next) {
+  passport.authenticate('jwt', {
+    session: false
+  }, function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      var payload = {}
+      if (req.params && req.params.resource) {
+        payload.resource = req.params.resource
+      }
+      payload.message = 'authentication failure';
+      return (res && res.status(401).send(payload)) || false;
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      next();
+    })(req, res, next);
+  });
+};
 
 
 router.get('/:id', function(req, res) {
