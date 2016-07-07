@@ -28,9 +28,9 @@ router.get('/', function(req, res, next) {
 	});
 });*/
 
-router.get('/', function(req, res) {
-	logger.info("qa route function req: " + JSON.stringify(req));
-	logger.info("qa route function res: " + JSON.stringify(res));
+router.get('/', filter, function(req, res) {
+	logger.info("qa route function req: " + (req !== undefined));
+	logger.info("qa route function res: " + (res !== undefined));
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
 	var criteria = req.query.criteria || {};
@@ -47,30 +47,30 @@ router.get('/', function(req, res) {
 	});
 });
 
-// function filter(req, res, next) {
-//   logger.info("qa route function req: " + JSON.stringify(req));
-//   passport.authenticate('jwt', {
-//     session: false
-//   }, function(err, user) {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!user) {
-//       var payload = {}
-//       if (req.params && req.params.resource) {
-//         payload.resource = req.params.resource
-//       }
-//       payload.message = 'authentication failure';
-//       return (res && res.status(401).send(payload)) || false;
-//     }
-//     req.logIn(user, function(err) {
-//       if (err) {
-//         return next(err);
-//       }
-//       next();
-//     })(req, res, next);
-//   });
-// };
+function filter(req, res, next) {
+  logger.info("qa route function req: " + (req !== undefined));
+  passport.authenticate('jwt', {
+    session: false
+  }, function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      var payload = {}
+      if (req.params && req.params.resource) {
+        payload.resource = req.params.resource
+      }
+      payload.message = 'authentication failure';
+      return (res && res.status(401).send(payload)) || false;
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      next();
+    })(req, res, next);
+  });
+};
 
 
 router.get('/:id', function(req, res) {
