@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
 	});
 });*/
 
-router.get('/', filter, function(req, res) {
+router.get('/', function(req, res) {
 	logger.info("qa route function req: " + JSON.stringify(req));
 	logger.info("qa route function res: " + JSON.stringify(res));
 	var page = req.query.page || 1;
