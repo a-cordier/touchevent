@@ -5,7 +5,7 @@ var router = express.Router();
 var Qa = require('../model/qa');
 var logger = require('../util/logger');
 var IoServer = require('../io/ioServer');
-var filter = require('../auth/authFilter');
+//var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
 // var cors = require('cors');
 
@@ -28,24 +28,39 @@ router.get('/', function(req, res, next) {
 	});
 });*/
 
-router.get('/', filter, function(req, res) {
-
-	logger.info("qa route function req: " + (req !== undefined));
-	logger.info("qa route function res: " + (res !== undefined));
-	var page = req.query.page || 1;
-	var limit = req.query.limit || 20;
-	var criteria = req.query.criteria || {};
-	logger.info('getting qas - ', 'page:', page, ', limit:', limit);
-	Qa.paginate(criteria, {
-		'page': parseInt(page),
-		'limit': parseInt(limit),
-		'sort': {
-			created_at: -1
+router.get('/', function(req, res, next) {
+	passport.authenticate('jwt', {
+		session: false
+	}, function(err, user) {
+		if (err) {
+			return next(err);
 		}
-	}, function(err, result) {
-		res.set('Content-Type', 'application/json');
-		res.send(200, result);
-	});
+		if (!user) {
+			return res.status(401).send({
+				message: 'authentication failure'
+			});
+		}
+		req.logIn(user, function(err) {
+			if (err) {
+				return next(err);
+			}
+			var page = req.query.page || 1;
+			var limit = req.query.limit || 20;
+			var criteria = req.query.criteria || {};
+			logger.info('getting qas - ', 'page:', page, ', limit:', limit);
+			Qa.paginate(criteria, {
+				'page': parseInt(page),
+				'limit': parseInt(limit),
+				'sort': {
+					created_at: -1
+				}
+			}, function(err, result) {
+				res.set('Content-Type', 'application/json');
+				res.send(200, result);
+			});
+		});
+	})(req, res, next);
+
 });
 
 
