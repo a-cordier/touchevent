@@ -33,53 +33,54 @@ passport.use(new BasicStrategy(
 	}
 ));
 
-router.post('/',
-	passport.authenticate('basic', {
-		session: false
-	}),
-	function(req, res) {
-		logger.info("username: " + req.body.username);
-		var token = jwt.sign(req.user, cfg.secret, {
-			expiresInMinutes: 1440 // 24h.
-		});
-		res.cookie('jwt', token, {
-			maxAge: 900000,
-			httpOnly: true
-		})
-		return res.status(200).send({
-			success: true,
-			message: 'Token gen.'
-		});
-	}
-);
-
-// router.post('/', function(req, res, next) {
-// 	passport.authenticate('basic', function(err, user, info) {
-// 		if (err) {
-// 			return next(err);
-// 		}
-// 		if (!user) {
-// 			return res.status(401).send({
-// 				message: 'authentication failure'
-// 			});
-// 		}
-// 		req.logIn(user, function(err) {
-// 			if (err) {
-// 				return next(err);
-// 			}
-// 			var token = jwt.sign(req.user, cfg.secret, {
-// 				expiresInMinutes: 1440 // 24h.
-// 			});
-// 			res.cookie('jwt', token, {
-// 				maxAge: 900000,
-// 				httpOnly: true
-// 			})
-// 			return res.status(200).send({
-// 				success: true,
-// 				message: 'Token gen.'
-// 			});
+// router.post('/',
+// 	passport.authenticate('basic', {
+// 		session: false
+// 	}),
+	
+// 	function(req, res) {
+// 		logger.info("username: " + req.body.username);
+// 		var token = jwt.sign(req.user, cfg.secret, {
+// 			expiresInMinutes: 1440 // 24h.
 // 		});
-// 	})(req, res, next);
-// });
+// 		res.cookie('jwt', token, {
+// 			maxAge: 900000,
+// 			httpOnly: true
+// 		})
+// 		return res.status(200).send({
+// 			success: true,
+// 			message: 'Token gen.'
+// 		});
+// 	}
+// );
+
+router.post('/', function(req, res, next) {
+	passport.authenticate('basic', function(err, user) {
+		if (err) {
+			return next(err);
+		}
+		if (!user) {
+			return res.status(401).send({
+				message: 'authentication failure'
+			});
+		}
+		req.logIn(user, function(err) {
+			if (err) {
+				return next(err);
+			}
+			var token = jwt.sign(user, cfg.secret, {
+				expiresInMinutes: 1440 // 24h.
+			});
+			res.cookie('jwt', token, {
+				maxAge: 900000,
+				httpOnly: true
+			})
+			return res.status(200).send({
+				success: true,
+				message: 'Token gen.'
+			});
+		});
+	})(req, res, next);
+});
 
 module.exports = router;
