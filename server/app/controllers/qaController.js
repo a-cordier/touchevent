@@ -66,6 +66,7 @@ router.get('/', function(req, res, next) {
 		session: false
 	}, function(err, user) {
 		if (err) {
+			logger.err(err);
 			return next(err);
 		}
 		if (!user) {
