@@ -69,9 +69,12 @@ router.get('/', function(req, res, next) {
 			return next(err);
 		}
 		if (!user) {
-			return res.status(401).send({
-				message: 'authentication failure'
-			});
+			var payload = {}
+			if(req.params && req.params.resource){
+				payload.resource = req.params.resource
+			}
+			payload.message = 'authentication failure'
+			return res.status(401).send(payload);
 		}
 		req.logIn(user, function(err) {
 			logger.info('logIn');

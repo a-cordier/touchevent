@@ -94,7 +94,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					console.log("page--");
 					this.page--;
 				}
-			    //var self = this;
+				//var self = this;
 				this.qas.fetch({
 					data: {
 						criteria: {
@@ -107,7 +107,12 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 						page: this.page,
 						limit: this.qas.getLimit()
 					},
-					reset: true
+					reset: true,
+					error: function(data, err) {
+						if (res.status === 403 || res.status === 401) {
+							console.log(res);
+						}
+					}
 				});
 				return this;
 			},
@@ -210,9 +215,9 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			render: function() {
-				for(var i in arguments){
+				for (var i in arguments) {
 					console.log(arguments[i]);
-					if(arguments[i].sync===true)
+					if (arguments[i].sync === true)
 						return this.sync();
 				}
 				this.total = this.qas.getTotal();
