@@ -108,7 +108,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 						limit: this.qas.getLimit()
 					},
 					reset: true,
-					error: function(data, err) {
+					error: function(res) {
 						if (res.status === 403 || res.status === 401) {
 							console.log(res);
 						}
