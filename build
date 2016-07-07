@@ -68,10 +68,12 @@ install_files(){
 		sudo mkdir -p "$WWW"
 	fi
 	sudo cp -r ./client/app/* "$WWW"
+	sudo chown -R "$USER" "$WWW"
 	if [ ! -d "$API" ]; then
 		sudo mkdir -p "$API"
 	fi
 	sudo cp -r ./server/* "$API"
+	sudo chown -R "$USER" "$API"
 	sudo echo && echo "$(tput setaf 2)OK$(tput sgr0)"
 }
 
