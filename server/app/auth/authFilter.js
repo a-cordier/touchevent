@@ -60,6 +60,9 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 // }
 
 var Filter = function(req, res, next) {
+  logger.info("req: " + JSON.stringify(req));
+  logger.info("res: " + JSON.stringify(res));
+  logger.info("next: " + JSON.stringify(next));
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
