@@ -131,7 +131,6 @@ create_user() {
 }
 
 deploy() {
-        echo "$1"
 	git add . --all
 	git commit -m "$1"
 	git push origin dev
@@ -158,7 +157,6 @@ main() {
 			exit 0
 		;;
 	    deploy)
-			echo "$2"
 			deploy "$2"
 		;;
 	    *)
