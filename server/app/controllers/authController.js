@@ -37,7 +37,7 @@ passport.use(new BasicStrategy(
 // 	passport.authenticate('basic', {
 // 		session: false
 // 	}),
-	
+
 // 	function(req, res) {
 // 		logger.info("username: " + req.body.username);
 // 		var token = jwt.sign(req.user, cfg.secret, {
@@ -66,6 +66,7 @@ router.post('/', function(req, res, next) {
 		}
 		req.logIn(user, function(err) {
 			if (err) {
+				logger.error(err);
 				return next(err);
 			}
 			var token = jwt.sign(user, cfg.secret, {
@@ -75,7 +76,7 @@ router.post('/', function(req, res, next) {
 				maxAge: 900000,
 				httpOnly: true
 			})
-			return res.status(200).send({
+			res.status(200).send({
 				success: true,
 				message: 'Token gen.'
 			});
