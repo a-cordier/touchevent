@@ -8,6 +8,9 @@ var IoServer = require('../io/ioServer');
 //var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
 var cfg = require('../cfg');
+var passport=require('passport');
+var JwtStrategy = require('passport-jwt').Strategy;
+var User = require('../model/user');
 // var cors = require('cors');
 
 // router.use(cors());
