@@ -11,12 +11,11 @@ var User = require('../model/user');
 var opts = {}
 
 opts.jwtFromRequest = function(req) {
-    var token = null;
-    if (req && req.cookies)
-    {
-        token = req.cookies.jwt;
-    }
-    return token;
+  var token = null;
+  if (req && req.cookies) {
+    token = req.cookies.jwt;
+  }
+  return token;
 };
 
 opts.secretOrKey = cfg.secret;
@@ -37,7 +36,30 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   });
 }));
 
-var Filter = function(req, res, next, callback) {
+// var Filter = function(req, res, next) {
+//   passport.authenticate('jwt', {
+//     session: false
+//   }, function(err, user) {
+//     if (err) {
+//       return next(err);
+//     }
+//     if (!user) {
+//       var payload = {}
+//       if (req.params && req.params.resource) {
+//         payload.resource = req.params.resource
+//       }
+//       payload.message = 'authentication failure'
+//       return res.status(401).send(payload);
+//     }
+//     req.logIn(user, function(err) {
+//       if (err) {
+//         return next(err);
+//       }
+//     });
+//   })(req, res, next);
+// }
+
+var Filter = function(req, res, next) {
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
@@ -52,14 +74,7 @@ var Filter = function(req, res, next, callback) {
       payload.message = 'authentication failure'
       return res.status(401).send(payload);
     }
-    req.logIn(user, function(err) {
-      if (err) {
-        return next(err);
-      }
-      logger.info('req.body.user.username: ' + req.body.user.username);
-      logger.info('user.username: ' + user.username);
-      callback(req, res);
-    });
+    next();
   })(req, res, next);
 }
 

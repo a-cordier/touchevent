@@ -28,23 +28,20 @@ router.get('/', function(req, res, next) {
 	});
 });*/
 
-router.get('/', function(req, res, next) {
-	filter(req, res, next, function(req, res) {
-		var page = req.query.page || 1;
-		var limit = req.query.limit || 20;
-		var criteria = req.query.criteria || {};
-		logger.info('getting qas - ', 'page:', page, ', limit:', limit);
-		Qa.paginate(criteria, {
-			'page': parseInt(page),
-			'limit': parseInt(limit),
-			'sort': {
-				created_at: -1
-			}
-		}, function(err, result) {
-			//logger.info(JSON.stringify(result));
-			res.set('Content-Type', 'application/json');
-			res.send(200, result);
-		});
+router.get('/', filter, function(req, res) {
+	var page = req.query.page || 1;
+	var limit = req.query.limit || 20;
+	var criteria = req.query.criteria || {};
+	logger.info('getting qas - ', 'page:', page, ', limit:', limit);
+	Qa.paginate(criteria, {
+		'page': parseInt(page),
+		'limit': parseInt(limit),
+		'sort': {
+			created_at: -1
+		}
+	}, function(err, result) {
+		res.set('Content-Type', 'application/json');
+		res.send(200, result);
 	});
 });
 
