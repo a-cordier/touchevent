@@ -65,9 +65,11 @@ module.exports =  function(req, res, next) {
     session: false
   }, function(err, user) {
     if (err) {
+      logger.error(err);
       return next(err);
     }
     if (!user) {
+      logger.error('user not found');
       var payload = {}
       if (req.params && req.params.resource) {
         payload.resource = req.params.resource
@@ -76,6 +78,7 @@ module.exports =  function(req, res, next) {
       return (res && res.status(401).send(payload)) || false;
     }
     req.logIn(user, function(err) {
+      logger.info('login');
       if (err) {
         return next(err);
       }
