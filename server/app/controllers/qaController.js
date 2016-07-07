@@ -61,6 +61,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 }));
 
 router.get('/', function(req, res, next) {
+	logger.info("get qa");
 	passport.authenticate('jwt', {
 		session: false
 	}, function(err, user) {
@@ -73,6 +74,7 @@ router.get('/', function(req, res, next) {
 			});
 		}
 		req.logIn(user, function(err) {
+			logger.info('logIn');
 			if (err) {
 				return next(err);
 			}
