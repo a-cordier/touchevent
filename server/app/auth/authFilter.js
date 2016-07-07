@@ -60,10 +60,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 // }
 
 module.exports =  function(req, res, next) {
-  logger.info("req: " + JSON.stringify(req));
-  logger.info("res: " + JSON.stringify(res));
-  logger.info("next: " + JSON.stringify(next));
-  return passport.authenticate('jwt', {
+  passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
     if (err) {
@@ -82,7 +79,7 @@ module.exports =  function(req, res, next) {
         return next(err);
       }
       next();
-    });
+    })(req, res, next);
   });
 };
 
