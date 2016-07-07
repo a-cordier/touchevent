@@ -48,6 +48,7 @@ router.get('/', filter, function(req, res) {
 });
 
 function filter(req, res, next) {
+  console.log('filter');
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
