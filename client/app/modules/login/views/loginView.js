@@ -1,4 +1,4 @@
-define(["backbone", "jquery", "bootstrap", "./PageView",
+define(["backbone", "jquery", "bootstrap", "commons/views/PageView",
     "underscore", "text", "text!../templates/login.html"
   ],
   function(Backbone, $, bootstrap, PageView, _, text, _template) {
