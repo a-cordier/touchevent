@@ -158,9 +158,10 @@ main() {
 			exit 0
 		;;
 	    deploy)
-			deploy "$1"
+			echo "$2"
+			deploy "$2"
 		;;
-		*)
+	    *)
 	        echo "Usage: {install|deploy|reload}"
 	        exit 1
 	    ;;
@@ -180,6 +181,6 @@ print_error() {
     echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
-main $1
+main $1 $2
 
 
