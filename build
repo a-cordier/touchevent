@@ -181,6 +181,6 @@ print_error() {
     echo "$(tput setaf 1)Error on line $1$(tput sgr0)"
 }
 
-main $1 $2
+main "$1" "$2"
 
 
