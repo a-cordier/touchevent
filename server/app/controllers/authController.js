@@ -54,7 +54,6 @@ router.post('/', function(req, res, next) {
 		}
 		req.logIn(user, function(err) {
 			if (err) {
-				logger.error(err);
 				return next(err);
 			}
 			var token = jwt.sign(user, cfg.secret, {
