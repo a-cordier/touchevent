@@ -9,7 +9,16 @@ var User = require('../model/user');
 
 
 var opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
+
+opts.jwtFromRequest = function(req) {
+    var token = null;
+    if (req && req.cookies)
+    {
+        token = req.cookies.jwt;
+    }
+    return token;
+};
+
 opts.secretOrKey = cfg.secret;
 opts.audience = "touchevent.net";
 
