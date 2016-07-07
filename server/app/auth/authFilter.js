@@ -83,7 +83,7 @@ var Filter = function(req, res, next) {
       }
       next();
     });
-  })(req, res, next);
+  });
 }
 
 // var Filter = function(router) {
