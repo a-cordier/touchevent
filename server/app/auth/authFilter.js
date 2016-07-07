@@ -59,31 +59,24 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 //   })(req, res, next);
 // }
 
-module.exports =  function(req, res, next) {
+module.exports = function(req, res, next) {
   logger.info('filter');
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
     if (err) {
-      logger.error(err);
       return next(err);
     }
     if (!user) {
-      logger.error('user not found');
-      var payload = {}
-      if (req.params && req.params.resource) {
-        payload.resource = req.params.resource
-      }
-      payload.message = 'authentication failure';
-      return (res && res.status(401).send(payload)) || false;
+      return res.status(401).send({
+        message: 'authentication failure'
+      });
     }
     req.logIn(user, function(err) {
-      logger.info('login');
       if (err) {
         return next(err);
       }
       next();
-    })(req, res, next);
-  });
+    });
+  })(req, res, next);
 };
-

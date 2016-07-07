@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
 });*/
 
 router.get('/', filter, function(req, res) {
+
 	logger.info("qa route function req: " + (req !== undefined));
 	logger.info("qa route function res: " + (res !== undefined));
 	var page = req.query.page || 1;
