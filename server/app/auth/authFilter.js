@@ -36,47 +36,27 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   });
 }));
 
-// var Filter = function(req, res, next) {
-//   passport.authenticate('jwt', {
-//     session: false
-//   }, function(err, user) {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!user) {
-//       var payload = {}
-//       if (req.params && req.params.resource) {
-//         payload.resource = req.params.resource
-//       }
-//       payload.message = 'authentication failure'
-//       return res.status(401).send(payload);
-//     }
-//     req.logIn(user, function(err) {
-//       if (err) {
-//         return next(err);
-//       }
-//     });
-//   })(req, res, next);
-// }
+var Filter = function(req, res, next) {
+  passport.authenticate('jwt', {
+    session: false
+  }, function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      var payload = {}
+      if (req.params && req.params.resource) {
+        payload.resource = req.params.resource
+      }
+      payload.message = 'authentication failure'
+      return res.status(401).send(payload);
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+    });
+  })(req, res, next);
+}
 
-// module.exports = function(req, res, next) {
-//   logger.info('filter');
-//   passport.authenticate('jwt', {
-//     session: false
-//   }, function(err, user) {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!user) {
-//       return res.status(401).send({
-//         message: 'authentication failure'
-//       });
-//     }
-//     req.logIn(user, function(err) {
-//       if (err) {
-//         return next(err);
-//       }
-//       next();
-//     });
-//   })(req, res, next);
-// };
+module.exports = Filter;
