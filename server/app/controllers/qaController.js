@@ -5,7 +5,7 @@ var router = express.Router();
 var Qa = require('../model/qa');
 var logger = require('../util/logger');
 var IoServer = require('../io/ioServer');
-//var filter = require('../auth/authFilter');
+var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
 var cors = require('cors');
 
@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
 	});
 });*/
 
-router.get('/', require('../auth/authFilter'), function(req, res) {
+router.get('/', filter, function(req, res) {
 	logger.info("qa route function req: " + JSON.stringify(req));
 	logger.info("qa route function res: " + JSON.stringify(res));
 	var page = req.query.page || 1;
