@@ -42,24 +42,6 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 }));
 
 var Filter = function(req, res, next) {
-  passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    logger.info('authenticating request using jwtStrategy');
-    User.findOne({
-      username: jwt_payload.username
-    }, function(err, user) {
-      if (err) {
-        logger.info(err);
-        return done(err, false);
-      }
-      if (user) {
-        logger.info(user);
-        return done(null, user);
-      } else {
-        logger.info('user not found');
-        return done(null, false);
-      }
-    });
-  }));
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
