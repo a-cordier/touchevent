@@ -10,10 +10,10 @@ var router = express.Router();
 
 passport.use(new BasicStrategy(
 	function(username, password, done) {
-		logger.info('authenticating request using basicStrategy');
 		User.findOne({
 			username: username
 		}, function(err, user) {
+			logger.info('authenticating request using basicStrategy');
 			if (err) {
 				return done(err);
 			}
