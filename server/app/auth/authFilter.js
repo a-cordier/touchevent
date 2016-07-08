@@ -8,7 +8,7 @@ var JwtStrategy = require('passport-jwt').Strategy;
 var User = require('../model/user');
 
 
-var opts = {}
+var opts = {};
 
 opts.jwtFromRequest = function(req) {
   var token = null;
@@ -23,10 +23,10 @@ opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+  logger.info('authenticating request using jwtStrategy');
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
-    logger.info('authenticating request using jwtStrategy');
     if (err) {
       logger.info(err);
       return done(err, false);
