@@ -41,40 +41,50 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   });
 }));
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-
 var Filter = function(req, res, next) {
-    passport.authenticate('jwt', {
-      session: false
+  passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+    logger.info('authenticating request using jwtStrategy');
+    User.findOne({
+      username: jwt_payload.username
     }, function(err, user) {
-      logger.info("user: " + user);
+      if (err) {
+        logger.info(err);
+        return done(err, false);
+      }
+      if (user) {
+        logger.info(user);
+        return done(null, user);
+      } else {
+        logger.info('user not found');
+        return done(null, false);
+      }
+    });
+  }));
+  passport.authenticate('jwt', {
+    session: false
+  }, function(err, user) {
+    logger.info("user: " + user);
+    if (err) {
+      logger.error(err);
+      return next(err);
+    }
+    if (!user) {
+      var payload = {}
+      logger.info("filter: " + req.params);
+      if (req.params && req.params.resource) {
+        payload.resource = req.params.resource
+      }
+      payload.message = 'authentication failure'
+      return res.status(401).send(payload);
+    }
+    req.logIn(user, function(err) {
       if (err) {
         logger.error(err);
         return next(err);
       }
-      if (!user) {
-        var payload = {}
-        logger.info("filter: " + req.params);
-        if (req.params && req.params.resource) {
-          payload.resource = req.params.resource
-        }
-        payload.message = 'authentication failure'
-        return res.status(401).send(payload);
-      }
-      req.logIn(user, function(err) {
-        if (err) {
-          logger.error(err);
-          return next(err);
-        }
-        next();
-      });
-    })(req, res, next);
+      next();
+    });
+  })(req, res, next);
 }
 
 module.exports = Filter;
