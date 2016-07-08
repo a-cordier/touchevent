@@ -23,7 +23,7 @@ opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-  logger.info('jwt_payload: ' + jwt_payload);
+  logger.info('authenticating request using jwtStrategy');
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
