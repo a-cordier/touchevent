@@ -15,7 +15,7 @@ opts.jwtFromRequest = function(req) {
   if (req && req.cookies) {
     token = req.cookies.jwt;
   }
-  logger.info('token: ' + token); 
+  logger.info('token: ' + token);
   return token;
 };
 
@@ -50,28 +50,33 @@ passport.deserializeUser(function(user, done) {
 });
 
 var Filter = function(req, res, next) {
-  passport.authenticate('jwt', {
-    session: false
-  }, function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      var payload = {}
-      logger.info("filter: " + req.params);
-      if (req.params && req.params.resource) {
-        payload.resource = req.params.resource
-      }
-      payload.message = 'authentication failure'
-      return res.status(401).send(payload);
-    }
-    req.logIn(user, function(err) {
+  try {
+    passport.authenticate('jwt', {
+      session: false
+    }, function(err, user) {
       if (err) {
         return next(err);
       }
-      next();
-    });
-  })(req, res, next);
+      if (!user) {
+        var payload = {}
+        logger.info("filter: " + req.params);
+        if (req.params && req.params.resource) {
+          payload.resource = req.params.resource
+        }
+        payload.message = 'authentication failure'
+        return res.status(401).send(payload);
+      }
+      req.logIn(user, function(err) {
+        if (err) {
+          return next(err);
+        }
+        next();
+      });
+    })(req, res, next);
+  } catch (err) {
+    logger.error(err);
+    throw err;
+  }
 }
 
 module.exports = Filter;
