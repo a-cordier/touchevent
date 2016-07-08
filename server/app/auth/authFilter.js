@@ -50,11 +50,11 @@ passport.deserializeUser(function(user, done) {
 });
 
 var Filter = function(req, res, next) {
-  try {
     passport.authenticate('jwt', {
       session: false
     }, function(err, user) {
       if (err) {
+        logger.error(err);
         return next(err);
       }
       if (!user) {
@@ -68,15 +68,12 @@ var Filter = function(req, res, next) {
       }
       req.logIn(user, function(err) {
         if (err) {
+          logger.error(err);
           return next(err);
         }
         next();
       });
     })(req, res, next);
-  } catch (err) {
-    logger.error(err);
-    throw err;
-  }
 }
 
 module.exports = Filter;
