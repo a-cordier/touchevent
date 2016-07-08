@@ -13,7 +13,7 @@ opts.jwtFromRequest = function(req) {
   if (req && req.cookies) {
     token = req.cookies.jwt;
   }
-  logger.info('token (cookie): ' + token);
+  logger.info('jwtFromRequest::token: ' + token); // shown
   return token;
 };
 
@@ -21,7 +21,7 @@ opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-  logger.info('authenticating request using jwtStrategy');
+  logger.info('authenticating request using jwtStrategy'); // not shown
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
@@ -43,19 +43,18 @@ var Filter = function(req, res, next) {
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
-    logger.info("user: " + user);
     if (err) {
       logger.error(err);
       return next(err);
     }
     if (!user) {
       var payload = {}
-      logger.info("filter: " + req.params);
+      logger.info("filter::(!user) " + user);
       if (req.params && req.params.resource) {
         payload.resource = req.params.resource
       }
       payload.message = 'authentication failure'
-      return res.status(401).send(payload);
+      return res.status(401).send(payload); // response is sent
     }
     req.logIn(user, function(err) {
       if (err) {
