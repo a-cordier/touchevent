@@ -26,7 +26,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
     username: jwt_payload.username
   }, function(err, user) {
     if (err) {
-      logger.info(err);
+      logger.info('error: ' + err);
       return done(err, false);
     }
     if (user) {
@@ -49,7 +49,7 @@ var Filter = function(req, res, next) {
     }
     if (!user) {
       var payload = {}
-      logger.info("filter::(!user) " + user);
+      logger.info("filter::user " + user); // shows false
       if (req.params && req.params.resource) {
         payload.resource = req.params.resource
       }
