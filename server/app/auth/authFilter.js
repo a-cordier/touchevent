@@ -21,19 +21,19 @@ opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-  logger.info('authenticating request using jwtStrategy'); // not shown
+  logger.info('verify::authenticating request using jwtStrategy'); // not shown
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
     if (err) {
-      logger.info('error: ' + err);
+      logger.info('verify::error: ' + err); // not shown
       return done(err, false);
     }
     if (user) {
-      logger.info('user: ' + user); 
+      logger.info('verify::user: ' + user);  // not shown
       return done(null, user); 
     } else {
-      logger.info('user not found'); //not shown
+      logger.info('verify: user not found'); //not shown
       return done(null, false);
     }
   });
@@ -55,14 +55,14 @@ var Filter = function(req, res, next) {
       }
       payload.message = 'authentication failure'
       return res.status(401).send(payload); // response is sent
-    }
-    req.logIn(user, function(err) {
-      if (err) {
-        logger.error(err);
-        return next(err);
-      }
-      next();
-    });
+    } else next();
+    // req.logIn(user, function(err) {
+    //   if (err) {
+    //     logger.error(err);
+    //     return next(err);
+    //   }
+    //   next();
+    // });
   })(req, res, next);
 }
 
