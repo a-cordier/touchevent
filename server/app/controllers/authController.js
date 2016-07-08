@@ -8,31 +8,31 @@ var BasicStrategy = require('passport-http').BasicStrategy
 var router = express.Router();
 
 
-passport.use(new BasicStrategy(
-	function(username, password, done) {
-		User.findOne({
-			username: username
-		}, function(err, user) {
-			logger.info('authenticating request using basicStrategy');
-			if (err) {
-				return done(err);
-			}
-			if (!user) {
-				return done(null, false);
-			} else {
-				// Check if password matches
-				user.comparePassword(password, function(err, match) {
-					if (match && !err) {
-						// Create token if the password matched and no error was thrown
-						return done(null, user);
-					} else {
-						return done(null, false);
-					}
-				});
-			}
-		});
-	}
-));
+// passport.use(new BasicStrategy(
+// 	function(username, password, done) {
+// 		User.findOne({
+// 			username: username
+// 		}, function(err, user) {
+// 			logger.info('authenticating request using basicStrategy');
+// 			if (err) {
+// 				return done(err);
+// 			}
+// 			if (!user) {
+// 				return done(null, false);
+// 			} else {
+// 				// Check if password matches
+// 				user.comparePassword(password, function(err, match) {
+// 					if (match && !err) {
+// 						// Create token if the password matched and no error was thrown
+// 						return done(null, user);
+// 					} else {
+// 						return done(null, false);
+// 					}
+// 				});
+// 			}
+// 		});
+// 	}
+// ));
 
 
 passport.serializeUser(function(user, done) {
