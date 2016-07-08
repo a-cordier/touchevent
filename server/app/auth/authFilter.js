@@ -1,8 +1,6 @@
-var jwt = require('jsonwebtoken');
 var logger = require('../util/logger');
 var cfg = require('../cfg');
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 var passport = require('passport');
 var JwtStrategy = require('passport-jwt').Strategy;
 var User = require('../model/user');
@@ -32,10 +30,10 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
       return done(err, false);
     }
     if (user) {
-      logger.info(user);
-      return done(null, user);
+      logger.info('user: ' + user); 
+      return done(null, user); 
     } else {
-      logger.info('user not found');
+      logger.info('user not found'); //not shown
       return done(null, false);
     }
   });
