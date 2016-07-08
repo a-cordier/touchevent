@@ -53,6 +53,7 @@ var Filter = function(req, res, next) {
     passport.authenticate('jwt', {
       session: false
     }, function(err, user) {
+      logger.info("user: " + user);
       if (err) {
         logger.error(err);
         return next(err);
