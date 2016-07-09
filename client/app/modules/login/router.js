@@ -8,7 +8,7 @@ define(["backbone", "backboneSubroute", "jquery",
 
       routes: {
         "": "login",
-        "?resource=:resource" : "login"
+        "/:resource" : "login"
       },
 
       initialize: function() {},
