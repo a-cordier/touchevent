@@ -25,7 +25,6 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
-    logger.info('verify::hitting db');
     if (err) {
       return done(err);
     }
@@ -50,6 +49,9 @@ var Filter = function(req, res, next) {
     if (!user) {
       var payload = {}
       logger.info("filter::user " + user); // shows false
+      for(var i in request.params){
+        logger.info('param['+i+']='i);
+      }
       if (req.params && req.params.resource) {
         payload.resource = req.params.resource
       }
