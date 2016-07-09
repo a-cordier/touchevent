@@ -30,7 +30,9 @@ define(["commons/model/socketIoModel", "underscore", "./qa"],
       add: function(models, options) {
         SocketIoModel.prototype.add.call(this, models.items, options);
         this.total++;
+        console.log('add::total: ' + this.pages);
         this.updatePages();
+        console.log('add::pages: ' + this.pages);
       },
 
       remove: function(models, options) {
