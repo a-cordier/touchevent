@@ -5,7 +5,7 @@ define(["commons/model/socketIoModel", "underscore", "./qa"],
       model: Qa,
 
       initialize: function(options) {
-        SocketIoModelprototype.initialize.call(this, options);
+        SocketIoModel.prototype.initialize.call(this, options);
         this.limit = 15;
         var self = this;
         this.on('add', function(model) {
