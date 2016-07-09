@@ -19,6 +19,7 @@ define(["backbone", "backboneSubroute", "jquery",
       login: function(resource) {
         if (resource) {
           resource = resource.split("=")[1];
+          console.log(resource);
         }
         var principal = new Principal({
           _id: 1
