@@ -7,6 +7,8 @@ var Role = function(id, includes) {
 	self.filter = function(req, res, next) {
 		logger.info('my id: ' + self.id);
 		logger.info('my includes: ' + self.includes);
+		logger.info("user role: " + req.user.role);
+		logger.info("user name: " + req.user.username);
 		if (!req.user)
 			return res.status(401).send({
 				"message": "unauthorized"
