@@ -13,33 +13,34 @@ opts.jwtFromRequest = function(req) {
   if (req && req.cookies) {
     token = req.cookies.jwt;
   }
-  logger.info('jwtFromRequest::token: ' + token); // shown
+  logger.info('jwtFromRequest::token: ' + token); // shown: 'JWT <token_string>''
   return token;
 };
 
 opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
 
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+
+
+var Filter = function(req, res, next) {
+  passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   logger.info('verify::authenticating request using jwtStrategy'); // not shown
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
     if (err) {
-      logger.info('verify::error: ' + err); // not shown
+      logger.info('verify::error: ' + err); 
       return done(err, false);
     }
     if (user) {
-      logger.info('verify::user: ' + user);  // not shown
+      logger.info('verify::user: ' + user); 
       return done(null, user); 
     } else {
-      logger.info('verify: user not found'); //not shown
+      logger.info('verify: user not found'); 
       return done(null, false);
     }
   });
 }));
-
-var Filter = function(req, res, next) {
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {
@@ -54,15 +55,15 @@ var Filter = function(req, res, next) {
         payload.resource = req.params.resource
       }
       payload.message = 'authentication failure'
-      return res.status(401).send(payload); // response is sent
+      return res.status(401).send(payload); // 401 is sent
     } else next();
-    // req.logIn(user, function(err) {
-    //   if (err) {
-    //     logger.error(err);
-    //     return next(err);
-    //   }
-    //   next();
-    // });
+    req.logIn(user, function(err) {
+      if (err) {
+        logger.error(err);
+        return next(err);
+      }
+      next();
+    });
   })(req, res, next);
 }
 

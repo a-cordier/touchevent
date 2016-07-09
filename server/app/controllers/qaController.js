@@ -9,7 +9,7 @@ var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
 
 
-router.get('/', filter, function(req, res, next) {
+router.get('/', require('../auth/authFilter');, function(req, res, next) {
 	logger.info("get qa");
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
