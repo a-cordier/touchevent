@@ -24,7 +24,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				PageView.prototype.constructor.apply(this, arguments);
 			},
 
-			initialize: function() {
+			initialize: function(options) {
 				this.qas = new QaCollection();
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');

@@ -53,7 +53,7 @@ define(["backbone", "backboneSubroute", "jquery",
       speaker: function() {
         ioClient.join('speaker');
         var self = this;
-        var qas = new QaCollection();
+        var qas = new QaCollection(ioClient);
         qas.fetch({
           data: {
             criteria:  {
