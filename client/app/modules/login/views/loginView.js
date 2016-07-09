@@ -52,7 +52,7 @@ define(["backbone", "jquery", "bootstrap", "commons/views/PageView",
             Backbone.history.navigate(self.resource, {trigger:true});
           },
           error: function(err) {
-            console.log('auth error',err);
+            // TODO callback messages
             self.render();
           }
         });
