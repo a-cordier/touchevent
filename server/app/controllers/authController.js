@@ -43,7 +43,7 @@ passport.deserializeUser(function(user, done) {
 	done(null, user);
 });
 
-router.post('/', function(req, res, next) {
+router.get('/', function(req, res, next) {
 	passport.authenticate('basic', {
 		session: false
 	}, function(err, user) {
