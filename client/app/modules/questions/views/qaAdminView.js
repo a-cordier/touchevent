@@ -6,7 +6,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 	],
 	function(Backbone, PageView, ViewHolder,
 		_, text, _template, QaCollection, $) {
-		var QaAdminView = PageView.extend({
+		return PageView.extend({
 
 
 			name: "QaAdminView",
@@ -25,7 +25,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			initialize: function(options) {
-				this.qas = new QaCollection();
+				this.qas = options.qas;
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'sync');
@@ -76,11 +76,9 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				console.log('add triggered');
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
-					$('#total').html(this.total);
+					$('#total').html(this.qas.total);
 				} else {
-					this.sync({
-						reset: true
-					});
+					this.render();
 				}
 			},
 
@@ -207,13 +205,8 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			render: function() {
-				for (var i in arguments) {
-					console.log(arguments[i]);
-					if (arguments[i].sync === true)
-						return this.sync();
-				}
-				this.total = this.qas.getTotal();
-				this.setPageCount(this.qas.getPages());
+				this.total = this.qas.total;
+				this.setPageCount(this.qas.pages;
 				PageView.prototype.render.apply(this, [{
 					qas: this.qas.toJSON(),
 					total: this.total,
@@ -266,5 +259,4 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				return this;
 			}
 		});
-		return new QaAdminView(); // singleton
 	});

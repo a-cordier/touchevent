@@ -1,12 +1,13 @@
-define(["backbone", "underscore", "./qa"],
-  function(Backbone, _, Qa) {
-    return Backbone.Collection.extend({
+define(["commons/socketIoCollection", "underscore", "./qa"],
+  function(SocketIoCollection, _, Qa) {
+    return SocketIoCollection.extend({
 
       model: Qa,
 
       initialize: function(options) {
         this.limit = 15;
         this.total = 0;
+        this.pages = 1;
         var self = this;
         this.on('add', function(model) {
 
@@ -27,22 +28,24 @@ define(["backbone", "underscore", "./qa"],
         return response.docs;
       },
 
-      // add: function(models, options) {
-      //  // SocketIoModel.prototype.add.call(this, models.items, options);
-      //   //this.total++;
-      //   console.log('add::total: ' + this.total);
-      //   //this.updatePages();
-      //   console.log('add::pages: ' + this.pages);
-      // },
+      add: function(models, options) {
+        SocketIoModel.prototype.add.call(this, models.items, options);
+        this.total++;
+        console.log('add::total: ' + this.total);
+        this.updatePages();
+        console.log('add::pages: ' + this.pages);
+      },
 
-      // remove: function(models, options) {
-      //   //SocketIoModel.prototype.remove.call(this, models.items, options);
-      //   //this.total--;
-      //   //this.updatePages();
-      // },
+      remove: function(models, options) {
+        SocketIoModel.prototype.remove.call(this, models.items, options);
+        this.total--;
+        this.updatePages();
+      },
 
       updatePages: function() {
         this.pages = Math.ceil(this.total / this.limit);
+        if (this.pages === 0)
+          this.pages = 1;
       },
 
       getTotal: function() {
