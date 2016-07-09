@@ -17,7 +17,9 @@ define(["backbone", "backboneSubroute", "jquery",
        * @param callbackUrl: login success callback url
        */
       login: function(resource) {
-        console.log('resoruce', resource.split("=")[1]);
+        if (resource) {
+          resource = resource.split("=")[1];
+        }
         var principal = new Principal({
           _id: 1
         });
