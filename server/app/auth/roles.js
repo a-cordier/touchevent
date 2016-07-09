@@ -8,7 +8,8 @@ var Role = function(id, includes) {
 }
 
 Role.prototype.filter = function(req, res, next) {
-	logger.info('id: ' + this.id);
+	logger.info('my id: ' + this.id);
+	logger.info('my includes: ' + this.includes);
 	if (!req.user)
 		return res.status(401).send({
 			"message": "unauthorized"
@@ -24,5 +25,7 @@ var Roles = {
 	admin: new Role("admin", ["member"]),
 	member: new Role("member")
 };
+
+logger.info(JSON.stringify(Roles.admin));
 
 module.exports = Roles;
