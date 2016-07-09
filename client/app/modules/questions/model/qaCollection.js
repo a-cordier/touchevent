@@ -1,11 +1,10 @@
 define(["backbone", "underscore", "./qa"],
   function(Backbone, _, Qa) {
-    return Backbone.Model.extend({
+    return Backbone.Collection.extend({
 
       model: Qa,
 
       initialize: function(options) {
-        Backbone.Model.prototype.initialize.call(this, options);
         this.limit = 15;
         var self = this;
         this.on('add', function(model) {
