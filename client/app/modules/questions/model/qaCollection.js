@@ -5,7 +5,7 @@ define(["backbone", "underscore", "./qa"],
       model: Qa,
 
       initialize: function(options) {
-        //SocketIoModel.prototype.initialize.call(this, options);
+        Backbone.Model.prototype.initialize.call(this, options);
         this.limit = 15;
         var self = this;
         this.on('add', function(model) {
