@@ -1,8 +1,10 @@
 var logger = require('../util/logger');
 
-function Role(id, includes) {
+var Role = function(id, includes) {
 	this.id = id;
 	this.includes = includes || [];
+	logger.info(this.id);
+	logger.info(this.includes);
 }
 
 Role.prototype.filter = function(req, res, next) {
