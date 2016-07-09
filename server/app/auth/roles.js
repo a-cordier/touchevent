@@ -1,12 +1,11 @@
 var logger = require('../util/logger');
 
-var Role = function(id, includes) {
+function Role(id, includes) {
 	this.id = id;
 	this.includes = includes || [];
 }
 
 Role.prototype.filter = function(req, res, next) {
-	logger.info(JSON.stringify(this.prototype));
 	logger.info('id: ' + this.id);
 	if (!req.user)
 		return res.status(401).send({
@@ -17,7 +16,7 @@ Role.prototype.filter = function(req, res, next) {
 			"mesage": "forbidden"
 		});
 	return next();
-}
+};
 
 var Roles = {
 	admin: new Role("admin", ["member"]),
