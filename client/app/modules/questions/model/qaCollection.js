@@ -6,6 +6,7 @@ define(["backbone", "underscore", "./qa"],
 
       initialize: function(options) {
         this.limit = 15;
+        this.total = 0;
         var self = this;
         this.on('add', function(model) {
 
