@@ -6,6 +6,7 @@ var Role = function(id, includes) {
 }
 
 Role.prototype.filter = function(req, res, next) {
+	logger.info('id' + this.id);
 	if (!req.user)
 		return res.status(401).send({
 			"message": "unauthorized"
