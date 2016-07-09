@@ -1,11 +1,11 @@
-define(["commons/model/socketIoModel", "underscore", "./qa"],
-  function(SocketIoModel, _, Qa) {
-    return SocketIoModel.extend({
+define(["backbone", "underscore", "./qa"],
+  function(Backbone, _, Qa) {
+    return Backbone.Model.extend({
 
       model: Qa,
 
       initialize: function(options) {
-        SocketIoModel.prototype.initialize.call(this, options);
+        //SocketIoModel.prototype.initialize.call(this, options);
         this.limit = 15;
         var self = this;
         this.on('add', function(model) {
@@ -28,7 +28,7 @@ define(["commons/model/socketIoModel", "underscore", "./qa"],
       },
 
       add: function(models, options) {
-        SocketIoModel.prototype.add.call(this, models.items, options);
+       // SocketIoModel.prototype.add.call(this, models.items, options);
         this.total++;
         console.log('add::total: ' + this.pages);
         this.updatePages();
@@ -36,7 +36,7 @@ define(["commons/model/socketIoModel", "underscore", "./qa"],
       },
 
       remove: function(models, options) {
-        SocketIoModel.prototype.remove.call(this, models.items, options);
+        //SocketIoModel.prototype.remove.call(this, models.items, options);
         this.total--;
         this.updatePages();
       },
