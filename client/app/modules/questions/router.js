@@ -30,8 +30,8 @@ define(["backbone", "backboneSubroute", "jquery",
       adminQas: function() {
         ioClient.join('admin');
         var self = this;
-        this.changePage(QaAdminView);
         QaAdminView.sync();
+        //this.changePage(QaAdminView);
       },
 
       /* Creates a new vote or edit vote depending on id */
