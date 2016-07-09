@@ -7,7 +7,8 @@ define(["backbone", "backboneSubroute", "jquery",
     return Backbone.SubRoute.extend({
 
       routes: {
-        "(/)": "login",
+        "": "login",
+        "/": "login",
         "/:resource" : "login"
       },
 
