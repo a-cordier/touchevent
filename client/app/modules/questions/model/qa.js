@@ -1,7 +1,7 @@
-define([ "backbone", "underscore", "commons/model/errorHandlerModel"], 
-  function(Backbone, _, ErrorHandlerModel) {
+define([ "backbone", "underscore"], 
+  function(Backbone, _) {
   
-  return ErrorHandlerModel.extend({
+  return Backbone.Model.extend({
     defaults : {
     },
     idAttribute: "_id",
