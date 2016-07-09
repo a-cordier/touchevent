@@ -19,7 +19,8 @@ define(["jquery", "backbone", "underscore", "./loader"],
 		$.ajaxSetup({
 			cache: false,
 			statusCode: {
-				401: function() {
+				401: function(req, status, error) {
+					console.log(req.responseText);
 					Backbone.history.navigate('login', {trigger: true});
 				}
 			}
