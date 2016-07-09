@@ -106,7 +106,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 						},
 						page: this.page,
 						limit: this.qas.getLimit(),
-						resource: 'qas/admin'
+						resource: 'qa/admin'
 					},
 					reset: true,
 					error: function(res) {
