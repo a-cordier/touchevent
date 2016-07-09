@@ -100,7 +100,7 @@ setup_server() {
 	DB_COMMAND+='", password:"'
 	DB_COMMAND+=$HASH
 	DB_COMMAND+='", role: "admin"'
-	DB_COMMAND+='", registered_at: new Date()})'
+	DB_COMMAND+=', registered_at: new Date()})'
 	export LC_ALL=C
 	echo && echo "Mongodb command: $DB_COMMAND"
 	mongo $APP_NAME --eval "$DB_COMMAND"
@@ -121,8 +121,6 @@ restart_server(){
 	sudo service pm2-init.sh restart
 	print_success
 }
-
-
 
 create_user() {
 	print_begin "restarting server"
