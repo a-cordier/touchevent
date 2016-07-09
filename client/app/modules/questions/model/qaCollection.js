@@ -30,7 +30,7 @@ define(["backbone", "underscore", "./qa"],
       add: function(models, options) {
        // SocketIoModel.prototype.add.call(this, models.items, options);
         this.total++;
-        console.log('add::total: ' + this.pages);
+        console.log('add::total: ' + this.total);
         this.updatePages();
         console.log('add::pages: ' + this.pages);
       },
