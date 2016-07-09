@@ -50,10 +50,6 @@ define(["backbone", "jquery", "bootstrap", "commons/views/PageView",
           },
           success: function(res) {
             Backbone.history.navigate(self.resource, {trigger:true});
-          },
-          error: function(err) {
-            // TODO callback messages
-            self.render();
           }
         });
 

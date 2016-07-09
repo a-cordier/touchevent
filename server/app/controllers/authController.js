@@ -51,9 +51,11 @@ router.get('/', function(req, res, next) {
 			return next(err);
 		}
 		if (!user) {
-			return res.status(401).send({
-				message: 'authentication failure'
-			});
+			if (req.query && req.query.resource) {
+				payload.resource = req.query.resource
+			}
+			payload.message = 'authentication failure'
+			return res.status(401).send(payload); // 401 is sent
 		}
 		req.logIn(user, function(err) {
 			if (err) {
