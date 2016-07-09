@@ -21,6 +21,7 @@ opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   logger.info('verify::authenticating request using jwtStrategy');
+  logger.info(JSON.stringify(jwt_payload));
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
