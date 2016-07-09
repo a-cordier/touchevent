@@ -173,10 +173,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				}
 				qa.set('onAir', toggle);
 				qa.save();
-				// require('io/ioClient').synthTransition({
-				// 	'question': question,
-				// 	'qa': qa
-				// });
 			},
 
 			edit: function(event) {
