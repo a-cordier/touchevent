@@ -59,7 +59,7 @@ router.post('/', function(req, res, next) {
 			if (err) {
 				return next(err);
 			}
-			var token = jwt.sign(user, cfg.secret, {
+			var token = jwt.sign(user.toJson(), cfg.secret, {
 				expiresInMinutes: 1440 // 24h.
 			});
 			res.cookie('jwt', token, {
