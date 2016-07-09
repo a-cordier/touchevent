@@ -23,7 +23,7 @@ define(["jquery", "backbone", "underscore", "./loader"],
 					var login = "login";
 					var resource = req.responseJSON.resource;
 					if (resource) {
-						login += '/resource/' + resource;
+						login += '?resource=' + resource;
 					}
 					Backbone.history.navigate(login, {
 						trigger: true
