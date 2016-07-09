@@ -153,6 +153,7 @@ main() {
 	    ;;
 	    reload)
 			set -e
+			git pull origin "$1"
 			install_files
 			restart_server
 			exit 0
