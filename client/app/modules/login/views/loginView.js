@@ -47,8 +47,7 @@ define(["backbone", "jquery", "bootstrap", "commons/views/PageView",
             'Authorization': 'Basic ' + btoa(self.principal.get("username")+':'+self.principal.get("password"))
           },
           data: JSON.stringify({
-            "username": self.principal.get("username"),
-            "password": self.principal.get("password")
+            "resource": self.resource
           }),
           success: function(res) {
             Backbone.history.navigate(self.resource, {trigger:true});
