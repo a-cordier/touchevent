@@ -1,8 +1,8 @@
 var filter = function(role, req, res) {
 	if (!req.user)
-		return res.status(401).send("unauthorized");
+		return res.status(401).send({"message":"unauthorized"});
 	if (req.user.role !== role.id && role.includes.indexOf(req.user.role)<0)
-		return res.status(403).send("forbidden");
+		return res.status(403).send({"mesage": "forbidden"});
 	return next();
 };
 
