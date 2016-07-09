@@ -29,9 +29,15 @@ define(["backbone", "backboneSubroute", "jquery",
 
       adminQas: function() {
         ioClient.join('admin');
+        var qas = new QaCollection({socket:ioClient.socket});
+        qas.bindIo("qa-received", function(qa){
+          qas.add(qa, {
+            at: 0
+          });
+        });
         var self = this;
-        QaAdminView.sync();
-        this.changePage(QaAdminView);
+        //QaAdminView.sync();
+        this.changePage(new QaAdminView({qas: qas}));
       },
 
       /* Creates a new vote or edit vote depending on id */
@@ -50,26 +56,26 @@ define(["backbone", "backboneSubroute", "jquery",
         });
       },
 
-      speaker: function() {
-        ioClient.join('speaker');
-        var self = this;
-        var qas = new QaCollection(ioClient);
-        qas.fetch({
-          data: {
-            criteria:  {
-              state: "moderated"
-            }
-          },
-          success: function(models) {
-            console.log(JSON.stringify(models));
-            QaSpeakerView.setCollection(models);
-            self.changePage(QaSpeakerView);
-          },
-          error: function(err) {
-            console.log(err);
-          }
-        });
-      },
+      // speaker: function() {
+      //   ioClient.join('speaker');
+      //   var self = this;
+      //   var qas = new QaCollection(ioClient);
+      //   qas.fetch({
+      //     data: {
+      //       criteria:  {
+      //         state: "moderated"
+      //       }
+      //     },
+      //     success: function(models) {
+      //       console.log(JSON.stringify(models));
+      //       QaSpeakerView.setCollection(models);
+      //       self.changePage(QaSpeakerView);
+      //     },
+      //     error: function(err) {
+      //       console.log(err);
+      //     }
+      //   });
+      // },
 
       synth: function() {
         ioClient.join('screen');
