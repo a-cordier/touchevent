@@ -27,19 +27,19 @@ define(["backbone", "underscore", "./qa"],
         return response.docs;
       },
 
-      add: function(models, options) {
-       // SocketIoModel.prototype.add.call(this, models.items, options);
-        this.total++;
-        console.log('add::total: ' + this.total);
-        this.updatePages();
-        console.log('add::pages: ' + this.pages);
-      },
+      // add: function(models, options) {
+      //  // SocketIoModel.prototype.add.call(this, models.items, options);
+      //   //this.total++;
+      //   console.log('add::total: ' + this.total);
+      //   //this.updatePages();
+      //   console.log('add::pages: ' + this.pages);
+      // },
 
-      remove: function(models, options) {
-        //SocketIoModel.prototype.remove.call(this, models.items, options);
-        this.total--;
-        this.updatePages();
-      },
+      // remove: function(models, options) {
+      //   //SocketIoModel.prototype.remove.call(this, models.items, options);
+      //   //this.total--;
+      //   //this.updatePages();
+      // },
 
       updatePages: function() {
         this.pages = Math.ceil(this.total / this.limit);
