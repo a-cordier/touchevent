@@ -19,7 +19,7 @@ var Role = function(id, includes) {
 
 var Roles = {
 	admin: new Role("admin"),
-	member: new Role("member", ["admin"]) // admin extends member
+	member: new Role("member", ["admin"])  // admin extends member
 };
 
 module.exports = Roles;
