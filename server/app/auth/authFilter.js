@@ -56,14 +56,13 @@ var Filter = function(req, res, next) {
       }
       payload.message = 'authentication failure'
       return res.status(401).send(payload); // 401 is sent
-    } else next();
-    req.logIn(user, function(err) {
-      if (err) {
-        logger.error(err);
-        return next(err);
-      }
+     } 
+    // req.logIn(user, function(err) {
+    //   if (err) {
+    //     logger.error(err);
+    //     return next(err);
+    //   }
       next();
-    });
   })(req, res, next);
 }
 
