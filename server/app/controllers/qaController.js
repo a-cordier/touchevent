@@ -7,9 +7,10 @@ var logger = require('../util/logger');
 var IoServer = require('../io/ioServer');
 var filter = require('../auth/authFilter');
 var sanitizer = require('../util/sanitizer');
+var Roles = require('../auth/roles');
 
 
-router.get('/', filter, function(req, res, next) {
+router.get('/', filter, Roles.admin.filter, function(req, res, next) {
 	logger.info("get qa");
 	var page = req.query.page || 1;
 	var limit = req.query.limit || 20;
