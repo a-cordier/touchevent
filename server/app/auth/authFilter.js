@@ -19,28 +19,28 @@ opts.jwtFromRequest = function(req) {
 
 opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
-
-
-
-var Filter = function(req, res, next) {
-  passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   logger.info('verify::authenticating request using jwtStrategy'); // not shown
   User.findOne({
     username: jwt_payload.username
   }, function(err, user) {
     if (err) {
-      logger.info('verify::error: ' + err); 
+      logger.info('verify::error: ' + err);
       return done(err, false);
     }
     if (user) {
-      logger.info('verify::user: ' + user); 
-      return done(null, user); 
+      logger.info('verify::user: ' + user);
+      return done(null, user);
     } else {
-      logger.info('verify: user not found'); 
+      logger.info('verify: user not found');
       return done(null, false);
     }
   });
 }));
+
+
+var Filter = function(req, res, next) {
+
   passport.authenticate('jwt', {
     session: false
   }, function(err, user) {

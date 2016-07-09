@@ -70,24 +70,7 @@ router.post('/', function(req, res, next) {
 				success: true,
 				message: 'Token gen.'
 			});
-			passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-				logger.info('verify::authenticating request using jwtStrategy'); // not shown
-				User.findOne({
-					username: jwt_payload.username
-				}, function(err, user) {
-					if (err) {
-						logger.info('verify::error: ' + err);
-						return done(err, false);
-					}
-					if (user) {
-						logger.info('verify::user: ' + user);
-						return done(null, user);
-					} else {
-						logger.info('verify: user not found');
-						return done(null, false);
-					}
-				});
-			}));
+
 		});
 	})(req, res, next);
 });
