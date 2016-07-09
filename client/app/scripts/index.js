@@ -20,8 +20,14 @@ define(["jquery", "backbone", "underscore", "./loader"],
 			cache: false,
 			statusCode: {
 				401: function(req, status, error) {
-					console.log(req.responseJSON.resource);
-					Backbone.history.navigate('login', {trigger: true});
+					var login = "login";
+					var resource = req.responseJSON.resource;
+					if (resource) {
+						login += "?resource=" + resource;
+					}
+					Backbone.history.navigate(login, {
+						trigger: true
+					});
 				}
 			}
 		});

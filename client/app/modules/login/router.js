@@ -7,7 +7,8 @@ define(["backbone", "backboneSubroute", "jquery",
     return Backbone.SubRoute.extend({
 
       routes: {
-        "": "login"
+        "": "login",
+        "?resource=:resource" : "login"
       },
 
       initialize: function() {},
@@ -16,6 +17,7 @@ define(["backbone", "backboneSubroute", "jquery",
        * @param callbackUrl: login success callback url
        */
       login: function(resource) {
+        console.log('resoruce', resource);
         var principal = new Principal({
           _id: 1
         });
