@@ -1,4 +1,4 @@
-define(["commons/socketIoCollection", "underscore", "./qa"],
+define(["commons/model/socketIoCollection", "underscore", "./qa"],
   function(SocketIoCollection, _, Qa) {
     return SocketIoCollection.extend({
 
