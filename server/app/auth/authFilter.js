@@ -47,9 +47,9 @@ var Filter = function(req, res, next) {
       return next(err);
     }
     if (!user) {
-      var payload = {}
+      var payload = {};
       logger.info("filter::user " + user); // shows false
-      for (var i in request.params) {
+      for (var i in req.params) {
         logger.info('param[' + i + ']=' + i);
       }
       if (req.params && req.params.resource) {
