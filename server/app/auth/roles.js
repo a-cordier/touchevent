@@ -22,8 +22,8 @@ var Role = function(id, includes) {
 }
 
 var Roles = {
-	admin: new Role("admin", ["member"]),
-	member: new Role("member")
+	admin: new Role("admin"),
+	member: new Role("member", ["admin"]) // admin extends member
 };
 
 logger.info(JSON.stringify(Roles.admin));
