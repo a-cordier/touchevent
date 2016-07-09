@@ -97,8 +97,9 @@ setup_server() {
 		| awk -F: '{ print $2 }')
     DB_COMMAND='db.users.insert({username:"'
 	DB_COMMAND+=$ADMIN_USERNAME
-	DB_COMMAND+='",password:"'
+	DB_COMMAND+='", password:"'
 	DB_COMMAND+=$HASH
+	DB_COMMAND+='", role": "admin"'
 	DB_COMMAND+='", registered_at: new Date()})'
 	export LC_ALL=C
 	echo && echo "Mongodb command: $DB_COMMAND"
