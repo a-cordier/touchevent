@@ -76,7 +76,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				console.log('add triggered');
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
-					$('#total').html(++this.total);
+					$('#total').html(this.total);
 				} else {
 					this.sync({
 						reset: true
@@ -108,12 +108,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 						limit: this.qas.getLimit(),
 						resource: 'qa/admin'
 					},
-					reset: true,
-					error: function(res) {
-						if (res.status === 403 || res.status === 401) {
-							console.log(res);
-						}
-					}
+					reset: true
 				});
 				return this;
 			},
