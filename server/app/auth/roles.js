@@ -12,6 +12,7 @@ var Roles = {
 		id: "admin",
 		includes: ["member"],
 		filter: function(req, res, next) {
+			logger.info(JSON.stringify(this));
 			return filter(this, req, res, next);
 		}
 	},
