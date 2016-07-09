@@ -49,11 +49,11 @@ var Filter = function(req, res, next) {
     if (!user) {
       var payload = {};
       logger.info("filter::user " + user); // shows false
-      for (var i in req.params) {
-        logger.info('param[' + i + ']=' + i);
+      for (var i in req.query) {
+        logger.info('param[' + i + ']=' + req.query[i]);
       }
-      if (req.params && req.params.resource) {
-        payload.resource = req.params.resource
+      if (req.query && req.query.resource) {
+        payload.resource = req.query.resource
       }
       payload.message = 'authentication failure'
       return res.status(401).send(payload); // 401 is sent
