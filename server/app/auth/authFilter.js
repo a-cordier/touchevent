@@ -22,7 +22,7 @@ opts.secretOrKey = cfg.secret;
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 logger.info('verify::authenticating request using jwtStrategy');
   User.findOne({
-    username: jwt_payloadusername
+    username: jwt_payload.username
   }, function(err, user) {
    logger.info('verify::hitting db');
     if (err) {
