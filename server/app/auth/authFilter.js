@@ -20,20 +20,26 @@ opts.jwtFromRequest = function(req) {
 opts.secretOrKey = cfg.secret;
 //opts.audience = "touchevent.net";
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-  logger.info('verify::authenticating request using jwtStrategy'); // not shown
+logger.info('verify::authenticating request using jwtStrategy');
   User.findOne({
-    username: jwt_payload.username
+    username: jwt_payloadusername
   }, function(err, user) {
+   logger.info('verify::hitting db');
     if (err) {
-      logger.info('verify::error: ' + err);
-      return done(err, false);
+      return done(err);
     }
-    if (user) {
-      logger.info('verify::user: ' + user);
-      return done(null, user);
-    } else {
-      logger.info('verify: user not found');
+    if (!user) {
       return done(null, false);
+    } else {
+      // Check if password matches
+      user.comparePassword(password, function(err, match) {
+        if (match && !err) {
+          // Create token if the password matched and no error was thrown
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
+      });
     }
   });
 }));
@@ -56,13 +62,13 @@ var Filter = function(req, res, next) {
       }
       payload.message = 'authentication failure'
       return res.status(401).send(payload); // 401 is sent
-     } 
+    }
     // req.logIn(user, function(err) {
     //   if (err) {
     //     logger.error(err);
     //     return next(err);
-    //   }
-      next();
+    //   });
+    next();
   })(req, res, next);
 }
 
