@@ -51,7 +51,7 @@ define(["backbone", "jquery", "bootstrap", "commons/views/PageView",
             "password": self.principal.get("password")
           }),
           success: function(res) {
-            Backbone.history.loadUrl(self.resource);
+            Backbone.history.navigate(self.resource, {trigger:true});
           },
           error: function(err) {
             console.log('auth error',err);
