@@ -37,9 +37,8 @@ define(["backbone", "jquery", "bootstrap", "commons/views/PageView",
         console.log('trigger auth');
         var self = this;
         Backbone.ajax({
-          type: "POST",
+          type: "GET",
           url: "/api/auth",
-          contentType: 'application/json',
           xhrFields: {
             withCredentials: true
           },
