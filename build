@@ -99,7 +99,7 @@ setup_server() {
 	DB_COMMAND+=$ADMIN_USERNAME
 	DB_COMMAND+='", password:"'
 	DB_COMMAND+=$HASH
-	DB_COMMAND+='", role: admin'
+	DB_COMMAND+='", role: "admin"'
 	DB_COMMAND+='", registered_at: new Date()})'
 	export LC_ALL=C
 	echo && echo "Mongodb command: $DB_COMMAND"
