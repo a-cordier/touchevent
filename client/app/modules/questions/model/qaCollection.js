@@ -40,7 +40,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       remove: function(models, options) {
-        SocketIoCollection.prototype.remove.call(this, models.items, options);
+        // SocketIoCollection.prototype.remove.call(this, models.items, options);
         this.total--;
         this.updatePages();
       },

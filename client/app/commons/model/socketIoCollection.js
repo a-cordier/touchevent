@@ -4,7 +4,6 @@ define(["backbone", "underscore"],
 		return Backbone.Collection.extend({
 
 			initialize: function(options) {
-				console.log("parent", options.socket);
 				this.socket = options.socket;
 			},
 
