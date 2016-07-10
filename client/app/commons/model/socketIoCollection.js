@@ -12,7 +12,7 @@ define(["backbone", "underscore"],
 			},
 			add: function(model, options){
 				Backbone.Collection.prototype.add.apply(this, arguments);
-			}
+			},
 			bindIo: function(event, callback) {
 				this.socket.on(event, function(data) {
 					callback(data);
