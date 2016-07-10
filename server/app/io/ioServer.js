@@ -33,18 +33,6 @@ var IoServer = function(server) {
 				logger.info('joining room', room);
 				socket.join(room);
 			});
-			socket.on('qa-deleted', function(id) {
-				socket.in(Room.admin).emit('qa-deleted', id);
-			});
-			// socket.on('qa-validated', function(id) {
-			// 	socket.in(Room.speaker).emit('qa-validated', id);
-			// 	socket.in(Room.admin).emit('qa-validated', id);
-			// });
-			socket.on('synth-transition', function(data) {
-				socket.in(Room.speaker).emit('synth-transition', data);
-				socket.in(Room.screen).emit('synth-transition', data);
-				socket.in(Room.admin).emit('synth-transition', data);
-			});
 		});
 	}
 	return this;

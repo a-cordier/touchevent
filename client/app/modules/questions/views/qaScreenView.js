@@ -1,15 +1,14 @@
 /*
 Singleton view letting binding data from the ioClient
 */
-define(["backbone", "jquery", "commons/views/PageView", "commons/viewHolder",
-    "underscore", "text", "text!../templates/qa-synth.html"
+define(["backbone", "jquery", "commons/views/PageView",
+    "underscore", "text", "text!../templates/qa-screen.html"
   ],
-  function(Backbone, $, PageView, ViewHolder,
+  function(Backbone, $, PageView, 
     _, text, _template, 
     QaSynthCollection) {
     return PageView.extend({
 
-      name: "QaSynthView",
       
       template: _template,
 
@@ -27,7 +26,7 @@ define(["backbone", "jquery", "commons/views/PageView", "commons/viewHolder",
         _.bindAll(this, "add");
         _.bindAll(this, "remove");
         this.delegateEvents(this.events);
-        ViewHolder.registerView(this);
+
       },
 
       add: function(model){

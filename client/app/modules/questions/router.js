@@ -75,7 +75,7 @@ define(["backbone", "backboneSubroute", "jquery",
               }).set('onAir', qa.onAir);
             });
             qas.bindIo("qa:destroy", function(qa) {
-              qas.signal(qa);
+
             });
           }
         });

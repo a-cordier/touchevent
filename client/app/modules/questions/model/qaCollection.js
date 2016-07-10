@@ -48,10 +48,6 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
         }
       },
 
-      signal: function(model){
-         console.log('sending signal');
-      },
-
       updatePages: function() {
         this.pages = Math.ceil(this.total / this.limit);
         if (this.pages === 0)
