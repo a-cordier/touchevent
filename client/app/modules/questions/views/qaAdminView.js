@@ -71,6 +71,13 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				this.stopListening(this.qas, 'add');
 				this.qas.fetch({
 					data: {
+						criteria: {
+							$or: [{
+								state: 'moderated'
+							}, {
+								state: 'submitted'
+							}]
+						},
 						resource: Backbone.history.fragment,
 						page: page,
 						limit: self.qas.limit,
