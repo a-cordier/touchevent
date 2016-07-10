@@ -52,20 +52,20 @@ define(['backbone', 'commons/viewHolder',
 						ViewHolder.getView('QaAdminView').sync();
 						//self.views.QaAdminView.sync();
 				});
-				self.socket.on('synth-transition', function(data) {
-					var fragment = Backbone.history.fragment;
-					if (fragment.indexOf('regie') !== -1)
-						ViewHolder.getView('QaSynthView').update(data.question);
-						//self.views.QaSynthView.update(data.question);
-					if (fragment.indexOf('qa/speaker') !== -1) {
-						ViewHolder.getView('QaSpeakerView').syncModels(data.qa);
-						//self.views.QaSpeakerView.syncModels(data.qa);
-					} else if (fragment.indexOf('qa/admin') !== -1) {
-						ViewHolder.getView('QaAdminView').sync();
-						//self.views.QaAdminView.sync();
-					}
+				// self.socket.on('synth-transition', function(data) {
+				// 	var fragment = Backbone.history.fragment;
+				// 	if (fragment.indexOf('regie') !== -1)
+				// 		ViewHolder.getView('QaSynthView').update(data.question);
+				// 		//self.views.QaSynthView.update(data.question);
+				// 	if (fragment.indexOf('qa/speaker') !== -1) {
+				// 		ViewHolder.getView('QaSpeakerView').syncModels(data.qa);
+				// 		//self.views.QaSpeakerView.syncModels(data.qa);
+				// 	} else if (fragment.indexOf('qa/admin') !== -1) {
+				// 		ViewHolder.getView('QaAdminView').sync();
+				// 		//self.views.QaAdminView.sync();
+				// 	}
 
-				});
+				// });
 				self.socket.on('poll-updated', function(data) {
 					var fragment = Backbone.history.fragment;
 					if (fragment.indexOf('poll/result') !== -1) {
