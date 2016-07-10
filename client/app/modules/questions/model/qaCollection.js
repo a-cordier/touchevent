@@ -6,7 +6,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
 
       initialize: function(options) {
         console.log("initializing socket.io collection");
-        SocketIoCollection.prototype.initialize.call(this, arguments);
+        SocketIoCollection.prototype.initialize.apply(this, arguments);
         console.log("initialize", this.socket);
         this.limit = 15;
         this.total = 0;
