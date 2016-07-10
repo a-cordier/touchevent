@@ -32,6 +32,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       add: function(models, options) {
+        SocketIoCollection.prototype.add.apply(this, arguments);
         if (options && options.io) {
           this.total++;
           console.log('add::total: ' + this.total);
