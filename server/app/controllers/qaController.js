@@ -37,10 +37,6 @@ router.get('/:id', function(req, res) {
 		res.send(200, qa);
 	});
 });
-/**
-Authenticated REALM
-**/
-//filter(router); 
 
 router.post('/', function(req, res) {
 	if (!req.body.question)
@@ -62,7 +58,7 @@ router.post('/', function(req, res) {
 	});
 });
 
-router.put('/:id', function(req, res) {
+router.put('/:id', filter, Roles.admin.filter, function(req, res) {
 	Qa.findOne({
 		'_id': req.params.id
 	}, function(err, qa) {
@@ -103,7 +99,7 @@ router.put('/:id', function(req, res) {
 	});
 });
 
-router.delete('/:id', function(req, res) {
+router.delete('/:id', filter, Roles.admin.filter, function(req, res) {
 	Qa.findOne({
 		'_id': req.params.id
 	}, function(err, qa) {
