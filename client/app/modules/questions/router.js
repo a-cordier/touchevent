@@ -83,26 +83,35 @@ define(["backbone", "backboneSubroute", "jquery",
         });
       },
 
-      // speaker: function() {
-      //   ioClient.join('speaker');
-      //   var self = this;
-      //   var qas = new QaCollection(ioClient);
-      //   qas.fetch({
-      //     data: {
-      //       criteria:  {
-      //         state: "moderated"
-      //       }
-      //     },
-      //     success: function(models) {
-      //       console.log(JSON.stringify(models));
-      //       QaSpeakerView.setCollection(models);
-      //       self.changePage(QaSpeakerView);
-      //     },
-      //     error: function(err) {
-      //       console.log(err);
-      //     }
-      //   });
-      // },
+      speaker: function() {
+        ioClient.join('speaker');
+        var self = this;
+        var qas = new QaCollection(ioClient);
+        qas.fetch({
+          data: {
+            criteria:  {
+              state: "moderated"
+            }
+          },
+          success: function(models) {
+            changePage(new QaSpeakerView({
+              qas: qas
+            }));
+            qas.bindIo("qa-validated", function(qa) {
+              if (qa.state === 'moderated')
+                qas.add(qa, {
+                  at: 0,
+                  io: true
+                });
+              else if(qa.state === 'submitted')
+                qas.remove(qa);
+            });
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      },
 
       // synth: function() {
       //   ioClient.join('screen');

@@ -22,21 +22,21 @@ define(['backbone', 'commons/viewHolder',
 			var self = this;
 
 			this.socket.on('connect', function() {
-				// self.socket.on('qa-validated', function(qa) {
-				// 	var fragment = Backbone.history.fragment;
-				// 	if (fragment.indexOf('speaker') !== -1) {
-				// 		if (qa.state === 'moderated') {
-				// 			//self.views.QaSpeakerView.addModel(qa);
-				// 			ViewHolder.getView('QaSpeakerView').addModel(qa);
-				// 		} else if (qa.state === 'submitted') {
-				// 			ViewHolder.getView('QaSpeakerView').removeModel(qa);
-				// 			//self.views.QaSpeakerView.removeModel(qa);
-				// 		}
-				// 	} else if (fragment.indexOf('qa/admin') !== -1) {
-				// 		ViewHolder.getView('QaAdminView').sync();
-				// 		//self.views.QaAdminView.sync();
-				// 	}
-				// });
+				self.socket.on('qa-validated', function(qa) {
+					var fragment = Backbone.history.fragment;
+					if (fragment.indexOf('speaker') !== -1) {
+						if (qa.state === 'moderated') {
+							//self.views.QaSpeakerView.addModel(qa);
+							ViewHolder.getView('QaSpeakerView').addModel(qa);
+						} else if (qa.state === 'submitted') {
+							ViewHolder.getView('QaSpeakerView').removeModel(qa);
+							//self.views.QaSpeakerView.removeModel(qa);
+						}
+					} else if (fragment.indexOf('qa/admin') !== -1) {
+						ViewHolder.getView('QaAdminView').sync();
+						//self.views.QaAdminView.sync();
+					}
+				});
 				// self.socket.on('qa-received', function(qa) {
 				// 	console.log('qa-received');
 				// 	ViewHolder.getView('QaAdminView').getCollection().add(qa, {
