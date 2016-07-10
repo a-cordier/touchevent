@@ -42,6 +42,13 @@ define(["backbone", "backboneSubroute", "jquery",
         });
         qas.fetch({
           data: {
+            criteria: {
+              $or: [{
+                state: 'moderated'
+              }, {
+                state: 'submitted'
+              }]
+            },
             resource: Backbone.history.fragment,
             page: qas.page,
             limit: qas.limit,
