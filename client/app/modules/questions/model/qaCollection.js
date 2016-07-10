@@ -40,8 +40,9 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
 
       },
 
-      remove: function(models, options) {
+      remove: function(model, options) {
         SocketIoCollection.prototype.remove.apply(this, arguments);
+        console.log('remove', model);
         if (options && options.io) {
           this.total--;
           this.updatePages();
