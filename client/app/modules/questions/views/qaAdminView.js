@@ -29,7 +29,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'sync');
-				this.qas.bind('add', this.add);
+				this.listenTo(this.qas,'add', this.add);
 				// this.qas.bind('reset', this.render);
 				this.template = _template;
 				//this.delegateEvents(this.events);
