@@ -104,8 +104,10 @@ define(["backbone", "backboneSubroute", "jquery",
                   at: 0,
                   io: true
                 });
-              else if(qa.state === 'submitted')
+              else if (qa.state === 'submitted') {
+                console.log('change state to submitted');
                 qas.remove(qa);
+              }
             });
           },
           error: function(err) {
