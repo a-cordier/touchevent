@@ -16,8 +16,8 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				'click .edit': 'edit',
 				'click .validate': 'validate',
 				'click .delete': 'remove',
-				'click #power': 'powerSync',
-				'click #refresh': 'sync'
+				'click #sync': 'sync',
+				'click #refresh': 'refresh'
 			},
 
 			constructor: function(options) {
@@ -26,7 +26,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 			initialize: function(options) {
 				this.qas = options.qas;
-				this.listenTo(this.qas,'add', this.add);
+				this.listenTo(this.qas, 'add', this.add);
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'remove');
@@ -41,12 +41,12 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 
-			powerSync: function() {
+			sync: function() {
 				this.autoSync = !this.autoSync;
 				if (this.autoSync)
-					$('#power').removeClass('btn-info').addClass('btn-primary');
+					$('#sync').removeClass('btn-info').addClass('btn-primary');
 				else
-					$('#power').removeClass('btn-primary').addClass('btn-info');
+					$('#sync').removeClass('btn-primary').addClass('btn-info');
 			},
 
 			add: function(qa) {
@@ -59,10 +59,25 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				}
 			},
 
-			sync: function(event) {
+			refresh: function(event) {
 				this.page = 1;
 				this.waiting = 0;
 				this.render();
+			},
+
+			fetchPage: function(page) {
+				var self=this;
+				this.qas.fetch({
+					data: {
+						resource: Backbone.history.fragment,
+						page: page,
+						limit: self.qas.limit,
+					},
+					success: function(qas) {
+						self.page = page;
+						self.render();
+					}
+				});
 			},
 
 			validate: function(event) {
@@ -168,7 +183,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					detached: true
 				}]);
 				if (this.autoSync)
-					$('#power').removeClass('btn-info').addClass('btn-primary');
+					$('#sync').removeClass('btn-info').addClass('btn-primary');
 				this.qas.each(function(model) {
 					if (model.get('state') === 'moderated') {
 						var selector = [
