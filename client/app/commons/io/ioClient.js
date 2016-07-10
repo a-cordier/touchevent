@@ -37,15 +37,12 @@ define(['backbone', 'commons/viewHolder',
 						//self.views.QaAdminView.sync();
 					}
 				});
-				self.socket.on('qa-received', function(qa) {
-					console.log('qa-received');
-					ViewHolder.getView('QaAdminView').getCollection().add(qa, {
-						at: 0
-					});
-					// self.views.QaAdminView.getCollection().add(qa, {
-					// 	at: 0
-					// });
-				});
+				// self.socket.on('qa-received', function(qa) {
+				// 	console.log('qa-received');
+				// 	ViewHolder.getView('QaAdminView').getCollection().add(qa, {
+				// 		at: 0
+				// 	});
+				// });
 				self.socket.on('qa-deleted', function(id) {
 					var fragment = Backbone.history.fragment;
 					if (fragment.indexOf('speaker') !== -1)
