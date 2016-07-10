@@ -187,7 +187,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 			autoRemove: function(model, options){
 				console.log('autoRemove');
-				console.log(options);
+				console.log(model);
 				if(options && options.io){
 					if(this.page>this.pages)
 						this.page--;
