@@ -61,9 +61,9 @@ IoServer.synthTransition = function(data) {
 	if (!io)
 		throw new Error("Socket.io is not initalized");
 	logger.info('sending synth-transition event to sockets in ', Room.admin, 'room');
-	io.sockets.in(Room.speaker).emit('synth-transition', data);
-	io.sockets.in(Room.screen).emit('synth-transition', data);
-	io.sockets.in(Room.admin).emit('synth-transition', data);
+	io.sockets.in(Room.speaker).emit('qa:onair', data);
+	io.sockets.in(Room.screen).emit('qa:onair', data);
+	io.sockets.in(Room.admin).emit('qa:onair', data);
 };
 
 IoServer.validateQa = function(data) {

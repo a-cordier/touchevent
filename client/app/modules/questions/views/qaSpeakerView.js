@@ -21,6 +21,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				this.qas = options.qas;
 				this.listenTo(this.qas, 'add', this.add);
 				this.listenTo(this.qas, 'remove', this.remove);
+				this.listenTo(this.qas, 'change', this.render);
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'remove');
 				_.bindAll(this, 'add');
@@ -30,12 +31,10 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			add: function(model, merge) {
-				console.log('trigger add');
 				this.render();
 			},
 
 			remove: function(model) {
-				console.log('trigger remove');
 				this.render();
 			},
 
