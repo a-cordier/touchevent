@@ -218,7 +218,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					currentPage: self.page,
 					totalPages: self.pages,
 					onPageClicked: function(e, originalEvent, type, page) {
-						self.getPage(parseInt(page));
+						self.fetchPage(parseInt(page));
 					}
 				});
 				return this;
