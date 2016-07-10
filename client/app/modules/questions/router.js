@@ -152,7 +152,7 @@ define(["backbone", "backboneSubroute", "jquery",
               qas: qas
             }));
             qas.bindIo("qa:onair", function(qa) {
-              qas.remove(qas.findWhere(_id:qa._id));
+              qas.remove(qas.findWhere({_id:qa._id}));
               if(qa.onAir){
                 qas.add(qa);
               }
