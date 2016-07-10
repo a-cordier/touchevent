@@ -33,7 +33,8 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				_.bindAll(this, 'sync');
 				this.template = _template;
 				this.page = 1;
-				this.pages = 1;
+				this.pages = this.qas.pages;
+				this.total = this.qas.total;
 				this.waiting = 0;
 				this.autoSync = false;
 				ViewHolder.registerView(this);
@@ -156,6 +157,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 			render: function() {
 				this.total = this.qas.total;
+				this.pages = this.qas.pages;
 				PageView.prototype.render.apply(this, [{
 					qas: this.qas.toJSON(),
 					total: this.total,
@@ -202,7 +204,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					totalPages: self.pages,
 					onPageClicked: function(e, originalEvent, type, page) {
 						self.page = parseInt(page);
-						self.sync();
+						self.render();
 					}
 				});
 				return this;

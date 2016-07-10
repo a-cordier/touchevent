@@ -58,8 +58,6 @@ define(["backbone", "backboneSubroute", "jquery",
             });
           }
         });
-        //QaAdminView.sync();
-
       },
 
       /* Creates a new vote or edit vote depending on id */
