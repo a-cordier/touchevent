@@ -185,14 +185,13 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				btn.confirmation('show');
 			},
 
-			autoRemove: function(model, options){
+			autoRemove: function(model, options) {
 				console.log('autoRemove');
 				console.log(model);
-				if(options && options.io){
-					if(this.page>this.pages)
-						this.page--;
-					this.fetchPage(this.page);
-				}
+				if (this.page > this.pages)
+					this.page--;
+				this.fetchPage(this.page);
+
 			},
 
 			render: function() {
