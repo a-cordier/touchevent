@@ -17,7 +17,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				'click .validate': 'validate',
 				'click .delete': 'remove',
 				'click #power': 'powerSync',
-				'click #refresh': 'render'
+				'click #refresh': 'sync'
 			},
 
 			constructor: function(options) {
@@ -27,14 +27,11 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			initialize: function(options) {
 				this.qas = options.qas;
 				this.listenTo(this.qas,'add', this.add);
-				//this.listenTo(this.qas,'remove', this.remove);
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'remove');
-				//_.bindAll(this, 'sync');
-				// this.qas.bind('reset', this.render);
+				_.bindAll(this, 'sync');
 				this.template = _template;
-				//this.delegateEvents(this.events);
 				this.page = 1;
 				this.pages = 1;
 				this.waiting = 0;
@@ -42,25 +39,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				ViewHolder.registerView(this);
 			},
 
-			// setCollection: function(models) {
-			// 	this.qas.reset(models.toJSON());
-			// 	//this.qas = models;
-			// },
-
-			// getCollection: function() {
-			// 	return this.qas;
-			// },
-
-			// setTotal: function(total) {
-			// 	this.total = total;
-			// },
-
-			// setPageCount: function(pages) {
-			// 	this.pages = pages;
-			// 	if (this.page > this.pages) {
-			// 		this.page = this.pages;
-			// 	}
-			// },
 
 			powerSync: function() {
 				this.autoSync = !this.autoSync;
@@ -69,10 +47,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				else
 					$('#power').removeClass('btn-primary').addClass('btn-info');
 			},
-
-			// isAutoSync: function() {
-			// 	return this.autoSync;
-			// },
 
 			add: function(qa) {
 				console.log('add triggered');
@@ -85,32 +59,8 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			sync: function(event) {
-				// console.log('sync()');
-				// console.log('size', this.qas.size());
-				// if (event) {
-				// 	this.page = 1;
-				// 	this.waiting = 0;
-				// } else if (this.qas.size() === 0 && this.page > 1) {
-				// 	console.log("page--");
-				// 	this.page--;
-				// }
-				// //var self = this;
-				// this.qas.fetch({
-				// 	data: {
-				// 		criteria: {
-				// 			$or: [{
-				// 				state: 'moderated'
-				// 			}, {
-				// 				state: 'submitted'
-				// 			}]
-				// 		},
-				// 		page: this.page,
-				// 		limit: this.qas.getLimit(),
-				// 		resource: 'qa/admin'
-				// 	},
-				// 	reset: true
-				// });
-				// return this;
+				this.page = 1;
+				this.waiting = 0;
 				this.render();
 			},
 
@@ -133,16 +83,12 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 						qa.set({
 							'onAir': false
 						});
-						// require('../io/ioClient').synthTransition({
-						// 	'question': undefined
-						// });
 					}
 					btn.removeClass('btn-success').addClass('btn-default');
 					btn.prev('.delete').removeClass('disabled').prev('.edit').removeClass('disabled');
 				}
 				btn.next('.broadcast').toggleClass('disabled');
 				qa.save();
-				//ioClient.validateQa(qa.toJSON());
 			},
 
 			broadcast: function(event) {
@@ -210,7 +156,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 			render: function() {
 				this.total = this.qas.total;
-				// this.setPageCount(this.qas.pages);
 				PageView.prototype.render.apply(this, [{
 					qas: this.qas.toJSON(),
 					total: this.total,
