@@ -103,9 +103,9 @@ define(["backbone", "backboneSubroute", "jquery",
         qas.fetch({
           data: {
             criteria:  {
-              state: "moderated",
-              resource: Backbone.history.fragment
-            }
+              state: "moderated"
+            },
+            resource: Backbone.history.fragment
           },
           success: function(models) {
             changePage(new QaSpeakerView({
