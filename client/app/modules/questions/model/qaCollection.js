@@ -49,7 +49,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       signal: function(model){
-        
+         console.log('sending signal');
       },
 
       updatePages: function() {
