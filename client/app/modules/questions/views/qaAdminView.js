@@ -26,10 +26,10 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 			initialize: function(options) {
 				this.qas = options.qas;
+				this.listenTo(this.qas,'add', this.add);
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'sync');
-				this.listenTo(this.qas,'add', this.add);
 				// this.qas.bind('reset', this.render);
 				this.template = _template;
 				//this.delegateEvents(this.events);
