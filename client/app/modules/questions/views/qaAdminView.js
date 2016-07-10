@@ -74,7 +74,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 						limit: self.qas.limit,
 					},
 					success: function(qas) {
-						self.listenTo(this.qas, 'add', this.add);
+						self.listenTo(self.qas, 'add', self.add);
 						self.page = page;
 						self.render();
 					}
