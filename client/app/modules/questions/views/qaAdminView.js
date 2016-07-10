@@ -72,6 +72,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			fetchPage: function(page) {
 				var self = this;
 				this.stopListening(this.qas, 'add');
+				this.stopListening(this.qas, 'remove');
 				this.qas.fetch({
 					data: {
 						criteria: {
@@ -87,6 +88,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					},
 					success: function(qas) {
 						self.listenTo(self.qas, 'add', self.add);
+						self.listenTo(self.qas, 'remove', self.remove);
 						self.page = page;
 						if (page === 1)
 							self.waiting = 0;
@@ -186,11 +188,10 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			autoRemove: function(model, options) {
-				console.log('autoRemove');
-				console.log(model);
 				if (this.page > this.pages)
 					this.page = this.pages;
-				this.render();
+				this.fetchPage(this.page);
+
 
 			},
 
