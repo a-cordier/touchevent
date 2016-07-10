@@ -29,13 +29,13 @@ define(["backbone", "backboneSubroute", "jquery",
 
       adminQas: function() {
         ioClient.join('admin');
+        console.log(ioClient.socket);
         var qas = new QaCollection({socket:ioClient.socket});
         qas.bindIo("qa-received", function(qa){
           qas.add(qa, {
             at: 0
           });
         });
-        var self = this;
         //QaAdminView.sync();
         this.changePage(new QaAdminView({qas: qas}));
       },
@@ -77,27 +77,27 @@ define(["backbone", "backboneSubroute", "jquery",
       //   });
       // },
 
-      synth: function() {
-        ioClient.join('screen');
-        ""
-        this.changePage(QaSynthView);
-        var qas = new QaCollection();
-        qas.fetch({
-          data: {
-            criteria:  {
-              onAir: true
-            }
-          },
-          success: function(models) {
-            console.log(JSON.stringify(models));
-            if (models.length === 1)
-              QaSynthView.update(models.toJSON()[0].question);
-          },
-          error: function(err) {
-            console.log(err);
-          }
-        });
-      },
+      // synth: function() {
+      //   ioClient.join('screen');
+      //   ""
+      //   this.changePage(QaSynthView);
+      //   var qas = new QaCollection();
+      //   qas.fetch({
+      //     data: {
+      //       criteria:  {
+      //         onAir: true
+      //       }
+      //     },
+      //     success: function(models) {
+      //       console.log(JSON.stringify(models));
+      //       if (models.length === 1)
+      //         QaSynthView.update(models.toJSON()[0].question);
+      //     },
+      //     error: function(err) {
+      //       console.log(err);
+      //     }
+      //   });
+      // },
 
       qa: function() {
         ioClient.join('user');
