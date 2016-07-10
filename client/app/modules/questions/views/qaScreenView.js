@@ -40,7 +40,7 @@ define(["backbone", "jquery", "commons/views/PageView", "commons/viewHolder",
       },
 
       render: function() {
-        PageView.prototype.render.apply(this, {qas: this.qas});
+        PageView.prototype.render.apply(this, [{qas: this.qas}]);
         $(this.el).addClass('synth-screen');
         return this;
       }
