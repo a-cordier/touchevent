@@ -1,15 +1,12 @@
-define(["backbone", "commons/views/PageView", "commons/viewHolder",
+define(["backbone", "commons/views/PageView",
 		"underscore", "text",
 		"text!../templates/qa-admin.html",
 		'../model/qaCollection',
 		"jquery", "paginator", "confirmation"
 	],
-	function(Backbone, PageView, ViewHolder,
+	function(Backbone, PageView, 
 		_, text, _template, QaCollection, $) {
 		return PageView.extend({
-
-
-			name: "QaAdminView",
 
 			events: {
 				'click .broadcast': 'broadcast',
@@ -27,12 +24,10 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			initialize: function(options) {
 				this.qas = options.qas;
 				this.listenTo(this.qas, 'add', this.add);
-				this.listenTo(this.qas, 'signal', this.autoRemove);
 				this.listenTo(this.qas, 'change', this.render);
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'remove');
-				_.bindAll(this, 'autoRemove');
 				_.bindAll(this, 'sync');
 				this.template = _template;
 				this.page = 1;
@@ -40,7 +35,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				this.total = this.qas.total;
 				this.waiting = 0;
 				this.autoSync = false;
-				ViewHolder.registerView(this);
 			},
 
 
@@ -160,7 +154,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			remove: function(event) {
-				console.log('remove triggered');
 				var btn = $(event.currentTarget);
 				if (btn.hasClass('disabled'))
 					return false;
@@ -183,13 +176,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					}
 				});
 				btn.confirmation('show');
-			},
-
-			autoRemove: function(model, options) {
-				console.log('autoremove');
-				if (this.page > this.pages)
-					this.page = this.pages;
-				this.fetchPage(this.page);
 			},
 
 			render: function() {

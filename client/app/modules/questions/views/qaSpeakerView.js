@@ -1,13 +1,13 @@
-define(["backbone", "commons/views/PageView", "commons/viewHolder",
+define(["backbone", "commons/views/PageView",
 		"underscore", "text",
 		"text!../templates/qa-speaker.html",
 		'../model/qaCollection'
 	],
-	function(Backbone, PageView, ViewHolder,
+	function(Backbone, PageView,
 		_, text, _template, QaCollection) {
 		return PageView.extend({
 
-			name: "QaSpeakerView",
+
 
 			events: {
 				'click .broadcast': 'broadcast'
@@ -27,7 +27,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				_.bindAll(this, 'add');
 				this.template = _template;
 				this.delegateEvents(this.events);
-				//ViewHolder.registerView(this);
 			},
 
 			add: function(model, merge) {
