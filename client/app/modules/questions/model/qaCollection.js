@@ -33,10 +33,13 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       add: function(models, options) {
-        this.total++;
-        console.log('add::total: ' + this.total);
-        this.updatePages();
-        console.log('add::pages: ' + this.pages);
+        if (options && options.io) {
+          this.total++;
+          console.log('add::total: ' + this.total);
+          this.updatePages();
+          console.log('add::pages: ' + this.pages);
+        }
+
       },
 
       remove: function(models, options) {
