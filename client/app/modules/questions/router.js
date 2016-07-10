@@ -77,7 +77,9 @@ define(["backbone", "backboneSubroute", "jquery",
             qas.bindIo("qa:destroy", function(qa) {
               qas.remove(qas.findWhere({
                 _id: qa._id
-              }));
+              }), {
+                io: true
+              });
             });
           }
         });
@@ -132,11 +134,6 @@ define(["backbone", "backboneSubroute", "jquery",
               qas.findWhere({
                 _id: qa._id
               }).set('onAir', qa.onAir);
-            });
-            qas.bindIo("qa:destroy", function(qa) {
-              qas.remove(qas.findWhere({
-                _id: qa._id
-              }));
             });
           },
           error: function(err) {
