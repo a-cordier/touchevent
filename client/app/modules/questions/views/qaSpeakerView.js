@@ -1,4 +1,4 @@
-define(["backbone", "commons/views/PageView","commons/viewHolder",
+define(["backbone", "commons/views/PageView", "commons/viewHolder",
 		"underscore", "text",
 		"text!../templates/qa-speaker.html",
 		'../model/qaCollection'
@@ -8,7 +8,7 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 		return PageView.extend({
 
 			name: "QaSpeakerView",
-			
+
 			events: {
 				'click .broadcast': 'broadcast'
 			},
@@ -19,10 +19,10 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 
 			initialize: function(options) {
 				this.qas = options.qas;
-				_.bindAll(this, 'render');
-				_.bindAll(this, 'remove');
 				this.listenTo(this.qas, 'add', this.add);
 				this.listenTo(this.qas, 'remove', this.remove);
+				_.bindAll(this, 'render');
+				_.bindAll(this, 'remove');
 				this.qas.bind('reset', this.render);
 				this.template = _template;
 				this.delegateEvents(this.events);
@@ -34,9 +34,10 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 			},
 
 			addModel: function(model, merge) {
+				console.log('trigger add');
 				this.render();
 			},
-      		
+
 
 			remove: function(model) {
 				this.render();
@@ -75,7 +76,7 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 					].join('');
 					if (model.get('onAir')) {
 						$(selector).removeClass('btn-default').addClass('btn-danger');
-					} 
+					}
 				});
 				return this;
 			}
