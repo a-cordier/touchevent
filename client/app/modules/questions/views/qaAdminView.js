@@ -194,11 +194,11 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					singleton: true,
 					onConfirm: function() {
 						var id = btn.attr('data-mngid');
-						self.qas.where({
+						self.qas.findWhere({
 							_id: id
-						})[0].destroy({
+						}).destroy({
 							success: function(model) {
-								self.sync();
+								self.render();
 							}
 						});
 					}
