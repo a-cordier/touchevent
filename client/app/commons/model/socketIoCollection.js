@@ -4,12 +4,12 @@ define(["backbone", "underscore"],
 		return Backbone.Collection.extend({
 
 			initialize: function(options) {
-				Backbone.Collection.initialize.apply(this, arguments);
+				Backbone.Collection.prototype.initialize.apply(this, arguments);
 				this.socket = options.socket;
 			},
 
 			constructor: function(attributes, options) {
-				Backbone.Collection.apply(this, arguments);
+				Backbone.Collection.prototype.apply(this, arguments);
 			},
 			bindIo: function(event, callback) {
 				this.socket.on(event, function(data) {
