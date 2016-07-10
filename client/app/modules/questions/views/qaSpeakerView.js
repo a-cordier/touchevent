@@ -5,7 +5,7 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 	],
 	function(Backbone, PageView, ViewHolder,
 		_, text, _template, QaCollection) {
-		var QaListView = PageView.extend({
+		return PageView.extend({
 
 			name: "QaSpeakerView",
 			
@@ -17,12 +17,12 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 				PageView.prototype.constructor.apply(this, arguments);
 			},
 
-			initialize: function() {
-				this.qas = new QaCollection();
+			initialize: function(options) {
+				this.qas = options.qas;
 				_.bindAll(this, 'render');
-				_.bindAll(this, 'removeModel');
-				this.qas.bind('remove', this.render);
-				this.qas.bind('add', this.render);
+				_.bindAll(this, 'remove');
+				this.listenTo(this.qas, 'add', this.add);
+				this.listenTo(this.qas, 'remove', this.remove);
 				this.qas.bind('reset', this.render);
 				this.template = _template;
 				this.delegateEvents(this.events);
@@ -34,33 +34,12 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 			},
 
 			addModel: function(model, merge) {
-				this.qas.add(model, {
-					merge: (merge || false)
-				});
+				this.render();
 			},
-
-      		sync: function(){},
       		
-			syncModels: function(model) {
-				var self = this;
-				this.qas.each(function(model) {
-					model.set('onAir', false);
-				});
-				this.addModel(model, true);
-				this.qas.reset(this.qas.models);
-			},
 
-			removeModel: function(model) {
-				console.log("removeModel()");
-				if (model._id) {
-					this.qas.set(this.qas.filter(function(qa) {
-						return qa.get('_id') !== model._id;
-					}));
-				} else {
-					this.qas.set(this.qas.filter(function(qa) {
-						return qa.get('_id') !== model;
-					}));
-				}
+			remove: function(model) {
+				this.render();
 			},
 
 			broadcast: function(event) {
@@ -101,5 +80,4 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 				return this;
 			}
 		});
-		return QaListView;
 	});
