@@ -98,6 +98,7 @@ define(["backbone", "backboneSubroute", "jquery",
               qas: qas
             }));
             qas.bindIo("qa-validated", function(qa) {
+              console.log('io triger');
               if (qa.state === 'moderated')
                 qas.add(qa, {
                   at: 0,
