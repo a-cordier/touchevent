@@ -50,7 +50,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			add: function(qa) {
-				console.log(arguments);
+				console.log(arguments.callee);
 				console.log('add triggered');
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
