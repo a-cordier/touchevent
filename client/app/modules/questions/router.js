@@ -64,6 +64,7 @@ function(Backbone, BackboneSubroute, $,
                 });
               });
               qas.bindIo("qa:state", function(qa) {
+                  console.log("qa:state rceived");
                   qas.findWhere({
                     _id: qa._id
                   }).set('state', qa.state);
