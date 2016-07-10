@@ -68,9 +68,9 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					$('#power').removeClass('btn-primary').addClass('btn-info');
 			},
 
-			isAutoSync: function() {
-				return this.autoSync;
-			},
+			// isAutoSync: function() {
+			// 	return this.autoSync;
+			// },
 
 			add: function(qa) {
 				console.log('add triggered');
@@ -83,32 +83,33 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			sync: function(event) {
-				console.log('sync()');
-				console.log('size', this.qas.size());
-				if (event) {
-					this.page = 1;
-					this.waiting = 0;
-				} else if (this.qas.size() === 0 && this.page > 1) {
-					console.log("page--");
-					this.page--;
-				}
-				//var self = this;
-				this.qas.fetch({
-					data: {
-						criteria: {
-							$or: [{
-								state: 'moderated'
-							}, {
-								state: 'submitted'
-							}]
-						},
-						page: this.page,
-						limit: this.qas.getLimit(),
-						resource: 'qa/admin'
-					},
-					reset: true
-				});
-				return this;
+				// console.log('sync()');
+				// console.log('size', this.qas.size());
+				// if (event) {
+				// 	this.page = 1;
+				// 	this.waiting = 0;
+				// } else if (this.qas.size() === 0 && this.page > 1) {
+				// 	console.log("page--");
+				// 	this.page--;
+				// }
+				// //var self = this;
+				// this.qas.fetch({
+				// 	data: {
+				// 		criteria: {
+				// 			$or: [{
+				// 				state: 'moderated'
+				// 			}, {
+				// 				state: 'submitted'
+				// 			}]
+				// 		},
+				// 		page: this.page,
+				// 		limit: this.qas.getLimit(),
+				// 		resource: 'qa/admin'
+				// 	},
+				// 	reset: true
+				// });
+				// return this;
+				this.render();
 			},
 
 			validate: function(event) {
