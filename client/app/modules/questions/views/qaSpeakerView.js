@@ -24,7 +24,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'remove');
 				_.bindAll(this, 'add');
-				this.qas.bind('reset', this.render);
+				//this.qas.bind('reset', this.render);
 				this.template = _template;
 				this.delegateEvents(this.events);
 				ViewHolder.registerView(this);
@@ -41,7 +41,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 
 			remove: function(model) {
-				console.log('trigger remove')
+				console.log('trigger remove');
 				this.render();
 			},
 
