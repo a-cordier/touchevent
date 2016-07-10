@@ -15,9 +15,9 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				'click .broadcast': 'broadcast',
 				'click .edit': 'edit',
 				'click .validate': 'validate',
-				'click .delete': 'delete',
+				'click .delete': 'remove',
 				'click #power': 'powerSync',
-				'click #refresh': 'sync'
+				'click #refresh': 'render'
 			},
 
 			constructor: function(options) {
@@ -27,9 +27,10 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			initialize: function(options) {
 				this.qas = options.qas;
 				this.listenTo(this.qas,'add', this.add);
+				this.listenTo(this.qas,'remove', this.remove);
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
-				_.bindAll(this, 'sync');
+				//_.bindAll(this, 'sync');
 				// this.qas.bind('reset', this.render);
 				this.template = _template;
 				//this.delegateEvents(this.events);
@@ -180,7 +181,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				});
 			},
 
-			delete: function(event) {
+			remove: function(event) {
 				var btn = $(event.currentTarget);
 				if (btn.hasClass('disabled'))
 					return false;

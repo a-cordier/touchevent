@@ -12,13 +12,6 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
         this.limit = 15;
         this.total = 0;
         this.pages = 1;
-        var self = this;
-        // this.on('add', function(model) {
-        // });
-        // this.on('remove', function(model) {
-        //   console.log('remove event handled in collection');
-        // });
-        this.on('change', function(model) {});
       },
 
       comparator: function(q1, q2) {
