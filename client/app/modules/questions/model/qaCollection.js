@@ -43,11 +43,13 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       remove: function(model, options) {
         SocketIoCollection.prototype.remove.apply(this, arguments);
         if (options && options.io) {
-          if(!model)
-            return;
           this.total--;
           this.updatePages();
         }
+      },
+
+      signal: function(model){
+        
       },
 
       updatePages: function() {

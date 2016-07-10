@@ -27,7 +27,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			initialize: function(options) {
 				this.qas = options.qas;
 				this.listenTo(this.qas, 'add', this.add);
-				this.listenTo(this.qas, 'remove', this.autoRemove);
+				this.listenTo(this.qas, 'signal', this.autoRemove);
 				this.listenTo(this.qas, 'change', this.render);
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
@@ -192,8 +192,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				if (this.page > this.pages)
 					this.page = this.pages;
 				this.fetchPage(this.page);
-
-
 			},
 
 			render: function() {
