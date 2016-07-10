@@ -101,5 +101,5 @@ define(["backbone", "commons/views/PageView","commons/viewHolder",
 				return this;
 			}
 		});
-		return new QaListView();
+		return QaListView;
 	});
