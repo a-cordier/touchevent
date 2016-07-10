@@ -189,8 +189,8 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				console.log('autoRemove');
 				console.log(model);
 				if (this.page > this.pages)
-					this.page--;
-				this.fetchPage(this.page);
+					this.page = this.pages;
+				this.render();
 
 			},
 
