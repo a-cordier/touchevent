@@ -33,7 +33,6 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       add: function(models, options) {
-        SocketIoCollection.prototype.add.call(this, models.items, options);
         this.total++;
         console.log('add::total: ' + this.total);
         this.updatePages();
