@@ -32,6 +32,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				_.bindAll(this, 'render');
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'remove');
+				_.bindAll(this, 'autoRemove');
 				_.bindAll(this, 'sync');
 				this.template = _template;
 				this.page = 1;
@@ -185,6 +186,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			autoRemove: function(model, options){
+				console.log('autoRemove');
 				if(options && options.io){
 					if(this.page>this.pages)
 						this.page--;
