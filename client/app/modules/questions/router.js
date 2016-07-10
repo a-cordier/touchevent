@@ -106,6 +106,7 @@ define(["backbone", "backboneSubroute", "jquery",
                 });
               else if (qa.state === 'submitted') {
                 console.log('change state to submitted');
+                console.log('qa', qa);
                 qas.remove(qa);
               }
             });
