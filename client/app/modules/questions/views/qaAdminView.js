@@ -207,7 +207,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 			render: function() {
 				this.total = this.qas.total;
-				this.setPageCount(this.qas.pages);
+				// this.setPageCount(this.qas.pages);
 				PageView.prototype.render.apply(this, [{
 					qas: this.qas.toJSON(),
 					total: this.total,
