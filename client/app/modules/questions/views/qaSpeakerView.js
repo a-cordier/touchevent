@@ -41,6 +41,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 
 			remove: function(model) {
+				console.log('trigger remove')
 				this.render();
 			},
 
