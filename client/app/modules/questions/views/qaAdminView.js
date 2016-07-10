@@ -54,7 +54,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
 					$('#total').html(this.qas.total);
-				} else if (page === 1) {
+				} else if (this.page === 1) {
 					this.render();
 				} else {
 					this.fetchPage(1);
