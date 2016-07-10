@@ -1,14 +1,14 @@
 /* TODO: require local modules into functions */
 define(["backbone", "backboneSubroute", "jquery",
     "commons/io/ioClient",
-    "./views/qaSynthView",
+    "./views/qaScreenView",
     "./views/qaUserView", "./model/qa", "./views/qaDetailsView",
     "./views/qaAdminView", "./views/qaSpeakerView", "./model/qaCollection",
 
   ],
   function(Backbone, BackboneSubroute, $,
     ioClient,
-    QaSynthView, QaUserView, Qa, QaDetailsView,
+    QaScreenView, QaUserView, Qa, QaDetailsView,
     QaAdminView, QaSpeakerView, QaCollection
   ) {
 
@@ -28,7 +28,7 @@ define(["backbone", "backboneSubroute", "jquery",
         "admin(/)": "adminQas",
         "admin/:id": "adminQa",
         "speaker(/)": "speaker",
-        "regie(/)": "synth",
+        "screen(/)": "screen",
         "(/)": "qa",
         "": "qa"
       },
@@ -135,27 +135,34 @@ define(["backbone", "backboneSubroute", "jquery",
         });
       },
 
-      // synth: function() {
-      //   ioClient.join('screen');
-      //   ""
-      //   this.changePage(QaSynthView);
-      //   var qas = new QaCollection();
-      //   qas.fetch({
-      //     data: {
-      //       criteria:  {
-      //         onAir: true
-      //       }
-      //     },
-      //     success: function(models) {
-      //       console.log(JSON.stringify(models));
-      //       if (models.length === 1)
-      //         QaSynthView.update(models.toJSON()[0].question);
-      //     },
-      //     error: function(err) {
-      //       console.log(err);
-      //     }
-      //   });
-      // },
+      screen: function() {
+        ioClient.join('screen');
+        var qas = new QaCollection({
+          socket: ioClient.socket
+        });
+        qas.fetch({
+          data: {
+            criteria:  {
+              onAir: true
+            },
+            resource: Backbone.history.fragment
+          },
+          success: function(models) {
+            changePage(new QaScreenView({
+              qas: qas
+            }));
+            qas.bindIo("qa:onair", function(qa) {
+              qas.remove(qa);
+              if(qa.onAir){
+                qas.add(qa);
+              }
+            });
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      },
 
       qa: function() {
         ioClient.join('user');

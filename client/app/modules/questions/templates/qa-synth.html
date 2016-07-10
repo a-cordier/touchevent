@@ -1,1 +1,5 @@
-<div id="synth" class="synth"></div>
+<div id="synth" class="synth">
+	<% if(rc.qas.length && rc.qas[0].onAir) { %>
+		<p id="synth-content"><%= rc.qas[0].question %>
+	<%}%>
+</div>
