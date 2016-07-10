@@ -29,8 +29,8 @@ define(["backbone", "backboneSubroute", "jquery",
 
       adminQas: function() {
         ioClient.join('admin');
-        console.log(ioClient.socket);
-        var qas = new QaCollection({socket:ioClient.socket});
+        console.log('routeur::socket',ioClient.socket);
+        var qas = new QaCollection( {socket: ioClient.socket} );
         qas.bindIo("qa-received", function(qa){
           qas.add(qa, {
             at: 0
