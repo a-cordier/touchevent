@@ -34,7 +34,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				this.qas.reset(models.toJSON());
 			},
 
-			addModel: function(model, merge) {
+			add: function(model, merge) {
 				console.log('trigger add');
 				this.render();
 			},
