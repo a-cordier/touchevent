@@ -40,16 +40,16 @@ define(["backbone", "backboneSubroute", "jquery",
         var qas = new QaCollection({
           socket: ioClient.socket
         });
-        qas.bindIo("qa-received", function(qa) {
-          qas.add(qa, {
-            at: 0
-          });
-        });
         qas.fetch({
           success: function(qas) {
             changePage(new QaAdminView({
               qas: qas
             }));
+            qas.bindIo("qa-received", function(qa) {
+              qas.add(qa, {
+                at: 0
+              });
+            });
           }
         });
         //QaAdminView.sync();

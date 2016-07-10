@@ -30,9 +30,9 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				_.bindAll(this, 'add');
 				_.bindAll(this, 'sync');
 				this.qas.bind('add', this.add);
-				this.qas.bind('reset', this.render);
+				// this.qas.bind('reset', this.render);
 				this.template = _template;
-				this.delegateEvents(this.events);
+				//this.delegateEvents(this.events);
 				this.page = 1;
 				this.pages = 1;
 				this.waiting = 0;
@@ -40,25 +40,25 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				ViewHolder.registerView(this);
 			},
 
-			setCollection: function(models) {
-				this.qas.reset(models.toJSON());
-				//this.qas = models;
-			},
+			// setCollection: function(models) {
+			// 	this.qas.reset(models.toJSON());
+			// 	//this.qas = models;
+			// },
 
-			getCollection: function() {
-				return this.qas;
-			},
+			// getCollection: function() {
+			// 	return this.qas;
+			// },
 
-			setTotal: function(total) {
-				this.total = total;
-			},
+			// setTotal: function(total) {
+			// 	this.total = total;
+			// },
 
-			setPageCount: function(pages) {
-				this.pages = pages;
-				if (this.page > this.pages) {
-					this.page = this.pages;
-				}
-			},
+			// setPageCount: function(pages) {
+			// 	this.pages = pages;
+			// 	if (this.page > this.pages) {
+			// 		this.page = this.pages;
+			// 	}
+			// },
 
 			powerSync: function() {
 				this.autoSync = !this.autoSync;
@@ -72,7 +72,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				return this.autoSync;
 			},
 
-			add: function(model, collection) {
+			add: function(qa) {
 				console.log('add triggered');
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
