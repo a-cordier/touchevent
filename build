@@ -153,6 +153,10 @@ main() {
 	    ;;
 	    reload)
 			set -e
+			if [ ! -n "$MONGO_PROCESS" ]; then
+				print_error "please specify a branch for pulling"
+				exit 1
+			fi
 			git pull origin "$2"
 			install_files
 			restart_server
