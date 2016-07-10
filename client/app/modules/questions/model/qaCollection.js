@@ -52,7 +52,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
         this.pages = Math.ceil(this.total / this.limit);
         if (this.pages === 0)
           this.pages = 1;
-      }
+      },
 
       url: '/api/qa'
 
