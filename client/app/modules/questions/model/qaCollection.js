@@ -16,7 +16,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
 
 
       constructor: function(attributes, options) {
-       SocketIoCollection.prototype.constructor.apply(this, arguments);
+        SocketIoCollection.prototype.constructor.apply(this, arguments);
       },
 
       comparator: function(q1, q2) {
@@ -42,27 +42,17 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
 
       remove: function(models, options) {
         SocketIoCollection.prototype.remove.apply(this, arguments);
-        this.total--;
-        this.updatePages();
+        if (options && options.io) {
+          this.total--;
+          this.updatePages();
+        }
       },
 
       updatePages: function() {
         this.pages = Math.ceil(this.total / this.limit);
         if (this.pages === 0)
           this.pages = 1;
-      },
-
-      getTotal: function() {
-        return this.total || 0;
-      },
-
-      getPages: function()  {
-        return this.pages || 1;
-      },
-
-      getLimit: function() {
-        return this.limit;
-      },
+      }
 
       url: '/api/qa'
 
