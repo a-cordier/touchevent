@@ -30,10 +30,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				ViewHolder.registerView(this);
 			},
 
-			setCollection: function(models) {
-				this.qas.reset(models.toJSON());
-			},
-
 			add: function(model, merge) {
 				console.log('trigger add');
 				this.render();
