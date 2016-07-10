@@ -36,8 +36,11 @@ define(["backbone", "backboneSubroute", "jquery",
             at: 0
           });
         });
+        qas.fetch(function(qas){
+          this.changePage(new QaAdminView({qas: qas}));
+        });
         //QaAdminView.sync();
-        this.changePage(new QaAdminView({qas: qas}));
+
       },
 
       /* Creates a new vote or edit vote depending on id */
