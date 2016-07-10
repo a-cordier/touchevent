@@ -36,10 +36,10 @@ var IoServer = function(server) {
 			socket.on('qa-deleted', function(id) {
 				socket.in(Room.admin).emit('qa-deleted', id);
 			});
-			socket.on('qa-validated', function(id) {
-				socket.in(Room.speaker).emit('qa-validated', id);
-				socket.in(Room.admin).emit('qa-validated', id);
-			});
+			// socket.on('qa-validated', function(id) {
+			// 	socket.in(Room.speaker).emit('qa-validated', id);
+			// 	socket.in(Room.admin).emit('qa-validated', id);
+			// });
 			socket.on('synth-transition', function(data) {
 				socket.in(Room.speaker).emit('synth-transition', data);
 				socket.in(Room.screen).emit('synth-transition', data);
@@ -54,7 +54,7 @@ IoServer.pushQa = function(data) {
 	if (!io)
 		throw new Error("Socket.io is not initalized");
 	logger.info('sending qa-received event to sockets in ', Room.admin, 'room');
-	io.sockets.in(Room.admin).emit('qa-received', data);
+	io.sockets.in(Room.admin).emit('qa:new', data);
 };
 
 IoServer.synthTransition = function(data) {
@@ -71,8 +71,8 @@ IoServer.validateQa = function(data) {
 		throw new Error("Socket.io is not initalized");
 	logger.info('sending validation event to sockets in ', Room.admin, 'room');
 	logger.info('sending validation event to sockets in ', Room.speaker, 'room');
-	io.sockets.in(Room.speaker).emit('qa-validated', data);
-	io.sockets.in(Room.admin).emit('qa-validated', data);
+	io.sockets.in(Room.speaker).emit('qa:state', data);
+	io.sockets.in(Room.admin).emit('qa:state', data);
 };
 
 IoServer.deleteQa = function(data) {
