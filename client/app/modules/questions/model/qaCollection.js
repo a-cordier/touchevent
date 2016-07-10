@@ -14,7 +14,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
         this.pages = 1;
       },
 
-      
+
       constructor: function(attributes, options) {
        SocketIoCollection.prototype.constructor.apply(this, arguments);
       },
@@ -41,7 +41,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       remove: function(models, options) {
-        // SocketIoCollection.prototype.remove.call(this, models.items, options);
+        SocketIoCollection.prototype.remove.apply(this, arguments);
         this.total--;
         this.updatePages();
       },
