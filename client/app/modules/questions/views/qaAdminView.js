@@ -64,9 +64,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			refresh: function(event) {
-				this.page = 1;
-				this.waiting = 0;
-				this.render();
+				this.fetchPage(1);
 			},
 
 			fetchPage: function(page) {
