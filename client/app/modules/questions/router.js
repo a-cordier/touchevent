@@ -41,6 +41,11 @@ define(["backbone", "backboneSubroute", "jquery",
           socket: ioClient.socket
         });
         qas.fetch({
+          data: {
+            resource: Backbone.history.fragment,
+            page: qas.page,
+            limit: qas.limit,
+          },
           success: function(qas) {
             changePage(new QaAdminView({
               qas: qas

@@ -36,9 +36,6 @@ define(["backbone", "backboneSubroute", "jquery",
             _id: id
           });
           poll.fetch({
-            data: {
-              resource: Backbone.history.fragment
-            },
             success: function() {
               self.changePage(new PollDetailsView({
                 "poll": poll
