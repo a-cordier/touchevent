@@ -31,7 +31,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       add: function(models, options) {
-        SocketIoModel.prototype.add.call(this, models.items, options);
+        SocketIoCollection.prototype.add.call(this, models.items, options);
         this.total++;
         console.log('add::total: ' + this.total);
         this.updatePages();
@@ -39,7 +39,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       },
 
       remove: function(models, options) {
-        SocketIoModel.prototype.remove.call(this, models.items, options);
+        SocketIoCollection.prototype.remove.call(this, models.items, options);
         this.total--;
         this.updatePages();
       },
