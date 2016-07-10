@@ -75,6 +75,7 @@ define(["backbone", "backboneSubroute", "jquery",
               }).set('onAir', qa.onAir);
             });
             qas.bindIo("qa:destroy", function(qa) {
+              console.log('qa:destroy');
               qas.remove(qas.findWhere({
                 _id: qa._id
               }), {
