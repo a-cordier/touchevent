@@ -87,10 +87,7 @@ router.put('/:id', function(req, res) {
 			qa.question = req.body.question;
 		if (qa.onAir === false && req.body.onAir === true) {
 			qa.onAir = req.body.onAir;
-			IoServer.synthTransition({
-				'question': qa.question,
-				'qa': qa
-			});
+			IoServer.synthTransition(qa);
 		} else if (qa.onAir === true && req.body.onAir === false) {
 			qa.onAir = req.body.onAir;
 			IoServer.synthTransition({

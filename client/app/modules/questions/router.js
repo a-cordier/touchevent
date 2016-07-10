@@ -97,11 +97,14 @@ define(["backbone", "backboneSubroute", "jquery",
       speaker: function() {
         ioClient.join('speaker');
         var self = this;
-        var qas = new QaCollection(ioClient);
+        var qas = new QaCollection({
+          socket: ioClient.socket
+        });
         qas.fetch({
           data: {
             criteria:  {
-              state: "moderated"
+              state: "moderated",
+              resource: Backbone.history.fragment
             }
           },
           success: function(models) {
