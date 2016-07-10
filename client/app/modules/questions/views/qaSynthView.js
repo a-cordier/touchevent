@@ -40,5 +40,5 @@ define(["backbone", "jquery", "commons/views/PageView", "commons/viewHolder",
         return this;
       }
     });
-    return new SynthView();
+    return SynthView;
   });
