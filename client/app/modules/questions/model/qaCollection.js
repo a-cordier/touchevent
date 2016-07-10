@@ -14,6 +14,11 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
         this.pages = 1;
       },
 
+      
+      constructor: function(attributes, options) {
+       SocketIoCollection.prototype.constructor.apply(this, arguments);
+      },
+
       comparator: function(q1, q2) {
         return new Date(q2.get("created_at")).getTime() - new Date(q1.get("created_at")).getTime();
       },
