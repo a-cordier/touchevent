@@ -218,8 +218,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					currentPage: self.page,
 					totalPages: self.pages,
 					onPageClicked: function(e, originalEvent, type, page) {
-						self.page = parseInt(page);
-						self.render();
+						self.getPage(parseInt(page));
 					}
 				});
 				return this;
