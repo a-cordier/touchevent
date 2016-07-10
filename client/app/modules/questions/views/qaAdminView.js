@@ -53,8 +53,10 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
 					$('#total').html(this.qas.total);
-				} else {
+				} else if (page === 1) {
 					this.render();
+				} else {
+					this.fetchPage(1);
 				}
 			},
 
@@ -65,7 +67,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			fetchPage: function(page) {
-				var self=this;
+				var self = this;
 				this.stopListening(this.qas, 'add');
 				this.qas.fetch({
 					data: {
@@ -76,7 +78,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					success: function(qas) {
 						self.listenTo(self.qas, 'add', self.add);
 						self.page = page;
-						if(page===1)
+						if (page === 1)
 							self.waiting = 0;
 						self.render();
 					}
