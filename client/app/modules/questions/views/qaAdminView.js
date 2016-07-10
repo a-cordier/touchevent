@@ -50,8 +50,6 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 			},
 
 			add: function(qa) {
-				console.log(arguments.callee);
-				console.log('add triggered');
 				if (!this.autoSync) {
 					$('#waiting').html(++this.waiting);
 					$('#total').html(this.qas.total);
@@ -68,6 +66,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 
 			fetchPage: function(page) {
 				var self=this;
+				this.stopListening(this.qas, 'add');
 				this.qas.fetch({
 					data: {
 						resource: Backbone.history.fragment,
@@ -75,6 +74,7 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 						limit: self.qas.limit,
 					},
 					success: function(qas) {
+						self.listenTo(this.qas, 'add', this.add);
 						self.page = page;
 						self.render();
 					}
