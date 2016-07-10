@@ -74,6 +74,11 @@ define(["backbone", "backboneSubroute", "jquery",
                 _id: qa._id
               }).set('onAir', qa.onAir);
             });
+            qas.bindIo("qa:destroy", function(qa) {
+              qas.remove(qas.findWhere({
+                _id: qa._id
+              }));
+            });
           }
         });
       },
@@ -128,6 +133,11 @@ define(["backbone", "backboneSubroute", "jquery",
                 _id: qa._id
               }).set('onAir', qa.onAir);
             });
+            qas.bindIo("qa:destroy", function(qa) {
+              qas.remove(qas.findWhere({
+                _id: qa._id
+              }));
+            });
           },
           error: function(err) {
             console.log(err);
@@ -152,8 +162,10 @@ define(["backbone", "backboneSubroute", "jquery",
               qas: qas
             }));
             qas.bindIo("qa:onair", function(qa) {
-              qas.remove(qas.findWhere({_id:qa._id}));
-              if(qa.onAir){
+              qas.remove(qas.findWhere({
+                _id: qa._id
+              }));
+              if (qa.onAir) {
                 qas.add(qa);
               }
             });

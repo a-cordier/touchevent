@@ -79,7 +79,7 @@ IoServer.deleteQa = function(data) {
 	if (!io)
 		throw new Error("Socket.io is not initalized");
 	logger.info('sending qa deletion event to sockets in ', Room.admin, 'room');
-	io.sockets.in(Room.admin).emit('qa-deleted', data);
+	io.sockets.in(Room.admin).emit('qa:destroy', data);
 };
 
 
