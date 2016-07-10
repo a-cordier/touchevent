@@ -5,6 +5,7 @@ define(["commons/model/socketIoCollection", "underscore", "./qa"],
       model: Qa,
 
       initialize: function(options) {
+        SocketIoCollection.inititalize.call(this, arguments);
         this.limit = 15;
         this.total = 0;
         this.pages = 1;
