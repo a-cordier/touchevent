@@ -123,15 +123,15 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 				var btn = $(event.currentTarget);
 				if (btn.hasClass('disabled'))
 					return false;
-				var qa = this.qas.where({
+				var qa = this.qas.findWhere({
 					_id: btn.attr('data-mngid')
-				})[0];
+				});
 				var toggle = !btn.hasClass('btn-danger');
 				var question = "";
 				if ($('.broadcast.btn-danger').length > 0) {
-					var _qa = this.qas.where({
+					var _qa = this.qas.findWhere({
 						_id: $('.broadcast.btn-danger').attr('data-mngid')
-					})[0];
+					});
 					_qa.set('onAir', false);
 					_qa.save();
 					$('.broadcast.btn-danger').removeClass('btn-danger').addClass('btn-default');
