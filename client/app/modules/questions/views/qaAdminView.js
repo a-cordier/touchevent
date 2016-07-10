@@ -76,6 +76,8 @@ define(["backbone", "commons/views/PageView", "commons/viewHolder",
 					success: function(qas) {
 						self.listenTo(self.qas, 'add', self.add);
 						self.page = page;
+						if(page===1)
+							self.waiting = 0;
 						self.render();
 					}
 				});
