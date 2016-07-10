@@ -57,7 +57,7 @@ IoServer.pushQa = function(data) {
 	io.sockets.in(Room.admin).emit('qa:new', data);
 };
 
-IoServer.synthTransition = function(data) {
+IoServer.qaOnAir = function(data) {
 	if (!io)
 		throw new Error("Socket.io is not initalized");
 	logger.info('sending synth-transition event to sockets in ', Room.admin, 'room');

@@ -81,13 +81,10 @@ router.put('/:id', filter, Roles.admin.filter, function(req, res) {
 			qa.state = req.body.state;
 		if (req.body.question)
 			qa.question = req.body.question;
-		if (qa.onAir === false && req.body.onAir === true) {
+		if (!(qa.onAir) === req.body.onAir) {
 			qa.onAir = req.body.onAir;
-			IoServer.synthTransition(qa);
-		} else if (qa.onAir === true && req.body.onAir === false) {
-			qa.onAir = req.body.onAir;
-			IoServer.synthTransition(qa);
-		}
+			IoServer.qaOnAir(qa);
+		} 
 		qa.save(function(err) {
 			if (err) {
 				return res.send(err);
@@ -121,6 +118,7 @@ router.delete('/:id', filter, Roles.admin.filter, function(req, res) {
 				message: 'Qa deleted'
 			});
 		});
+		IoServer.deleteQa(qa);
 	});
 });
 
