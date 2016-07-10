@@ -47,7 +47,8 @@ define(["backbone", "backboneSubroute", "jquery",
             }));
             qas.bindIo("qa-received", function(qa) {
               qas.add(qa, {
-                at: 0
+                at: 0,
+                io: true
               });
             });
           }
