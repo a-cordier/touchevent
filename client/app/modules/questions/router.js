@@ -12,6 +12,12 @@ define(["backbone", "backboneSubroute", "jquery",
     QaAdminView, QaSpeakerView, QaCollection
   ) {
 
+    var changePage = function(page) {
+      $('body').empty();
+      $('body').append($(page.el));
+      page.render();
+    };
+
     return BackboneSubroute.extend({
 
       initialize: function() {
@@ -30,6 +36,7 @@ define(["backbone", "backboneSubroute", "jquery",
       adminQas: function() {
         ioClient.join('admin');
         console.log('routeur::socket', ioClient.socket);
+        var self = this;
         var qas = new QaCollection({
           socket: ioClient.socket
         });
@@ -40,7 +47,7 @@ define(["backbone", "backboneSubroute", "jquery",
         });
         qas.fetch({
           success: function(qas) {
-            this.changePage(new QaAdminView({
+            changePage(new QaAdminView({
               qas: qas
             }));
           }
