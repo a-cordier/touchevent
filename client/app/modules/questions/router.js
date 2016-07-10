@@ -1,24 +1,24 @@
 /* TODO: require local modules into functions */
 define(["backbone", "backboneSubroute", "jquery",
-    "commons/io/ioClient",
-    "./views/qaSynthView",
-    "./views/qaUserView", "./model/qa", "./views/qaDetailsView",
-    "./views/qaAdminView", "./views/qaSpeakerView", "./model/qaCollection",
+  "commons/io/ioClient",
+  "./views/qaSynthView",
+  "./views/qaUserView", "./model/qa", "./views/qaDetailsView",
+  "./views/qaAdminView", "./views/qaSpeakerView", "./model/qaCollection",
 
-  ],
-  function(Backbone, BackboneSubroute, $,
-    ioClient,
-    QaSynthView, QaUserView, Qa, QaDetailsView,
-    QaAdminView, QaSpeakerView, QaCollection
-  ) {
+],
+function(Backbone, BackboneSubroute, $,
+  ioClient,
+  QaSynthView, QaUserView, Qa, QaDetailsView,
+  QaAdminView, QaSpeakerView, QaCollection
+) {
 
-    var changePage = function(page) {
-      $('body').empty();
-      $('body').append($(page.el));
-      page.render();
-    };
+  var changePage = function(page) {
+    $('body').empty();
+    $('body').append($(page.el));
+    page.render();
+  };
 
-    return BackboneSubroute.extend({
+  return BackboneSubroute.extend({
 
       initialize: function() {
         console.log("starting router: questions");
@@ -41,118 +41,122 @@ define(["backbone", "backboneSubroute", "jquery",
           socket: ioClient.socket
         });
         qas.fetch({
-          data: {
-            criteria: {
-              $or: [{
-                state: 'moderated'
-              }, {
-                state: 'submitted'
-              }]
+            data: {
+              criteria: {
+                $or: [{
+                  state: 'moderated'
+                }, {
+                  state: 'submitted'
+                }]
+              },
+              resource: Backbone.history.fragment,
+              page: qas.page,
+              limit: qas.limit,
             },
-            resource: Backbone.history.fragment,
-            page: qas.page,
-            limit: qas.limit,
-          },
-          success: function(qas) {
-            changePage(new QaAdminView({
-              qas: qas
-            }));
-            qas.bindIo("qa-received", function(qa) {
-              qas.add(qa, {
-                at: 0,
-                io: true
-              });
-            });
-          }
-        });
-      },
-
-      /* Creates a new vote or edit vote depending on id */
-      adminQa: function(id) {
-        ioClient.join('admin');
-        var self = this;
-        var qa = new Qa({
-          _id: id
-        });
-        qa.fetch({
-          success: function() {
-            self.changePage(new QaDetailsView({
-              "qa": qa
-            }));
-          }
-        });
-      },
-
-      speaker: function() {
-        ioClient.join('speaker');
-        var self = this;
-        var qas = new QaCollection(ioClient);
-        qas.fetch({
-          data: {
-            criteria:  {
-              state: "moderated"
-            }
-          },
-          success: function(models) {
-            changePage(new QaSpeakerView({
-              qas: qas
-            }));
-            qas.bindIo("qa-validated", function(qa) {
-              console.log('io triger');
-              if (qa.state === 'moderated')
+            success: function(qas) {
+              changePage(new QaAdminView({
+                qas: qas
+              }));
+              qas.bindIo("qa:new", function(qa) {
                 qas.add(qa, {
                   at: 0,
                   io: true
                 });
-              else if (qa.state === 'submitted') {
-                console.log('change state to submitted');
-                console.log('qa', qa);
-                qas.remove(qas.findWhere({_id:qa._id}));
-              }
-            });
-          },
-          error: function(err) {
-            console.log(err);
+              });
+              qas.bindIo("qa:state", function(qa) {
+                  qas.findWhere({
+                    _id: qa._id
+                  }).set('state', qa.state);
+              });
           }
         });
-      },
+    },
 
-      // synth: function() {
-      //   ioClient.join('screen');
-      //   ""
-      //   this.changePage(QaSynthView);
-      //   var qas = new QaCollection();
-      //   qas.fetch({
-      //     data: {
-      //       criteria:  {
-      //         onAir: true
-      //       }
-      //     },
-      //     success: function(models) {
-      //       console.log(JSON.stringify(models));
-      //       if (models.length === 1)
-      //         QaSynthView.update(models.toJSON()[0].question);
-      //     },
-      //     error: function(err) {
-      //       console.log(err);
-      //     }
-      //   });
-      // },
+    /* Creates a new vote or edit vote depending on id */
+    adminQa: function(id) {
+      ioClient.join('admin');
+      var self = this;
+      var qa = new Qa({
+        _id: id
+      });
+      qa.fetch({
+        success: function() {
+          self.changePage(new QaDetailsView({
+            "qa": qa
+          }));
+        }
+      });
+    },
 
-      qa: function() {
-        ioClient.join('user');
-        var self = this;
-        var qa = new Qa();
-        self.changePage(new QaUserView({
-          "qa": qa
-        }));
-      },
+    speaker: function() {
+      ioClient.join('speaker');
+      var self = this;
+      var qas = new QaCollection(ioClient);
+      qas.fetch({
+        data: {
+          criteria:  {
+            state: "moderated"
+          }
+        },
+        success: function(models) {
+          changePage(new QaSpeakerView({
+            qas: qas
+          }));
+          qas.bindIo("qa:state", function(qa) {
+            if (qa.state === 'moderated')
+              qas.add(qa, {
+                at: 0,
+                io: true
+              });
+            else if (qa.state === 'submitted') {
+              qas.remove(qas.findWhere({
+                _id: qa._id
+              }));
+            }
+          });
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    },
 
-      changePage: function(page) {
-        $('body').empty();
-        $('body').append($(page.el));
-        page.render();
-      },
+    // synth: function() {
+    //   ioClient.join('screen');
+    //   ""
+    //   this.changePage(QaSynthView);
+    //   var qas = new QaCollection();
+    //   qas.fetch({
+    //     data: {
+    //       criteria:  {
+    //         onAir: true
+    //       }
+    //     },
+    //     success: function(models) {
+    //       console.log(JSON.stringify(models));
+    //       if (models.length === 1)
+    //         QaSynthView.update(models.toJSON()[0].question);
+    //     },
+    //     error: function(err) {
+    //       console.log(err);
+    //     }
+    //   });
+    // },
 
-    });
+    qa: function() {
+      ioClient.join('user');
+      var self = this;
+      var qa = new Qa();
+      self.changePage(new QaUserView({
+        "qa": qa
+      }));
+    },
+
+    changePage: function(page) {
+      $('body').empty();
+      $('body').append($(page.el));
+      page.render();
+    },
+
   });
+});
