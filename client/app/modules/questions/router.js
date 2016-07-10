@@ -29,15 +29,21 @@ define(["backbone", "backboneSubroute", "jquery",
 
       adminQas: function() {
         ioClient.join('admin');
-        console.log('routeur::socket',ioClient.socket);
-        var qas = new QaCollection( {socket: ioClient.socket} );
-        qas.bindIo("qa-received", function(qa){
+        console.log('routeur::socket', ioClient.socket);
+        var qas = new QaCollection({
+          socket: ioClient.socket
+        });
+        qas.bindIo("qa-received", function(qa) {
           qas.add(qa, {
             at: 0
           });
         });
-        qas.fetch(function(qas){
-          this.changePage(new QaAdminView({qas: qas}));
+        qas.fetch({
+          success: function(qas) {
+            this.changePage(new QaAdminView({
+              qas: qas
+            }));
+          }
         });
         //QaAdminView.sync();
 
