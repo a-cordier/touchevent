@@ -1,14 +1,14 @@
-define(["backbone", "commons/views/PageView",
+define(["backbone", "commons/views/PageView","commons/viewHolder",
 		"underscore", "text",
 		"text!../templates/qa-speaker.html",
 		'../model/qaCollection'
 	],
-	function(Backbone, PageView,
+	function(Backbone, PageView, ViewHolder,
 		_, text, _template, QaCollection) {
-		return PageView.extend({
+		var QaListView = PageView.extend({
 
-
-
+			name: "QaSpeakerView",
+			
 			events: {
 				'click .broadcast': 'broadcast'
 			},
@@ -17,24 +17,50 @@ define(["backbone", "commons/views/PageView",
 				PageView.prototype.constructor.apply(this, arguments);
 			},
 
-			initialize: function(options) {
-				this.qas = options.qas;
-				this.listenTo(this.qas, 'add', this.add);
-				this.listenTo(this.qas, 'remove', this.remove);
-				this.listenTo(this.qas, 'change', this.render);
+			initialize: function() {
+				this.qas = new QaCollection();
 				_.bindAll(this, 'render');
-				_.bindAll(this, 'remove');
-				_.bindAll(this, 'add');
+				_.bindAll(this, 'removeModel');
+				this.qas.bind('remove', this.render);
+				this.qas.bind('add', this.render);
+				this.qas.bind('reset', this.render);
 				this.template = _template;
 				this.delegateEvents(this.events);
+				ViewHolder.registerView(this);
 			},
 
-			add: function(model, merge) {
-				this.render();
+			setCollection: function(models) {
+				this.qas.reset(models.toJSON());
 			},
 
-			remove: function(model) {
-				this.render();
+			addModel: function(model, merge) {
+				this.qas.add(model, {
+					merge: (merge || false)
+				});
+			},
+
+      		sync: function(){},
+      		
+			syncModels: function(model) {
+				var self = this;
+				this.qas.each(function(model) {
+					model.set('onAir', false);
+				});
+				this.addModel(model, true);
+				this.qas.reset(this.qas.models);
+			},
+
+			removeModel: function(model) {
+				console.log("removeModel()");
+				if (model._id) {
+					this.qas.set(this.qas.filter(function(qa) {
+						return qa.get('_id') !== model._id;
+					}));
+				} else {
+					this.qas.set(this.qas.filter(function(qa) {
+						return qa.get('_id') !== model;
+					}));
+				}
 			},
 
 			broadcast: function(event) {
@@ -70,9 +96,10 @@ define(["backbone", "commons/views/PageView",
 					].join('');
 					if (model.get('onAir')) {
 						$(selector).removeClass('btn-default').addClass('btn-danger');
-					}
+					} 
 				});
 				return this;
 			}
 		});
+		return new QaListView();
 	});

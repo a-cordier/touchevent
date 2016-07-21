@@ -133,7 +133,7 @@ create_user() {
 
 deploy() {
 	git add . --all
-	git commit -m "$1"
+	git commit --amend -m "$1"
 	git push origin dev
 }
 
@@ -153,10 +153,6 @@ main() {
 	    ;;
 	    reload)
 			set -e
-			if [ ! -n "$2" ]; then
-				print_error "please specify a branch for pulling"
-				exit 1
-			fi
 			git pull origin "$2"
 			install_files
 			restart_server

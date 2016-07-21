@@ -37,6 +37,10 @@ router.get('/:id', function(req, res) {
 		res.send(200, qa);
 	});
 });
+/**
+Authenticated REALM
+**/
+//filter(router); 
 
 router.post('/', function(req, res) {
 	if (!req.body.question)
@@ -58,7 +62,7 @@ router.post('/', function(req, res) {
 	});
 });
 
-router.put('/:id', filter, Roles.admin.filter, function(req, res) {
+router.put('/:id', function(req, res) {
 	Qa.findOne({
 		'_id': req.params.id
 	}, function(err, qa) {
@@ -81,10 +85,19 @@ router.put('/:id', filter, Roles.admin.filter, function(req, res) {
 			qa.state = req.body.state;
 		if (req.body.question)
 			qa.question = req.body.question;
-		if (!(qa.onAir) === req.body.onAir) {
+		if (qa.onAir === false && req.body.onAir === true) {
 			qa.onAir = req.body.onAir;
-			IoServer.qaOnAir(qa);
-		} 
+			IoServer.synthTransition({
+				'question': qa.question,
+				'qa': qa
+			});
+		} else if (qa.onAir === true && req.body.onAir === false) {
+			qa.onAir = req.body.onAir;
+			IoServer.synthTransition({
+				'qa': qa,
+				'question': undefined
+			});
+		}
 		qa.save(function(err) {
 			if (err) {
 				return res.send(err);
@@ -96,7 +109,7 @@ router.put('/:id', filter, Roles.admin.filter, function(req, res) {
 	});
 });
 
-router.delete('/:id', filter, Roles.admin.filter, function(req, res) {
+router.delete('/:id', function(req, res) {
 	Qa.findOne({
 		'_id': req.params.id
 	}, function(err, qa) {
@@ -118,7 +131,6 @@ router.delete('/:id', filter, Roles.admin.filter, function(req, res) {
 				message: 'Qa deleted'
 			});
 		});
-		IoServer.deleteQa(qa);
 	});
 });
 
